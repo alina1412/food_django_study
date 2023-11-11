@@ -1,0 +1,14 @@
+.links-div {
+    background-color: rgb(41, 173, 129);
+}
+
+a {
+    color: white;
+    text-decoration: none;
+    outline: none;
+    font-size: 18px;
+}
+
+a:hover, a:focus {
+    color: rgb(192, 187, 187);
+}

@@ -1,0 +1,30 @@
+{% load static %}
+
+
+<div class="container container-fluid m-0 p-0">
+<div class="row h-100 m-0">
+
+
+    <div class="col col-md-2 bg-primary text-white h-100 m-0 h5">
+        {% for elem in menu %}
+        <div class="row pb-3  mt-3">
+            <div class="col col-2 d-flex justify-content-end">
+                <i class="{{elem.1}}"></i>
+            </div>
+            <div class="col">
+                <a href="#">{{elem.0}}</a>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+
+
+    <div class="col col-md-10">
+
+        <div class="row pl-3 pr-0 pt-3 m-0">
+            Основная часть
+        </div>
+    </div>
+</div>
+</div>
