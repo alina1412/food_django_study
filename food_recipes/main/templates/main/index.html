@@ -1,9 +1,8 @@
-
 {% extends 'main/base.html' %}
 
 
 {% block body %}
-{% block title %}<title> Главная страница </title>{% endblock %}
+{% block title %}<title>{{title}}</title>{% endblock %}
 
 <body>
     <h1>{{title}}</h1>
@@ -13,26 +12,17 @@
         <a href="sidebar/">sidebar</a>
 
 
-
-        <li>
-            {% for n in lst %}
-            <ul>{{n}}</ul>
-            {% endfor %}
-        </li>
-
-
         <div>
             <form method="post">
                 {% csrf_token %}
                 <h3> Выберите название товара:</h3>
                 <input type="text" name="title" placeholder="название товара"><br>
-                <button type="submit" class="btn btn-success">Save</button>
+                <button type="submit" class="btn primary-btn">Save</button>
             </form>
         </div>
-
-
-
-
     </div>
+
+    {% include 'main/image_rows.html' %}
+
 </body>
 {% endblock %}

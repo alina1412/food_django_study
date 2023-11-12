@@ -1,30 +1,72 @@
 {% load static %}
 
+<div id="navigation">
+    <!-- container -->
+    <div class="container">
+        <div id="responsive-nav">
 
-<div class="container container-fluid m-0 p-0">
-<div class="row h-100 m-0">
+            <!-- menu nav -->
+            <div class="menu-nav">
+                <span class="menu-header">Menu <i class="fa fa-bars"></i></span>
+                <ul class="menu-list">
+                    {% with 'Главная Галерея' as list %}
+                    {% for elem in list.split %}
+                    <li>
+                        <a href="{% url 'foodlist' %}">{{elem}}</a>
+                    </li>
+                    {% endfor %}
+                    {% endwith %}
+
+                    <li class="dropdown dropdown default-dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Категории
+
+                        </a>
+                        <div class="custom-menu">
+                            <div class="row">
 
 
-    <div class="col col-md-2 bg-primary text-white h-100 m-0 h5">
-        {% for elem in menu %}
-        <div class="row pb-3  mt-3">
-            <div class="col col-2 d-flex justify-content-end">
-                <i class="{{elem.1}}"></i>
+                                <ul class="list-links">
+                                    <li>
+
+                                        {% with 'qwdddde fgh tdddyu khg' as items %}
+                                        {% for text in items.split %}
+                                    <li><a href="#">{{text}}</a></li>
+                                    {% endfor %}
+                                    {% endwith %}
+                                </ul>
+                                <hr class="hidden-md hidden-lg">
+
+
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="header-account dropdown default-dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                            Вход </i>
+                        </a>
+                        <div class="custom-menu">
+                            <div class="row">
+                                <div class="list-links">
+                                    <ul class="">
+                                        <li><a href="#"><i class="fa fa-regular fa-arrow-circle-right"></i> Вход в аккаунт</a></li>
+                                        <li><a href="#"><i class="fa fa-regular fa-user-circle-o"></i> Регистрация</a></li>
+                                        <li><a href="#"><i class="fa fa-regular fa-arrow-circle-right"></i> Выход</a></li>
+                                        <li><a href="#"><i class="fa fa-regular fa-address-book"></i> Мой профиль</a></li>
+                                    </ul>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </li>
+
+
+                </ul>
             </div>
-            <div class="col">
-                <a href="#">{{elem.0}}</a>
-            </div>
-        </div>
-        {% endfor %}
-
-    </div>
+            <!-- menu nav -->
 
 
-    <div class="col col-md-10">
-
-        <div class="row pl-3 pr-0 pt-3 m-0">
-            Основная часть
         </div>
     </div>
-</div>
 </div>

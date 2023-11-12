@@ -1,9 +1,9 @@
 .links-div {
-    background-color: rgb(41, 173, 129);
+    background-color: rgb(248, 224, 181);
 }
 
 a {
-    color: white;
+    /* color: white; */
     text-decoration: none;
     outline: none;
     font-size: 18px;

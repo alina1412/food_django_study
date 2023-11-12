@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 from django.http import HttpResponse
 
-# from .models import News, Product
+from .models import Product
 
 
 def index(request):
@@ -14,17 +14,20 @@ def index(request):
         print(title)
 
     lst = ['1', '2', '3']
-
+    water = Product('Water efrege etbgetb', 'product06.jpg', '21')
+    products = [water, water, water]
+    
     context = {'title': 'Главная страница', 
             'lst': lst,
+            'products': products,
             'menu': get_menu()
             }
     return render(request, "main/index.html", context)
 
 
 def get_menu():
-    title = ('Домой', 'Новости', 'Мой профиль', 'Регистрация', 'Вход в аккаунт')
-    logo = ('fa-regular fa-flag', 'fa-regular fa-calendar', 'fa-regular fa-address-book', 'fa-regular fa-circle-user', 'fa-regular fa-circle-right')
+    title = ('Главная', 'Галерея', ) # 'Мой профиль', 'Регистрация', 'Вход в аккаунт'
+    logo = ('fa fa-regular fa-flag', 'fa fa-regular fa-calendar', ) # 'fa fa-regular fa-address-book', 'fa fa-regular fa-user-circle-o', 'fa fa-regular fa-arrow-circle-right'
     menu = zip(title, logo)
     return menu
 
@@ -42,5 +45,9 @@ def contacts(request):
 
 
 def foodlist(request):
-    context = {}
+    water = Product('Water efrege etbgetb', 'product06.jpg', '21')
+    products = [water, water, water]
+    context = {'title': 'Галерея', 
+               'products': products,
+               }
     return render(request, "main/foodlist.html", context)
