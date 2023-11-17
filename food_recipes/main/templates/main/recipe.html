@@ -1,0 +1,22 @@
+{% extends 'main/base.html' %}
+
+
+{% block body %}
+{% block title %}<title>{{title}}</title>{% endblock %}
+
+<body>
+    <h1>{{title}}</h1>
+
+
+    {% include 'main/image_rows.html' %}
+    <div class="container">
+        <div>
+            {% for product in products %}
+            <h3>{{product.title}}</h3>
+            {{product.detail}}
+            {% endfor %}
+        </div>
+    </div>
+
+</body>
+{% endblock %}

@@ -4,18 +4,22 @@
     <!-- container -->
     <div class="container">
         <div id="responsive-nav">
+            
 
             <!-- menu nav -->
             <div class="menu-nav">
-                <span class="menu-header">Menu <i class="fa fa-bars"></i></span>
+                
+
+                <span class="menu-header">Меню <i class="fa fa-bars"></i></span>
                 <ul class="menu-list">
-                    {% with 'Главная Галерея' as list %}
-                    {% for elem in list.split %}
+                    <li><h3 style="color: #f8694a; margin-right: 20px;">FOOD GOOD</h3></li>
+                     
                     <li>
-                        <a href="{% url 'foodlist' %}">{{elem}}</a>
+                        <a href="{% url 'main' %}">Главная</a>
                     </li>
-                    {% endfor %}
-                    {% endwith %}
+                    <li>
+                        <a href="{% url 'foodlist' %}">Галерея</a>
+                    </li>                
 
                     <li class="dropdown dropdown default-dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Категории
@@ -28,7 +32,7 @@
                                 <ul class="list-links">
                                     <li>
 
-                                        {% with 'qwdddde fgh tdddyu khg' as items %}
+                                        {% with 'Салаты Закуски Выпечка' as items %}
                                         {% for text in items.split %}
                                     <li><a href="#">{{text}}</a></li>
                                     {% endfor %}

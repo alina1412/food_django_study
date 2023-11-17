@@ -14,8 +14,12 @@ def index(request):
         print(title)
 
     lst = ['1', '2', '3']
-    water = Product('Water efrege etbgetb', 'product06.jpg', '21')
-    products = [water, water, water]
+   
+    products = [
+        Product('Water efrege etbgetb', 'cake_plum_cake_streusel.jpg', '3'),
+        Product('Water efrege etbgetb', 'cake_tart_pastries_small_0.jpg', '4'),
+        Product('Water efrege etbgetb', 'cooking_fusion_cuisine_.jpg', '5'),
+    ]
     
     context = {'title': 'Главная страница', 
             'lst': lst,
@@ -45,8 +49,19 @@ def contacts(request):
 
 
 def foodlist(request):
-    water = Product('Water efrege etbgetb', 'product06.jpg', '21')
-    products = [water, water, water]
+
+    products = [
+        # Product('Water efrege etbgetb', 'jambalaya_.jpg', '1'),
+        Product('Water efrege etbgetb', 'cake_baking_.jpg', '2'),
+        Product('Water efrege etbgetb', 'cake_plum_cake_streusel.jpg', '3'),
+        Product('Water efrege etbgetb', 'cake_tart_pastries_small_0.jpg', '4'),
+        Product('Water efrege etbgetb', 'cooking_fusion_cuisine_.jpg', '5'),
+        # Product('Water efrege etbgetb', 'pizza_food_cooking_broccoli.jpg', '6'),
+        # Product('Water efrege etbgetb', 'pizza_food_cooking_broccoli.jpg', '7'),
+        Product('Water efrege etbgetb', 'salad_mixed_salad_cucumber.jpg', '8'),
+        Product('Water efrege etbgetb', 'pizza_food_cooking_broccoli.jpg', '9'),
+    ]
+
     context = {'title': 'Галерея', 
                'products': products,
                }
