@@ -83,7 +83,28 @@ def register(request):
 
 
 
-def foodlist(request):
+def foodlist(request, cat_id):
+    
+    products = [
+        # Product('Water efrege etbgetb', 'jambalaya_.jpg', '1'),
+        Product('2', "Water efrege etbgetb", "cake_baking_.jpg", description),
+        Product('3', "Water efrege etbgetb", "cake_plum_cake_streusel.jpg", description),
+        Product('4', "Water efrege etbgetb", "cake_tart_pastries_small_0.jpg", description),
+        Product('5', "Water efrege etbgetb", "cooking_fusion_cuisine_.jpg", description),
+        # Product('Water efrege etbgetb', 'pizza_food_cooking_broccoli.jpg', '6'),
+        # Product('Water efrege etbgetb', 'pizza_food_cooking_broccoli.jpg', '7'),
+        Product('8', "Water efrege etbgetb", "salad_mixed_salad_cucumber.jpg", description),
+        Product('9', "Water efrege etbgetb", "pizza_food_cooking_broccoli.jpg", description),
+    ]
+
+    context = {
+        "title": "Категория",
+        "products": products,
+    }
+    return render(request, "main/foodlist.html", context)
+
+
+def gallery(request):
 
     products = [
         # Product('Water efrege etbgetb', 'jambalaya_.jpg', '1'),
@@ -101,7 +122,7 @@ def foodlist(request):
         "title": "Галерея",
         "products": products,
     }
-    return render(request, "main/foodlist.html", context)
+    return render(request, "main/gallery.html", context)
 
 
 def details(request, id):

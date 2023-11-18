@@ -18,7 +18,7 @@
                         <a href="{% url 'main' %}">Главная</a>
                     </li>
                     <li>
-                        <a href="{% url 'foodlist' %}">Галерея</a>
+                        <a href="{% url 'gallery' %}">Галерея</a>
                     </li>                
 
                     <li class="dropdown dropdown default-dropdown">
@@ -32,7 +32,7 @@
                                 <ul class="list-links">
                                     {% with 'Салаты Закуски Выпечка' as items %}
                                     {% for text in items.split %}
-                                        <li><a href="#">{{text}}</a></li>
+                                        <li><a href="{% url 'foodlist' cat_id=1  %}">{{text}}</a></li>
                                     {% endfor %}
                                     {% endwith %}
                                 </ul>
