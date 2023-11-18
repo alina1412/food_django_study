@@ -40,7 +40,7 @@ INSTALLED_APPS = [
 
     "bootstrap5",
     "main",
-    "recipes",
+    # "recipes",
 ]
 
 MIDDLEWARE = [
