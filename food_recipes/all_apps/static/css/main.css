@@ -1,5 +1,11 @@
-.links-div {
-    background-color: rgb(248, 224, 181);
+
+
+.bg-color-light {
+    background: rgb(248, 224, 181);
+}
+
+h3 {
+    color: #f8694a; 
 }
 
 a {
@@ -31,11 +37,10 @@ a:hover, a:focus {
     /* width: 500px; */
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
     flex-wrap: wrap;
   }
   .flexbox div {
     width: 50%;
-    background: rgb(248, 224, 181);
     /* height: 30%; */
   }

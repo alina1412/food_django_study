@@ -134,15 +134,17 @@ def details(request, id):
     # new_.save()
     # all_ = Recipe.objects.all()
     rec1 = Recipe(
+        '1',
         "Мой салатик",
         "Мария З.",
         description,
         datetime.datetime.now(),
         "Салаты",
+        ["salad_mixed_salad_cucumber.jpg", "salad_mixed_salad_cucumber.jpg"],
         "salad_mixed_salad_cucumber.jpg",
     )
 
-    products = []
+    # products = []
 
     # for x in all_:
     #     obj_ = {}
@@ -156,11 +158,12 @@ def details(request, id):
     #     dict_['img'] = ''
 
     # products = [Recipe('Water efrege etbgetb', 'cake_baking_.jpg', '1')]
-    products = [Product('1', "Water efrege etbgetb", "cake_baking_.jpg", description)]
+    # products = [Product('1', "Water efrege etbgetb", "cake_baking_.jpg", description)]
 
     context = {
         "title": "",
-        "products": products,
+        # "products": products,
+        "recipe": rec1
     }
     return render(request, "main/recipe.html", context)
 

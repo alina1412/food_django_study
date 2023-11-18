@@ -10,13 +10,15 @@ class Product:
 
 
 class Recipe:
-    def __init__(self, title, author, description, date, category, files):
+    def __init__(self, id_, title, author, description, date, category, files, img):
+        self.id = id_
         self.title = title
         self.author = author
         self.description = description
         self.date = date
         self.category = category
         self.files = files
+        self.img = img
 
 
 description = """

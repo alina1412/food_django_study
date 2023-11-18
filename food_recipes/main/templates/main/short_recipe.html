@@ -8,14 +8,14 @@
                 <!-- <a href="{% url 'details' id=product.id %}">
                     <button class="main-btn quick-view"><i class=""></i> смотреть {{product.id}}</button>
                 </a> -->
-                <div class="w-100">
+                <div class="w-75">
                     {% with prod_name='img/'|add:product.img %}
                     <img src="{% static prod_name  %}" width="100%" alt="">
                     {% endwith %}
                 </div>
             </div>
 
-            <div class="col-md-6 col-sm-12 flexbox">
+            <div class="col-md-6 col-sm-12 flexbox bg-color-light">
                 <div class="w-100 product-body position-relative ">
 
                     <div class="product-rating">
@@ -27,7 +27,7 @@
                     </div>
                     <div class="text-wrap text-break w-100">
                         <h3 class="product-price">{{product.title}}</h3>
-                        <div>{{product.detail}}</div>
+                        <div class="w-100">{{product.detail}}</div>
                     </div>
 
                     <div class="product-btns">

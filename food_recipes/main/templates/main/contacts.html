@@ -15,37 +15,44 @@
             <h2 class="mb-4">{{title}}</h2>
 
             <div class="row">
-                <div class="col-2">
-                    <img src="{% static 'img/horizont.jpg' %}" class="" width="100%" alt="avatar">
+                <div class="col-md-2 col-sm-12 flexbox justify-content-start">
+                    <div class="w-100">
+                        <img src="{% static 'img/horizont.jpg' %}" class="" width="100%" alt="avatar">
+                    </div>
+                    
                 </div>
-                <div class="col-10">
+                <div class="col-md-10 col-sm-12 flexbox justify-content-start">
+                    <div class="row w-75">
                     <h3>Связаться с нами</h3>
-                    <form method="post">
+                    <form method="post" class="col-12">
                         {% csrf_token %}
                         <ul class="list-info">
 
                             {% with 'Е-майл Телефон Адрес Откликнуться' as items %}
                             {% for text in items.split %}
-                            <div class="row">
-                                <div class="d-flex">
-                                    <div class="col-2">
-                                        <li>{{text}}</li>
-                                    </div>
-                                    {% if text == 'Откликнуться' %}
-                                    <div class="col-10"><textarea class="" placeholder=""></textarea>
-                                        {% else %}
-                                        <div class="col-10">
-                                            <p>Какая-то информация</p>
-                                        </div>
-                                        {% endif %}
-
-                                    </div>
+                            <div class="row w-100">
+                                <div class="col-md-3 col-sm-12 flexbox justify-content-start">
+                                    <li>{{text}}</li>
                                 </div>
-                                {% endfor %}
-                                {% endwith %}
+
+                                {% if text == 'Откликнуться' %}
+                                <div class="col-md-9 col-sm-12 flexbox justify-content-start">
+                                    <textarea class="" placeholder=""></textarea>
+                                </div>
+                                {% else %}
+                                <div class="col-md-9 col-sm-12 flexbox justify-content-start">
+                                    <p>Какая-то информация</p>
+                                </div>
+                                {% endif %}
+
+                            </div>
+                                
+                            {% endfor %}
+                            {% endwith %}
                         </ul>
                         <button type="submit" class="btn primary-btn">Отправить</button>
                     </form>
+                    </div>
                 </div>
 
 

@@ -13,10 +13,9 @@
             <h2 class="mb-4">{{title}}</h2>
 
                 <div class="row">
-                    <div class="col-2"> 
-                    </div>
+                    
 
-                    <div class="col-8">
+                    <div class="">
                        
                         <form method="post">
                             {% csrf_token %}
@@ -25,19 +24,19 @@
                                 {% with 'Имя Емайл Пароль' as items %}
                                 {% for text in items.split %}
                                 <div class="row">
-                                    <div class="d-flex">
-                                        <div class="col-2">
+                                    <div class="col-md-3 col-sm-12 flexbox justify-content-start">
                                             <li>{{text}}</li>
-                                        </div>
-                                        {% if text == 'Пароль' %}
-                                        <div class="col-10"><input class="" type="password" id="pass" name="password" minlength="8" required></div>
-                                        {% else %}
-                                        <div class="col-10"><input class="" placeholder="" minlength="8" required></div>
-                                        {% endif %}
-
-                                        </div>
-
                                     </div>
+
+                                    {% if text == 'Пароль' %}
+                                    <div class="col-md-9 col-sm-12 flexbox justify-content-start pb-3"><input class="" type="password" id="pass" name="password" minlength="8" required></div>
+                                    {% else %}
+                                    <div class="col-md-9 col-sm-12 flexbox justify-content-start pb-3"><input class="" placeholder="" minlength="8" required></div>
+                                    {% endif %}
+
+                                        
+
+                                </div>
 
                                     {% endfor %}
                                     {% endwith %}
