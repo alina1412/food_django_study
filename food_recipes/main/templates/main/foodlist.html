@@ -5,7 +5,15 @@
 {% block title %}<title>{{title}}</title>{% endblock %}
 
 <body>
-    <h1>{{title}}</h1>
+    <div class="row links-div">
+        <div class="col-9"></div>
+        <div class="col-3">
+            <div>
+                <h2 class="text-header">{{title}}</h2>
+            </div>
+        </div>
+    </div>
+
 
 
     {% include 'main/image_rows.html' %}

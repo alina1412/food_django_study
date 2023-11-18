@@ -4,7 +4,12 @@
     {% for product in products %}
     <div class="col-md-3 product product-single">
         <div class="product-thumb">
-            <button class="main-btn quick-view"><i class=""></i> view</button>
+
+            <a href="{% url 'details' id=product.id %}">
+                <button class="main-btn quick-view"><i class=""></i> смотреть {{product.id}}</button>
+            </a>
+
+
             {% with prod_name='img/'|add:product.img %}
             <img src="{% static prod_name  %}" alt="">
             {% endwith %}
@@ -22,11 +27,9 @@
                 <h3 class="product-price">{{product.title}}</h3>
             </div>
 
-           
             <div class="product-btns">
                 <button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
                 <button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
-               
             </div>
         </div>
     </div>

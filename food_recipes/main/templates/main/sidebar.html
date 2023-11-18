@@ -30,11 +30,9 @@
 
 
                                 <ul class="list-links">
-                                    <li>
-
-                                        {% with 'Салаты Закуски Выпечка' as items %}
-                                        {% for text in items.split %}
-                                    <li><a href="#">{{text}}</a></li>
+                                    {% with 'Салаты Закуски Выпечка' as items %}
+                                    {% for text in items.split %}
+                                        <li><a href="#">{{text}}</a></li>
                                     {% endfor %}
                                     {% endwith %}
                                 </ul>
@@ -56,7 +54,7 @@
                                         <li><a href="#"><i class="fa fa-regular fa-arrow-circle-right"></i> Вход в аккаунт</a></li>
                                         <li><a href="#"><i class="fa fa-regular fa-user-circle-o"></i> Регистрация</a></li>
                                         <li><a href="#"><i class="fa fa-regular fa-arrow-circle-right"></i> Выход</a></li>
-                                        <li><a href="#"><i class="fa fa-regular fa-address-book"></i> Мой профиль</a></li>
+                                        <li><a href="{% url 'profile' %}"><i class="fa fa-regular fa-address-book"></i> Мой профиль</a></li>
                                     </ul>
 
                                 </div>

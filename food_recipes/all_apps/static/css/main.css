@@ -12,3 +12,15 @@ a {
 a:hover, a:focus {
     color: rgb(192, 187, 187);
 }
+
+.list-info {
+    font-size: 16pt;
+}
+
+.list-info li {
+    padding-bottom: 24px;
+}
+
+.text-header {
+    color: #bb5844;
+}
