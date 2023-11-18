@@ -23,4 +23,5 @@ a:hover, a:focus {
 
 .text-header {
     color: #bb5844;
+    margin-right: 20px !important;
 }

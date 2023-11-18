@@ -60,7 +60,27 @@ def profile(request):
 
 
 def contacts(request):
-    return HttpResponse("<h1>Контакты</h1>")
+    context = {
+        "title": "Контакты",
+    }
+    return render(request, "main/contacts.html", context)
+
+
+def login(request):
+    context = {
+        "title": "Войти",
+        "btn_text": "Войти",
+    }
+    return render(request, "main/login.html", context)
+
+
+def register(request):
+    context = {
+        "title": "Регистрация",
+        "btn_text": "Регистрация",
+    }
+    return render(request, "main/login.html", context)
+
 
 
 def foodlist(request):
@@ -122,3 +142,8 @@ def details(request, id):
         "products": products,
     }
     return render(request, "main/recipe.html", context)
+
+
+def not_found_view(request, exception):
+
+    return render(request, "main/404.html")

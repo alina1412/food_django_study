@@ -4,8 +4,9 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
-# from ... import f_404
-# handler404 = function///
+# from main.views import f_404
+
+handler404 = 'main.views.not_found_view'
 
 urlpatterns = [
     path("admin/", admin.site.urls),

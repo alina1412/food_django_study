@@ -10,6 +10,9 @@ urlpatterns = [
     path("profile/", views.profile, name="profile"),
     path("foodlist/", views.foodlist, name="foodlist"),
     path("about/<int:id>/", views.details, name="details"),
-    # path("contacts/", views.contacts, name="contacts"),
+    path("contacts/", views.contacts, name="contacts"),
     path("sidebar/", views.sidebar, name="sidebar"),
+    path("register/", views.register, name="register"),
+    path("login/", views.login, name="login"),
+    
 ]

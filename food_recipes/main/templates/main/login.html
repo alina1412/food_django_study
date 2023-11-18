@@ -13,26 +13,26 @@
             <h2 class="mb-4">{{title}}</h2>
 
                 <div class="row">
-                    <div class="col-2">
-                        <img src="{% static 'img/girl.jpg' %}" class="" width="120px" alt="avatar">
+                    <div class="col-2"> 
                     </div>
-                    <div class="col-10">
-                        <h3>{{profile.username}}</h3>
+
+                    <div class="col-8">
+                       
                         <form method="post">
                             {% csrf_token %}
                             <ul class="list-info">
 
-                                {% with 'Имя Пол Возраст Информация' as items %}
+                                {% with 'Имя Емайл Пароль' as items %}
                                 {% for text in items.split %}
                                 <div class="row">
                                     <div class="d-flex">
                                         <div class="col-2">
                                             <li>{{text}}</li>
                                         </div>
-                                        {% if text == 'Информация' %}
-                                        <div class="col-10"><textarea class="" placeholder=""></textarea></div>
+                                        {% if text == 'Пароль' %}
+                                        <div class="col-10"><input class="" type="password" id="pass" name="password" minlength="8" required></div>
                                         {% else %}
-                                        <div class="col-10"><input class="" placeholder=""></div>
+                                        <div class="col-10"><input class="" placeholder="" minlength="8" required></div>
                                         {% endif %}
 
                                         </div>
@@ -42,10 +42,12 @@
                                     {% endfor %}
                                     {% endwith %}
                             </ul>
-                            <button type="submit" class="btn primary-btn">Сохранить</button>
+                            <button type="submit" class="btn primary-btn">{{btn_text}}</button>
                         </form>
                     </div>
-
+                    <div class="col-2">
+                        
+                    </div>
 
 
                 </div>
