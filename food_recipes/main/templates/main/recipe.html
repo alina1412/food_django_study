@@ -22,7 +22,7 @@
             {% for file in recipe.files %}
             <div class="col-md-6 col-sm-12 flexbox">
                 <div class="product product-single">
-                    <div class="product-thumb">
+                    <div class="product-thumb w-100">
                         {% with prod_name='img/'|add:file %}
                         <img src="{% static prod_name  %}" alt="">
                         {% endwith %}

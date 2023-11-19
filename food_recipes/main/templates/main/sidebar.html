@@ -32,7 +32,7 @@
                                 <ul class="list-links">
                                     {% with 'Салаты Закуски Выпечка' as items %}
                                     {% for text in items.split %}
-                                        <li><a href="{% url 'foodlist' cat_id=1  %}">{{text}}</a></li>
+                                        <li><a href="{% url 'foodlist' cat_id=forloop.counter  %}">{{text}}</a></li>
                                     {% endfor %}
                                     {% endwith %}
                                 </ul>
