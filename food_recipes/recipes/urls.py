@@ -10,5 +10,5 @@ urlpatterns = [
     # path("about/<int:a>", views.details, name="details"),
     # path("foodlist/", views.foodlist, name="foodlist"),
     # path("contacts/", views.contacts, name="contacts"),
-    # path("sidebar/", views.sidebar, name="sidebar"),
+    path("1/", views.one, name="one"),
 ]

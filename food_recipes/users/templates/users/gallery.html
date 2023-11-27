@@ -1,0 +1,16 @@
+{% extends 'users/base.html' %}
+
+
+{% block body %}
+{% block title %}<title>{{title}}</title>{% endblock %}
+
+<body>
+    <div class="flex-row bg-color-light">
+        <h2 class="text-header  text-end">{{title}}</h2> 
+    </div>
+
+
+    {% include 'main/image_rows.html' %}
+
+</body>
+{% endblock %}

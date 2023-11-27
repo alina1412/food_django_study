@@ -21,17 +21,30 @@
                             {% csrf_token %}
                             <ul class="list-info">
 
-                                {% with 'Имя Емайл Пароль' as items %}
-                                {% for text in items.split %}
+                                
+                                {% for key_log, log_dict in login.items %}
                                 <div class="row">
+                                    {% if key_log != 'password2' %}
                                     <div class="col-md-3 col-sm-12 flexbox justify-content-start">
-                                            <li>{{text}}</li>
+                                        <li>{{log_dict.title}}</li>
+                                    </div>
+                                    {% endif %}
+
+                                   
+                                    {% if key_log == 'name' or  key_log == 'email' or  key_log == 'password1' %}
+                                    <div class="col-md-9 col-sm-12 flexbox justify-content-start pb-3">
+                                        <input class="" type="{{log_dict.type}}" name='{{key_log}}' id='{{key_log}}' placeholder="" minlength="8" required>
+                                    </div>
+                                 
+                                        
+                                    {% elif key_log == 'password2'  and title == 'Регистрация' %}
+                                    <div class="col-md-3 col-sm-12 flexbox justify-content-start">
+                                        <li>{{log_dict.title}}</li>
+                                    </div>
+                                    <div class="col-md-9 col-sm-12 flexbox justify-content-start pb-3">
+                                        <input class="" type="password" id="password2" name="password2" minlength="8" required>
                                     </div>
 
-                                    {% if text == 'Пароль' %}
-                                    <div class="col-md-9 col-sm-12 flexbox justify-content-start pb-3"><input class="" type="password" id="pass" name="password" minlength="8" required></div>
-                                    {% else %}
-                                    <div class="col-md-9 col-sm-12 flexbox justify-content-start pb-3"><input class="" placeholder="" minlength="8" required></div>
                                     {% endif %}
 
                                         
@@ -39,7 +52,7 @@
                                 </div>
 
                                     {% endfor %}
-                                    {% endwith %}
+                                     
                             </ul>
                             <button type="submit" class="btn primary-btn">{{btn_text}}</button>
                         </form>

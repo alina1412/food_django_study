@@ -2,10 +2,10 @@ from django.contrib import admin
 from django.urls import reverse
  
 
-from .models import Recipe, Category
+from .models import Recipe2, Category2 #, File2
 
 
-class RecipeAdmin(admin.ModelAdmin):
+class RecipeAdmin2(admin.ModelAdmin):
     list_display = ['title', 'author', 'description', 'date', 'category']
     list_filter = ['title', 'author', 'description', 'date', 'category']
 
@@ -21,7 +21,7 @@ class RecipeAdmin(admin.ModelAdmin):
         verbose_name_plural = 'Recipes'
 
          
-class CategoryAdmin(admin.ModelAdmin):
+class CategoryAdmin2(admin.ModelAdmin):
     list_display = ['food_type']
 
     class Meta:
@@ -30,5 +30,6 @@ class CategoryAdmin(admin.ModelAdmin):
 
 
 
-admin.site.register(Recipe, RecipeAdmin)
-admin.site.register(Category, CategoryAdmin)
+admin.site.register(Recipe2, RecipeAdmin2)
+admin.site.register(Category2, CategoryAdmin2)
+# admin.site.register(File2)

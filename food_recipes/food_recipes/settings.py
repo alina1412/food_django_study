@@ -41,6 +41,9 @@ INSTALLED_APPS = [
     "bootstrap5",
     "main",
     "recipes",
+    "users",
+    'debug_toolbar',
+
 ]
 
 MIDDLEWARE = [
@@ -51,8 +54,10 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
+INTERNAL_IPS = ['127.0.0.1',]
 ROOT_URLCONF = "food_recipes.urls"
 
 TEMPLATES = [
@@ -66,10 +71,12 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                'django.template.context_processors.media',
             ],
         },
     },
 ]
+
 
 # STATIC_ROOT = BASE_DIR / 'static/'
 STATIC_URL = "static/"
@@ -82,6 +89,10 @@ STATICFILES_DIRS = ((BASE_DIR / 'static'),
                     # (BASE_DIR / 'all_apps/static/img'),
                     # (BASE_DIR / 'all_apps/static/js'),
                     )
+
+import os
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 
 
 WSGI_APPLICATION = "food_recipes.wsgi.application"

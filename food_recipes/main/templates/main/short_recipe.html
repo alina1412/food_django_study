@@ -1,4 +1,7 @@
 {% load static %}
+{% load tag_library %}
+
+
 <div class="row d-flex align-content-center justify-content-center flex-wrap">
 
     {% for product in products %}
@@ -8,10 +11,18 @@
                 <!-- <a href="{% url 'details' id=product.id %}">
                     <button class="main-btn quick-view"><i class=""></i> смотреть {{product.id}}</button>
                 </a> -->
+                
                 <div class="w-75">
-                    {% with prod_name='img/'|add:product.img %}
-                    <img src="{% static prod_name  %}" width="100%" alt="">
-                    {% endwith %}
+                    
+                    {% for file_id, file in files.items %}
+                    {% if file_id|to_int == product.id|to_int %}
+                    <!-- file file.url -->
+                    <img src="{{ MEDIA_URL }}/{{file}}" alt="image">
+                    {% else %}
+                    _ {{file_id}} not equal {{product.id}}
+                    {% endif %}
+                    {% endfor %}
+                     
                 </div>
             </div>
 
@@ -27,7 +38,7 @@
                     </div>
                     <div class="text-wrap text-break w-100">
                         <h3 class="product-price">{{product.title}}</h3>
-                        <div class="w-100">{{product.detail}}</div>
+                        <div class="w-100">{{product.description}}</div>
                     </div>
 
                     <div class="product-btns">

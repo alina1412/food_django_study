@@ -8,10 +8,21 @@ from django.urls import path, include
 
 handler404 = 'main.views.not_found_view'
 
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("recipes/", include('recipes.urls')),
+    path("users/", include('users.urls')),
     path("", include('main.urls')),
     
     # path("home/", include('home.urls')),
-] # + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns=[
+        path('__debug/__', include(debug_toolbar.urls)),
+    ]+ urlpatterns
+    
+    urlpatterns+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

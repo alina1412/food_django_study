@@ -1,5 +1,4 @@
 {% load static %}
-{% load tag_library %}
 <div class="row d-flex align-content-center justify-content-center flex-wrap">
 
     {% for product in products %}
@@ -10,17 +9,8 @@
                 <button class="main-btn quick-view"><i class=""></i> смотреть {{product.id}}</button>
             </a>
 
-            {% for file_id, file in files.items %}
-            {% if file_id|to_int == product.id|to_int %}
-            <!-- file file.url -->
-            <img src="{{ MEDIA_URL }}/{{file}}" alt="image">
-            {% else %}
-            <!-- <div class="" style="min-height: 100px;">
-            _ {{file_id}} not equal {{product.id}}
-            no image found
-            </div> -->
-            {% endif %}
-            {% endfor %}
+
+
         </div>
         <div class="product-body position-relative ">
 

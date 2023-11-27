@@ -1,6 +1,5 @@
-{% extends 'main/base.html' %}
+{% extends 'users/base.html' %}
 {% load static %}
-{% load tag_library %}
 
 {% block body %}
 {% block title %}<title>{{title}}</title>{% endblock %}
@@ -20,17 +19,7 @@
         </div>
         <div class="row">
 
-            {% for file in files %}
-            <div class="col-md-6 col-sm-12 flexbox">
-                <div class="product product-single w-100">
-                    <div class="product-thumb">
-                        {% with prod_name='import/'|add:file %}
-                        <img src="{{file.file.url}}" alt="image">
-                        {% endwith %}
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
+
         </div>
     </div>
 

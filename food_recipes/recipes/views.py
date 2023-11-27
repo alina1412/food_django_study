@@ -1,22 +1,25 @@
 from django.shortcuts import render
 
+from django.contrib.auth.models import User
+from .models import Recipe2, description
 
-from .models import Recipe, Product, description
 
-
-def details(request):
+def one(request):
     # Recipe.objects.all().first()
     # files
-    rec1 = Recipe.objects.filter(id='1')
 
     
-    # author = User.objects.get(id=request.user.id)
-    # new_ = Recipe(author=author, title='gbrb', description='ftrbg')
-    # new_.save()
+    author = User.objects.get(id=request.user.id)
+    new_ = Recipe2(author=author, title='gbrb', description='ftrbg')
+    new_.save()
 
-    all_ = Recipe.objects.all()
+    rec1 = Recipe2.objects.filter(id='1')
+    print(rec1)
 
-    products = []
+    all_ = Recipe2.objects.all()
+    print(all_)
+
+    products = [rec1]
 
     # for x in all_:
     #     obj_ = {}
@@ -30,9 +33,9 @@ def details(request):
     #     dict_['img'] = ''
 
     # products = [Recipe('Water efrege etbgetb', 'cake_baking_.jpg', '1')]
-    products = [Product('Water efrege etbgetb', 'cake_baking_.jpg', description)]
+    # products = [Product('Water efrege etbgetb', 'cake_baking_.jpg', description)]
 
     context = {'title': '', 
                'products': products,
                }
-    return render(request, "main/recipe.html", context)
+    return render(request, "recipes/recipe.html", context)
