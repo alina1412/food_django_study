@@ -13,16 +13,9 @@
                 </a> -->
                 
                 <div class="w-75">
-                    
-                    {% for file_id, file in files.items %}
-                    {% if file_id|to_int == product.id|to_int %}
-                    <!-- file file.url -->
-                    <img src="{{ MEDIA_URL }}/{{file}}" alt="image">
-                    {% else %}
-                    _ {{file_id}} not equal {{product.id}}
-                    {% endif %}
-                    {% endfor %}
-                     
+                    {% with img=files|get_item:product.id %}
+                    <img src="{{ MEDIA_URL }}/{{img}}" alt="image">
+                    {% endwith %}
                 </div>
             </div>
 

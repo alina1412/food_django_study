@@ -117,15 +117,15 @@ def register(request):
 
 def foodlist(request, cat_id):
     """по категориям"""
-    cat_id = "1"
+    # cat_id = "1"
     print("categ", cat_id)
     recipes = Recipe.objects.filter(category__id=cat_id).all()
     # print([(rec.id, rec.description) for rec in recipes])
     recs_id_list = [rec.id for rec in recipes]
     print(recs_id_list)
-    recs = File.objects.filter(rec_id__in=recs_id_list).values("id", "file")
-    files = {int(file["id"]): file["file"] for file in recs}
-    print(files)
+    recs = File.objects.filter(rec_id__in=recs_id_list).values("rec_id", "file")
+    files = {int(file["rec_id"]): file["file"] for file in recs}
+    print('files',files)
     context = {
         "title": "Категория",
         "products": recipes,

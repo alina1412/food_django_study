@@ -60,7 +60,7 @@ class Recipe(Model):  # title, author, description, date, category, files, img
     )  # удалит рецепт при удалении юзера
     description = TextField("Описание")
     date = DateTimeField("Дата публикации", auto_now=True, auto_created=True)
-    category = ManyToManyField(to=Category, blank=True, null=True)
+    category = ManyToManyField(to=Category, blank=True)
     # files = TextField("Картинки", null=True, blank=True)
     stars = models.CharField(
         choices=stars_choices, max_length=20, default=stars_choices[0][0]
