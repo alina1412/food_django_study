@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.db.models import Count, Avg, Max
 
 from .models import Product, Recipe, description, File, Category
-
+from .forms import *
 
 def index(request):
     if request.method == "POST":
@@ -65,10 +65,12 @@ def sidebar(request):
 def profile(request):
     user = User.objects.get(id=request.user.id)
     ava = ""
+    form = ProfileForm()
     context = {
         "title": "Профиль",
         "profile": user,
         "ava": ava,
+        'form': form
     }
     return render(request, "main/profile.html", context)
 

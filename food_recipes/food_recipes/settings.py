@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     "recipes",
     "users",
     'debug_toolbar',
+    'crispy_forms',
+    'crispy_bootstrap5',
 
 ]
 
@@ -97,6 +99,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 
 WSGI_APPLICATION = "food_recipes.wsgi.application"
 
+CRISPY_ALLOWED_TEMPLATES_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
