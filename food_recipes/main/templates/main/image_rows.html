@@ -4,16 +4,16 @@
 
     {% for product in products %}
     <div class="col-md-3 product product-single">
-        <div class="product-thumb">
+        {% with prod_name='img/'|add:product.img %}
+        <div class="product-thumb" style="height: 200px;   
+                        background-image: url('{% static prod_name  %}');">
 
             <a href="{% url 'details' id=product.id %}">
                 <button class="main-btn quick-view"><i class=""></i> смотреть {{product.id}}</button>
             </a>
-
-            {% with img=files|get_item:product.id %}
-            <img src="{{ MEDIA_URL }}/{{img}}" alt="image">
-            {% endwith %}
+            
         </div>
+        {% endwith %}
         <div class="product-body position-relative ">
 
             <div class="product-rating">
