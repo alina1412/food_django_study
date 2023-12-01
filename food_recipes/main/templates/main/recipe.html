@@ -14,7 +14,20 @@
         <div>
 
             <h3>{{recipe.title}}</h3>
-            <p>{{recipe.author}} </p>
+
+
+            <p>
+            {% if recipe.stars != 'None' %}
+            {% with n=recipe.stars|to_int %}
+            {% for c in 0|range:n %} 
+            <i class="fa fa-star"></i>
+            {% endfor %}
+            {% endwith %}   
+            {% endif %}                      
+            </p>
+
+
+            <p>{{recipe.author}} {{recipe.author.id}}</p>
             <p>{{recipe.date}}</p>
             <div class="pb-3">{{recipe.description}}</div>
         </div>
@@ -23,9 +36,9 @@
             {% for file in files %}
             <div class="col-md-6 col-sm-12 flexbox">
                 <div class="product product-single w-100">
-                    <div class="product-thumb">
-                        {% with prod_name='import/'|add:file %}
-                        <img src="{{file.file.url}}" alt="image">
+                    <div class="product-thumb h-100">
+                        {% with prod_name='import/'|add:file.file %}
+                        <img src="{{file.file.url}}" height="100%" alt="image">
                         {% endwith %}
                     </div>
                 </div>

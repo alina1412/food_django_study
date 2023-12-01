@@ -1,12 +1,11 @@
 {% load static %}
-{% load tag_library %}
 <div class="row d-flex align-content-center justify-content-center flex-wrap">
 
     {% for product in products %}
     <div class="col-md-3 product product-single">
         {% with prod_name='img/'|add:product.img %}
         <div class="product-thumb" style="height: 200px;   
-                        background-image: url('{% static prod_name  %}');">
+                        background-image: url('{{ MEDIA_URL }}/{{product.img}}');">
 
             <a href="{% url 'details' id=product.id %}">
                 <button class="main-btn quick-view"><i class=""></i> смотреть {{product.id}}</button>

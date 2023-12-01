@@ -30,18 +30,25 @@ def index(request):
                                 where auth_user.id = %s''', params='1')
     print([x.title for x in recepies])"""
 
-    recipes = Recipe.objects.all()
-    recs_id_list = [int(rec.id) for rec in recipes]
-    print(recs_id_list)
-    recs = File.objects.filter(rec_id__in=recs_id_list).values("id", "file")
-    files = {int(file["id"]): file["file"] for file in recs}
+    # recipes = Recipe.objects.all()
+    # recs_id_list = [int(rec.id) for rec in recipes]
+    # print(recs_id_list)
+    # recs = File.objects.filter(rec_id__in=recs_id_list).values("id", "file")
+    # files = {int(file["id"]): file["file"] for file in recs}
+    sql = '''SELECT rec_id_id as id, main_file.file as img, main_recipe.title, main_recipe.stars 
+            FROM main_file
+            left join main_recipe on main_file.rec_id_id = main_recipe.id
+            WHERE main_file.rec_id_id IN (SELECT id FROM main_recipe)
+            group by rec_id_id
+            ;'''
+    recipes = File.objects.raw(sql)
 
     context = {
         "title": "Главная страница",
         # "lst": lst,
         "products": recipes,
         "menu": get_menu(),
-        "files": files,
+        # "files": files,
     }
     return render(request, "main/index.html", context)
 
@@ -130,6 +137,7 @@ def foodlist(request, cat_id):
     print('files',files)
     context = {
         "title": "Категория",
+        'cat_id': cat_id,
         "products": recipes,
         "files": files,
     }
@@ -138,33 +146,44 @@ def foodlist(request, cat_id):
 
 def gallery(request):
 
-    recipes = Recipe.objects.all()
-    recs_id_list = [int(rec.id) for rec in recipes]
-    print(recs_id_list)
-    recs = File.objects.filter(rec_id__in=recs_id_list).values("id", "file")
-    files = {int(file["id"]): file["file"] for file in recs}
-
+    # recipes = Recipe.objects.all()
+    '''SELECT rec_id FROM "main_recipe"'''
+    
+    sql = '''SELECT rec_id_id as id, main_file.file as img, main_recipe.title, main_recipe.stars 
+            FROM main_file
+            left join main_recipe on main_file.rec_id_id = main_recipe.id
+            WHERE main_file.rec_id_id IN (SELECT id FROM main_recipe)
+            group by rec_id_id
+            ;'''
+    recipes = File.objects.raw(sql)
+    print([(f.id, f.img) for f in recipes])
+    # recs_id_list = [int(rec.id) for rec in recipes]
+    # print(recs_id_list)
+    # recs = File.objects.filter(rec_id__in=recs_id_list).values("id", "file")
+    # files = {int(file["id"]): file["file"] for file in recs}
+    # return render(request, "main/index.html")
     context = {
         "title": "Галерея",
         "products": recipes,
-        "files": files,
+        # "files": files,
     }
     return render(request, "main/gallery.html", context)
 
 
 def details(request, id):
-    # Recipe.objects.all().first()
-    # files
-    # rec1 = Recipe.objects.filter(id='1')
-    """print(request.user.id)
-    author = User.objects.get(id=request.user.id)
-    print(author, 'author')"""
-    # new_ = Recipe(author=author, title='gbrb', description='ftrbg')
-    # new_.save()
-    rec1 = Recipe.objects.filter(id=id).first()
-
-    files = File.objects.filter(rec_id=rec1)
-    print("files", [file for file in files])
+    rec1 = Recipe.objects.filter(id=id).select_related('author').first()
+    # .values_list('title', 'author', 'date', 'id', 'description')
+    files = rec1.file_set.all()
+ 
+    # sql = '''SELECT * --rec_id_id as id, main_recipe.title, main_recipe.stars 
+    #         FROM main_recipe
+    #         left join main_file on main_file.rec_id_id = main_recipe.id
+    #         WHERE main_recipe.id = 1
+           
+    #         ;'''
+    # rec1 = Recipe.objects.raw(sql) # , params=id
+    print("files", files)
+    # print(rec1)
 
     context = {
         "title": "",
@@ -229,3 +248,7 @@ def save_new_recipe(request):
     rec1.save()
     rec1.category.add('1')
     rec1.save()"""
+
+"""print(request.user.id)
+author = User.objects.get(id=request.user.id)
+print(author, 'author')"""
