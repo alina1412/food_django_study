@@ -41,7 +41,7 @@ class Category(Model):
         return self.food_type
 
     class Meta:
-        verbose_name = "Категория"
+        verbose_name = "Категория (Category)"
         verbose_name_plural = "Категории"
 
 
@@ -73,6 +73,10 @@ class Recipe(Model):  # title, author, description, date, category, files, img
 
     def __str__(self):
         return self.title
+    class Meta:
+        # ordering = ['itle','status']
+        verbose_name= 'Рецепт (Recipe)'
+        verbose_name_plural='Рецепты'
 
 
 def user_directory_path(instance, filename):
@@ -81,12 +85,16 @@ def user_directory_path(instance, filename):
 
 
 class File(Model):
-    rec_id = ForeignKey(Recipe, on_delete=models.CASCADE)
+    recipe = ForeignKey(Recipe, on_delete=models.CASCADE, related_name="images")
     # filename =  CharField("filename", max_length=40)
     file = models.FileField(upload_to="import", blank=True, null=True)
 
     def __str__(self):
-        return str(self.rec_id.id)
+        return str(self.recipe.id)
+    class Meta:
+        # ordering = ['itle','status']
+        verbose_name= 'Файл (File)'
+        verbose_name_plural='Файлы'
 
 
 description = """

@@ -1,15 +1,50 @@
 {% extends 'users/base.html' %}
 
+{% load static %}
+{% load crispy_forms_tags %}
 
-{% block body %}
 {% block title %}<title>Account</title>{% endblock %}
 
+{% block body %}
 <body>
     <div class="flex-row bg-color-light">
         <h2 class="text-header  text-end">Account</h2> 
     </div>
 
+     
 
+        <div class="container">
+    
+            <div class="mt-4">
+                <h2 class="mb-4">{{title}}</h2>
+    
+                    <div class="row d-flex align-content-center justify-content-center flex-wrap">
+                        <div class="col-md-2 col-sm-12">
+                            <img src="{{ MEDIA_URL }}{{profile.account_image}}" class="" width="120px;" alt="avatar">
+                        </div>
+                        <div class="col-md-5 col-sm-12 pl-4">
+                            <div>
+                            <h3>{{profile.nickname}}</h3>
+                            <br>
+                            </div>
+                            <form method="post" class="">
+                                {% csrf_token %}
+                                {{profile.birthdate}}
+                                {{profile.gender}}
+                                {{profile.tags}}
+                                {{profile.account_image}}
+                                {{form|crispy}}
+                                       
+                                <button type="submit" class="btn primary-btn">Сохранить</button>
+                            </form>
+                        </div>
+    
+                    </div>
+    
+            </div>
+        </div>
+    
+    
     
 
 </body>

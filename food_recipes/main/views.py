@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.db.models import Count, Avg, Max
+from django.views.generic import DetailView, DeleteView, UpdateView
 
 from .models import Product, Recipe, description, File, Category
 from .forms import *
@@ -33,22 +34,27 @@ def index(request):
     # recipes = Recipe.objects.all()
     # recs_id_list = [int(rec.id) for rec in recipes]
     # print(recs_id_list)
-    # recs = File.objects.filter(rec_id__in=recs_id_list).values("id", "file")
+    # recs = File.objects.filter(recipe__in=recs_id_list).values("id", "file")
     # files = {int(file["id"]): file["file"] for file in recs}
-    sql = '''SELECT rec_id_id as id, main_file.file as img, main_recipe.title, main_recipe.stars 
-            FROM main_file
-            left join main_recipe on main_file.rec_id_id = main_recipe.id
-            WHERE main_file.rec_id_id IN (SELECT id FROM main_recipe)
-            group by rec_id_id
-            ;'''
-    recipes = File.objects.raw(sql)
+    # sql = '''SELECT recipe_id as id, main_file.file as img, main_recipe.title, main_recipe.stars 
+    #         FROM main_recipe
+    #         inner join main_file on main_file.recipe_id = main_recipe.id
+    #         WHERE main_recipe.id IN (SELECT id FROM main_recipe)
+    #         group by  main_recipe.id
+    #         ;'''
+    # recipes = Recipe.objects.raw(sql)
+    # print([r for r in recipes])
+    # files =  {int(file.id): [file.img]  for file in recipes}
+
+    # recipes, files = get_recipes_and_files()
+    recipes, files = get_recipes_and_first_file()
+    # print([r.stars for r in recipes])
 
     context = {
         "title": "Главная страница",
-        # "lst": lst,
         "products": recipes,
         "menu": get_menu(),
-        # "files": files,
+        "files": files,
     }
     return render(request, "main/index.html", context)
 
@@ -132,8 +138,8 @@ def foodlist(request, cat_id):
     # print([(rec.id, rec.description) for rec in recipes])
     recs_id_list = [rec.id for rec in recipes]
     print(recs_id_list)
-    recs = File.objects.filter(rec_id__in=recs_id_list).values("rec_id", "file")
-    files = {int(file["rec_id"]): file["file"] for file in recs}
+    recs = File.objects.filter(recipe__in=recs_id_list).values("recipe", "file")
+    files = {int(file["recipe"]): file["file"] for file in recs}
     print('files',files)
     context = {
         "title": "Категория",
@@ -149,23 +155,25 @@ def gallery(request):
     # recipes = Recipe.objects.all()
     '''SELECT rec_id FROM "main_recipe"'''
     
-    sql = '''SELECT rec_id_id as id, main_file.file as img, main_recipe.title, main_recipe.stars 
-            FROM main_file
-            left join main_recipe on main_file.rec_id_id = main_recipe.id
-            WHERE main_file.rec_id_id IN (SELECT id FROM main_recipe)
-            group by rec_id_id
+    """sql = '''SELECT recipe_id as id, main_file.file as img, main_recipe.title, main_recipe.stars 
+            FROM main_recipe
+            left join main_file on main_file.recipe_id = main_recipe.id
+            WHERE main_file.recipe_id IN (SELECT id FROM main_recipe)
+            group by recipe_id
             ;'''
-    recipes = File.objects.raw(sql)
-    print([(f.id, f.img) for f in recipes])
+    recipes = Recipe.objects.raw(sql)
+    print([(f.id, f.img) for f in recipes])"""
+    recipes, files = get_recipes_and_first_file()
+
     # recs_id_list = [int(rec.id) for rec in recipes]
     # print(recs_id_list)
     # recs = File.objects.filter(rec_id__in=recs_id_list).values("id", "file")
-    # files = {int(file["id"]): file["file"] for file in recs}
+    # files = {int(file["id"]): file["file"] for file in recipes}
     # return render(request, "main/index.html")
     context = {
         "title": "Галерея",
         "products": recipes,
-        # "files": files,
+        "files": files,
     }
     return render(request, "main/gallery.html", context)
 
@@ -173,8 +181,13 @@ def gallery(request):
 def details(request, id):
     rec1 = Recipe.objects.filter(id=id).select_related('author').first()
     # .values_list('title', 'author', 'date', 'id', 'description')
-    files = rec1.file_set.all()
- 
+    # files = rec1.file_set.all()
+    files = File.objects.filter(recipe=id)
+    """SELECT * FROM "main_file" 
+    INNER JOIN "main_recipe" ON ("main_file"."recipe_id" = "main_recipe"."id") 
+    INNER JOIN "auth_user" ON ("main_recipe"."author_id" = "auth_user"."id") 
+    WHERE "main_file"."recipe_id" = '1'"""
+
     # sql = '''SELECT * --rec_id_id as id, main_recipe.title, main_recipe.stars 
     #         FROM main_recipe
     #         left join main_file on main_file.rec_id_id = main_recipe.id
@@ -182,7 +195,7 @@ def details(request, id):
            
     #         ;'''
     # rec1 = Recipe.objects.raw(sql) # , params=id
-    print("files", files)
+    print("details files", files)
     # print(rec1)
 
     context = {
@@ -198,8 +211,8 @@ def not_found_view(request, exception):
 
 
 def get_files_of_recipe(rec_id):
-    rec1 = Recipe.objects.filter(id=id).first()
-    return File.objects.filter(rec_id=rec1)
+    rec1 = Recipe.objects.filter(id=rec_id).first()
+    return File.objects.filter(recipe=rec1)
 
 
 def save_new_file(request):
@@ -252,3 +265,19 @@ def save_new_recipe(request):
 """print(request.user.id)
 author = User.objects.get(id=request.user.id)
 print(author, 'author')"""
+
+def get_recipes_and_files():
+    recipes = Recipe.objects.select_related("author").prefetch_related("images").all()
+    print([(r.id, r.images.all()) for r in recipes])
+    files =  {int(file.id): [ff.file for ff in file.images.all()]  for file in recipes}
+    # print('gallery files', [list([ff.file for ff in v]) for f,  v in files.items()])
+    print('gallery files', files)
+    return recipes, files
+
+
+def get_recipes_and_first_file():
+    recipes = Recipe.objects.select_related("author").prefetch_related("images").all()
+    print([(r.id, r.images.first()) for r in recipes])
+    files =  {int(file.id): [file.images.first().file if file.images.first() else None]  for file in recipes}
+    print('gallery files', files)
+    return recipes, files

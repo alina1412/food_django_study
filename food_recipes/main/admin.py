@@ -31,8 +31,8 @@ class CategoryAdmin(ModelAdmin):
 
 
 class FileAdmin(ModelAdmin):
-    list_display = ['rec_id']
-    list_filter = ['rec_id']
+    list_display = ['recipe']
+    list_filter = ['recipe']
 
     def __str__(self) -> str:
         return f'{self.filename}'

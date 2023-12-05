@@ -1,6 +1,8 @@
 from django.db import models
 
 from django.contrib.auth.models import User
+from django.urls import reverse
+
 
 class Tag(models.Model):
     title = models.CharField(max_length=80)
@@ -32,4 +34,10 @@ class Account(models.Model):
     def __str__(self):
         return f"{self.user.username}'s account"
 
-
+    def get_absolute_url(self):
+        return reverse('account', args=[self.pk])
+    
+    class Meta:
+        # ordering = ['itle','status']
+        verbose_name= 'Аккаунт (Account)'
+        verbose_name_plural='Аккаунты'

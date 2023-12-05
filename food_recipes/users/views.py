@@ -1,6 +1,10 @@
+from typing import Any
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 
+from django.views.generic import DetailView, DeleteView, UpdateView
 from django.contrib.auth.models import User
+from django.urls import reverse_lazy
 from .models import Account
 
 def index(request):
@@ -26,3 +30,22 @@ def index(request):
     return render(
         request, "users/account.html"
     )
+
+
+class UserDetailView(DetailView):
+    model = Account
+    template_name = 'users/account.html'
+    context_object_name = 'profile'
+
+
+class UserUpdateView(UpdateView):
+    model = Account
+    template_name = 'users/account.html'
+    fields = ['nickname','birthdate','gender','tags', 'account_image']
+
+    def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
+        print(request.FILES)
+        return super().post(request, *args, **kwargs)
+
+
+# success_url = reverse_lazy('news_index')
