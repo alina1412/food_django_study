@@ -24,8 +24,10 @@ class Account(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE,
                                 primary_key=True)
     nickname = models.CharField(max_length=100)
-    birthdate = models.DateField(null=True)
+    birthdate = models.DateField(null=True, blank=True)
     gender = models.CharField(choices=gender_choices,max_length=20)
+    age = models.CharField(max_length=100, null=True, blank=True)
+    info = models.TextField(null=True, blank=True)
     account_image = models.ImageField(default='default.jpg',
                                       upload_to='account_images')
     #pip install pillow в терминале если нет библиотеки
@@ -36,7 +38,7 @@ class Account(models.Model):
 
     def get_absolute_url(self):
         return reverse('account', args=[self.pk])
-    
+
     class Meta:
         # ordering = ['itle','status']
         verbose_name= 'Аккаунт (Account)'
