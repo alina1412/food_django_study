@@ -9,6 +9,7 @@ from .models import Recipe, Category, File
 class RecipeAdmin(ModelAdmin):
     list_display = ['title', 'author', 'description', 'date']
     list_filter = ['title', 'author', 'description', 'date', 'category']
+    search_fields = ['title__icontains']
 
     def __str__(self) -> str:
         return f'{self.title} {str(self.date[:16])}'
@@ -31,7 +32,7 @@ class CategoryAdmin(ModelAdmin):
 
 
 class FileAdmin(ModelAdmin):
-    list_display = ['recipe']
+    list_display = ['recipe', 'image_tag']
     list_filter = ['recipe']
 
     def __str__(self) -> str:

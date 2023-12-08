@@ -5,7 +5,8 @@
     <div class="col-md-3 product product-single">
         {% with prod_name=files|get_item:product.id %}
         <div class="product-thumb" style="height: 200px;   
-                        background-image: url('{{ MEDIA_URL }}/{{prod_name.0}}');">
+                        background-image: url('{{ MEDIA_URL }}/{{prod_name.0}}'); 
+                        background-repeat:no-repeat; background-position: center;">
 
             <a href="{% url 'details' id=product.id %}">
                 <button class="main-btn quick-view"><i class=""></i> смотреть {{product.id}}</button>

@@ -1,4 +1,7 @@
 from django.db import models
+# from django.utils.html import escape
+from django.utils.html import mark_safe
+
 from django.db.models import (
     Model,
     ForeignKey,
@@ -10,6 +13,8 @@ from django.db.models import (
 from django.contrib.auth.models import User
 
 import pathlib
+
+from food_recipes.settings import MEDIA_URL
 
 FOLDER = pathlib.Path(__file__).parent.resolve()
 
@@ -88,6 +93,12 @@ class File(Model):
     recipe = ForeignKey(Recipe, on_delete=models.CASCADE, related_name="images")
     # filename =  CharField("filename", max_length=40)
     file = models.FileField(upload_to="import", blank=True, null=True)
+    
+    def image_tag(self):
+        return mark_safe(f'<img height=30px src="{MEDIA_URL}%s" />' % (self.file))
+    
+    image_tag.short_description = 'Image'
+    image_tag.allow_tags = True
 
     def __str__(self):
         return str(self.recipe.id)
