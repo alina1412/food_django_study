@@ -1,5 +1,5 @@
 import datetime
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from django.http import HttpResponse
 from django.urls import reverse
@@ -98,14 +98,18 @@ def contacts(request):
 
 def get_login_dict():
     return {
-        "name": {"title": "Имя", "type": "text"},
-        "email": {"title": "email", "type": "text"},
+        "username": {"title": "Имя", "type": "text"},
+        # "email": {"title": "email", "type": "text"},
         "password1": {"title": "Пароль", "type": "password"},
         "password2": {"title": "Подтвердите пароль", "type": "password"},
     }
 
 
 def login(request):
+    if request.method == 'POST':
+        ...
+    else:
+        ...
     log_dict = get_login_dict()
     # log_dict['type'] = 'login'
     context = {
@@ -117,17 +121,26 @@ def login(request):
 
 
 def register(request):
-    # if request.POST:
-    #     form = GeeksForm(request.POST, request.FILES)
-    #     if form.is_valid():
-    #         handle_uploaded_file(request.FILES["geeks_field"])
+    from django.contrib.auth import authenticate
+    from django.contrib import messages
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')
+            authenticate(username=username,password=password)
+            return redirect('main')
+        else:
+            print(form.errors)
+            log_dict = get_login_dict()
+            context = {"title": "Регистрация", "btn_text": "Регистрация", "login": log_dict,  'form': form }
+            return render(request, "main/login.html", context)
+    else:
+        form = RegisterForm()
     log_dict = get_login_dict()
     # log_dict['type'] = 'register'
-    context = {
-        "title": "Регистрация",
-        "btn_text": "Регистрация",
-        "login": log_dict,
-    }
+    context = {"title": "Регистрация", "btn_text": "Регистрация", "login": log_dict,    }
     return render(request, "main/login.html", context)
 
 

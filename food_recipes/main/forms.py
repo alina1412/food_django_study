@@ -31,7 +31,7 @@ class LoginForm(AuthenticationForm):
 
 
 class RegisterForm(UserCreationForm):
-    username = forms.CharField(label="username", max_length=200,
+    username = forms.CharField(label="username", max_length=200, min_length=4,
                widget=forms.TextInput(attrs={"class":"form_field",
                                              'autofocus': True}))
 
@@ -46,3 +46,6 @@ class RegisterForm(UserCreationForm):
         widget=forms.PasswordInput(attrs={"class":"form_field",
                                           "autocomplete": "new-password"}),
                                           strip=False)
+    class Meta:
+        model = User
+        fields = ['username', 'password1', 'password2']
