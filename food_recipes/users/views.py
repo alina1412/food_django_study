@@ -26,8 +26,6 @@ from .forms import AccountForm, LoginForm, RegisterForm
 
 def index(request):
     # author = User.objects.get(id=request.user.id)
-    # new_ = Account(user=author, nickname='ftrbg')
-    # new_.save()
 
     a1 = Account.objects.all().first()
     # files
@@ -37,8 +35,8 @@ def index(request):
 
     # print(acc2.nickname, '----')
 
-    u1 = Account.objects.get(user=1)
-    print(u1.tags.all())
+    acc = Account.objects.get(user=1)
+    print(acc.tags.all())
     # acc3 = Account.objects.get(user=acc2.user)
     # print(acc3.email, '----')
 
@@ -55,7 +53,7 @@ class UserDetailView(DetailView):
     context_object_name = 'profile'
 
 
-class UserUpdateView(UpdateView):
+class UserAccountView(UpdateView):
     '''users/user/1'''
     model = Account
     # fields = ['nickname','gender', 'birthdate','age', 'info', 'account_image']
@@ -80,7 +78,7 @@ class UserUpdateView(UpdateView):
             return self.form_invalid(form)
 
     def get_success_url(self):
-        return reverse('account', kwargs={'pk': self.object.pk})
+        return reverse('users:account', kwargs={'pk': self.object.pk})
 
 
 # class UserUpdateView(UpdateView):
@@ -123,6 +121,10 @@ class RegisterView(View):
             password = form.cleaned_data.get('password1')
             user = authenticate(username=username,password=password)
             login(request, user)
+
+            new_ = Account(user=user, nickname=username)
+            new_.save()
+
             messages.success(request, f'Account created for {username}')
 
             return redirect('main:main')
@@ -142,6 +144,12 @@ def loginView(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
+            # DEBUG
+            acc = Account.objects.filter(user=user).first()
+            if not acc:
+                new_ = Account(user=user, nickname=username)
+                new_.save()
+
             return redirect('main:main')
            
         print(form.errors.as_data())

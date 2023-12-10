@@ -78,17 +78,17 @@ def sidebar(request):
     )
 
 
-def profile(request):
-    user = User.objects.get(id=request.user.id)
-    ava = ""
-    form = ProfileForm()
-    context = {
-        "title": "Профиль",
-        "profile": user,
-        "ava": ava,
-        'form': form
-    }
-    return render(request, "main/profile.html", context)
+# def profile(request):
+#     user = User.objects.get(id=request.user.id)
+#     ava = ""
+#     form = ProfileForm()
+#     context = {
+#         "title": "Профиль",
+#         "profile": user,
+#         "ava": ava,
+#         'form': form
+#     }
+#     return render(request, "main/profile.html", context)
 
 
 def contacts(request):

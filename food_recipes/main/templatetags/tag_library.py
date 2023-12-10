@@ -16,3 +16,12 @@ def to_int(value):
 @register.filter(name='range')
 def filter_range(start, end):
     return range(start, end)
+
+
+from main.models import User
+from users.models import Account
+
+@register.filter(name='get_account_id')
+def get_account_id(user):
+    acc = Account.objects.get(user=user)
+    return acc.pk

@@ -1,11 +1,11 @@
 {% load static %}
+{% load tag_library %}
 
 <div id="navigation">
     <!-- container -->
     <div class="container">
         <div id="responsive-nav">
             
-
             <!-- menu nav -->
             <div class="menu-nav">
                 
@@ -60,7 +60,9 @@
                                         <li><a href="{% url 'users:login' %}"><i class="fa fa-regular fa-arrow-circle-right"></i> Вход в аккаунт</a></li>
                                         <li><a href="{% url 'users:register' %}"><i class="fa fa-regular fa-user-circle-o"></i> Регистрация</a></li>
                                         <li><a href="{% url 'users:logout' %}"><i class="fa fa-regular fa-arrow-circle-right"></i> Выход</a></li>
-                                        <li><a href="{% url 'users:account' pk=1 %}"><i class="fa fa-regular fa-address-book"></i> Мой профиль</a></li>
+                                        {% if user.is_authenticated %}
+                                        <li><a href="{% url 'users:account' pk=user|get_account_id %}"><i class="fa fa-regular fa-address-book"></i> Мой профиль</a></li>
+                                        {% endif %}
                                     </ul>
 
                                 </div>

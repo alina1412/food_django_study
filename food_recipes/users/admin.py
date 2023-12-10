@@ -9,8 +9,9 @@ from .models import Account, Tag
 
 
 class AccountAdmin(ModelAdmin):
-    list_display = ['user', 'gender', 'nickname']
+    list_display = ['pk', 'user', 'gender', 'nickname']
     list_filter = ['user', 'gender']
+    list_display_links = ['pk']
 
     def __str__(self) -> str:
         return f'{self.title} {str(self.date[:16])}'

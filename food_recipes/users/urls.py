@@ -7,7 +7,7 @@ app_name = "users"
 
 urlpatterns = [
     path("", views.index, name="user"),
-    path("user/<int:pk>/", views.UserUpdateView.as_view(), name="account"),
+    path("user/<int:pk>/", views.UserAccountView.as_view(), name="account"),
     # path('product/<int:a>/details/<int:b>',views.get_demo),
     # path('calc/<int:a>/<slug:operation>/<int:b>',views.calc),
     # path("profile/", views.profile, name="profile"),
