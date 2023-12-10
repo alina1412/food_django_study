@@ -1,11 +1,13 @@
 import datetime
 from django.shortcuts import render, redirect
-
+from django.contrib.messages import get_messages
+from django.contrib.auth import logout, authenticate, login
 from django.http import HttpResponse
 from django.urls import reverse
 from django.contrib.auth.models import User
 from django.db.models import Count, Avg, Max
 from django.views.generic import DetailView, DeleteView, UpdateView
+from django.contrib import messages
 
 from .models import Product, Recipe, description, File, Category
 from .forms import *
@@ -105,43 +107,133 @@ def get_login_dict():
     }
 
 
-def login(request):
-    if request.method == 'POST':
-        ...
-    else:
-        ...
-    log_dict = get_login_dict()
-    # log_dict['type'] = 'login'
-    context = {
-        "title": "Войти",
-        "btn_text": "Войти",
-        "login": log_dict,
-    }
-    return render(request, "main/login.html", context)
-
-
-def register(request):
+def loginView(request):
     from django.contrib.auth import authenticate
-    from django.contrib import messages
     if request.method == 'POST':
-        form = RegisterForm(request.POST)
+        form = LoginForm(request.POST)
+        # if form.is_valid():
+        username = request.POST['username']
+        password = request.POST['password']
+        # username = form.cleaned_data.get('username')
+        # password = form.cleaned_data.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('main:main')
+           
+        print(form.errors.as_data())
+        
+        context = {"title": "Войти", "btn_text": "Войти", 'form': form, 'messages':get_messages(request) }
+        return render(request, "main/login.html", context)
+    else:
+        if request.user.is_authenticated:
+            messages.add_message(request, messages.SUCCESS, 'Вы уже залогинились на сайте')
+            # messages.success(request, 'Вы уже залогинились на сайте', extra_tags='success')
+            return redirect('main:main')
+   
+    # log_dict['type'] = 'login'
+    context = {"title": "Войти", "btn_text": "Войти",  'form': LoginForm(), 'messages':get_messages(request) }
+    return render(request, "main/login.html", context, )
+
+
+
+# def registerView(request):
+#     from django.contrib.auth import authenticate
+#     from django.contrib import messages
+#     from django.contrib.messages import get_messages
+#     if request.method == 'POST':
+#         form = RegisterForm(request.POST)
+#         if form.is_valid():
+#             user = form.save()
+#             username = form.cleaned_data.get('username')
+#             password = form.cleaned_data.get('password1')
+#             # authenticate(username=username,password=password)
+#             login(request, user)
+#             return redirect('main:main')
+#         else:
+#             print(form.errors)
+           
+#             context = {"title": "Регистрация", "btn_text": "Регистрация",  'form': form, 'messages':get_messages(request) }
+#             return render(request, "main/login.html", context)
+#     else:
+#         if request.user.is_authenticated:
+#             messages.add_message(request, messages.SUCCESS, 'Вы уже залогинились на сайте')
+#             # messages.success(request, 'Вы уже залогинились на сайте', extra_tags='success')
+
+#     context = {"title": "Регистрация", "btn_text": "Регистрация", 'form':RegisterForm(), 'messages':get_messages(request) }
+#     return render(request, "main/login.html", context)
+
+
+from django.shortcuts import render, redirect 
+from django.contrib import messages
+from django.contrib.auth.views import LoginView
+from django.views import View
+
+from .forms import RegisterForm
+from django.urls import reverse_lazy
+
+class CustomLoginView(LoginView):
+    form_class = LoginForm
+    redirect_authenticated_user = True
+    initial = {'key': 'value'}
+    template_name = 'main/login.html'
+    context = {"title": "Войти", "btn_text": "Войти"}
+  
+    def get_success_url(self):
+        return reverse_lazy('main:main') 
+    
+    def form_invalid(self, form):
+        messages.error(self.request,'Invalid username or password')
+        return self.render_to_response(self.get_context_data(form=form))
+    # def get(self, request, *args, **kwargs):
+    #     if request.user.is_authenticated:
+    #         messages.success(request, 'Вы уже залогинились на сайте.')
+    #         return redirect('main:main')
+    #     form = self.form_class(initial=self.initial)
+    #     self.context['form'] = form
+    #     return render(request, self.template_name, self.context)
+        
+    # def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')        
+            user = authenticate(username=username,password=password)
+            login(request, user)
+            return redirect('main:main')
+        
+        self.context['form'] = form #'messages':get_messages(request)
+        return render(request, self.template_name, self.context )
+
+class RegisterView(View):
+    form_class = RegisterForm
+    initial = {'key': 'value'}
+    template_name = 'main/login.html'
+
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            messages.success(request, 'Вы уже залогинились на сайте. Хотите создать еще один аккаунт?')
+        form = self.form_class(initial=self.initial)
+        return render(request, self.template_name, {'form': form, "title": "Регистрация", "btn_text": "Регистрация"})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+
         if form.is_valid():
             form.save()
+
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password1')
-            authenticate(username=username,password=password)
-            return redirect('main')
-        else:
-            print(form.errors)
-            log_dict = get_login_dict()
-            context = {"title": "Регистрация", "btn_text": "Регистрация", "login": log_dict,  'form': form }
-            return render(request, "main/login.html", context)
-    else:
-        form = RegisterForm()
-    log_dict = get_login_dict()
-    # log_dict['type'] = 'register'
-    context = {"title": "Регистрация", "btn_text": "Регистрация", "login": log_dict,    }
-    return render(request, "main/login.html", context)
+            user = authenticate(username=username,password=password)
+            login(request, user)
+            messages.success(request, f'Account created for {username}')
+
+            return redirect(to='/')
+
+        return render(request, self.template_name, {'form': form, "title": "Регистрация", "btn_text": "Регистрация"})
+
+
 
 
 def foodlist(request, cat_id):

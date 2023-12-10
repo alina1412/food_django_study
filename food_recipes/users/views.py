@@ -1,10 +1,11 @@
 from typing import Any
 from django.http import HttpRequest, HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from django.views.generic import DetailView, DeleteView, UpdateView
 from django.views.generic.edit import FormMixin
 from django.contrib.auth.models import User
+from django.contrib.auth import logout
 from django.urls import reverse_lazy
 from django.urls import reverse
 from .models import Account
@@ -81,3 +82,9 @@ class UserUpdateView(UpdateView):
 
 
 # success_url = reverse_lazy('news_index')
+
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('main:main')

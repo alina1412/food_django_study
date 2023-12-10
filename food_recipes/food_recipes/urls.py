@@ -11,7 +11,7 @@ handler404 = 'main.views.not_found_view'
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("recipes/", include('recipes.urls')),
+    # path("recipes/", include('recipes.urls')),
     path("users/", include('users.urls')),
     path("", include('main.urls')),
     

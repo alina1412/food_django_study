@@ -18,11 +18,11 @@ class ProfileForm(forms.Form):
 
 
 class LoginForm(AuthenticationForm):
-    username = forms.CharField(label="username", max_length=200,
+    username = forms.CharField(label="Имя пользователя", max_length=200,
                widget=forms.TextInput(attrs={"class":"form_field",
                                              'autofocus': True}))
 
-    password = forms.CharField(label="password", 
+    password = forms.CharField(label="Пароль", 
                widget=forms.PasswordInput(attrs={"class":"form_field"}))
 
     class Meta:
@@ -31,18 +31,18 @@ class LoginForm(AuthenticationForm):
 
 
 class RegisterForm(UserCreationForm):
-    username = forms.CharField(label="username", max_length=200, min_length=4,
+    username = forms.CharField(label="Имя пользователя", max_length=200, min_length=4,
                widget=forms.TextInput(attrs={"class":"form_field",
                                              'autofocus': True}))
 
     password1 = forms.CharField(
-        label="password",
+        label="Пароль",
         strip=False,
         widget=forms.PasswordInput(attrs={"class":"form_field",
                                           "autocomplete": "new-password"}))
 
     password2 = forms.CharField(
-        label="password confirmation",
+        label="Подтверждение пароля",
         widget=forms.PasswordInput(attrs={"class":"form_field",
                                           "autocomplete": "new-password"}),
                                           strip=False)

@@ -1,5 +1,6 @@
 {% extends 'main/base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block title %}<title>{{title}}</title>{% endblock %}
 
@@ -19,6 +20,19 @@
                        
                         <form method="post">
                             {% csrf_token %}
+                            
+                            {% for message in messages %}
+                         
+                            <!-- bootstrap alert -->
+                            <strong>{{ message }}</strong>
+                            <!-- <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <strong>{{ message }}</strong>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div> -->
+                           
+                            {% endfor %}
+                           
+
 
                             {% for field in form %}
                             {% for error in field.errors %}
@@ -29,38 +43,14 @@
                             <ul class="list-info">
 
                                 
-                                {% for key_log, log_dict in login.items %}
-                                <div class="row">
-                                    {% if key_log != 'password2' %}
-                                    <div class="col-md-3 col-sm-12 flexbox justify-content-start">
-                                        <li>{{log_dict.title}}</li>
-                                    </div>
-                                    {% endif %}
-
-                                   
-                                    {% if key_log == 'username' or  key_log == 'email' or  key_log == 'password1' %}
-                                    <div class="col-md-9 col-sm-12 flexbox justify-content-start pb-3">
-                                        <input class="" type="{{log_dict.type}}" name='{{key_log}}' 
-                                        id='{{key_log}}' placeholder="" 
-                                        {% if key_log == 'password1' %} minlength="8" required {% endif %}>
-                                    </div>
-                                 
-                                        
-                                    {% elif key_log == 'password2'  and title == 'Регистрация' %}
-                                    <div class="col-md-3 col-sm-12 flexbox justify-content-start">
-                                        <li>{{log_dict.title}}</li>
-                                    </div>
-                                    <div class="col-md-9 col-sm-12 flexbox justify-content-start pb-3">
-                                        <input class="" type="password" id="password2" name="password2" minlength="8" required>
-                                    </div>
-
-                                    {% endif %}
-
-                                        
-
+                            
+                                <div class="row d-flex align-content-center justify-content-center flex-wrap">
+                                    <div class="col-md-5 col-sm-12">
+                                    {{ form|crispy }}
+                                </div>
                                 </div>
 
-                                    {% endfor %}
+                                  
                                      
                             </ul>
                             <button type="submit" class="btn primary-btn">{{btn_text}}</button>

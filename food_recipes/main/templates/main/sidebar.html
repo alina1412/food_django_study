@@ -15,10 +15,10 @@
                     <li><h3 class="mr-2 d-none d-md-inline">FOOD GOOD</h3></li>
                      
                     <li>
-                        <a href="{% url 'main' %}">Главная</a>
+                        <a href="{% url 'main:main' %}">Главная</a>
                     </li>
                     <li>
-                        <a href="{% url 'gallery' %}">Галерея</a>
+                        <a href="{% url 'main:gallery' %}">Галерея</a>
                     </li>                
 
                     <li class="dropdown dropdown default-dropdown">
@@ -32,7 +32,7 @@
                                 <ul class="list-links">
                                     {% with 'Салаты Закуски Выпечка' as items %}
                                     {% for text in items.split %}
-                                        <li><a href="{% url 'foodlist' cat_id=forloop.counter  %}">{{text}}</a></li>
+                                        <li><a href="{% url 'main:foodlist' cat_id=forloop.counter  %}">{{text}}</a></li>
                                     {% endfor %}
                                     {% endwith %}
                                 </ul>
@@ -46,7 +46,7 @@
 
 
                     <li>
-                        <a href="{% url 'contacts' %}">Контакты</a>
+                        <a href="{% url 'main:contacts' %}">Контакты</a>
                     </li> 
 
                     <li class="header-account dropdown default-dropdown">
@@ -57,10 +57,10 @@
                             <div class="row">
                                 <div class="list-links">
                                     <ul class="">
-                                        <li><a href="{% url 'login' %}"><i class="fa fa-regular fa-arrow-circle-right"></i> Вход в аккаунт</a></li>
-                                        <li><a href="{% url 'register' %}"><i class="fa fa-regular fa-user-circle-o"></i> Регистрация</a></li>
-                                        <li><a href="#"><i class="fa fa-regular fa-arrow-circle-right"></i> Выход</a></li>
-                                        <li><a href="{% url 'profile' %}"><i class="fa fa-regular fa-address-book"></i> Мой профиль</a></li>
+                                        <li><a href="{% url 'main:login' %}"><i class="fa fa-regular fa-arrow-circle-right"></i> Вход в аккаунт</a></li>
+                                        <li><a href="{% url 'main:register' %}"><i class="fa fa-regular fa-user-circle-o"></i> Регистрация</a></li>
+                                        <li><a href="{% url 'users:logout' %}"><i class="fa fa-regular fa-arrow-circle-right"></i> Выход</a></li>
+                                        <li><a href="{% url 'main:profile' %}"><i class="fa fa-regular fa-address-book"></i> Мой профиль</a></li>
                                     </ul>
 
                                 </div>

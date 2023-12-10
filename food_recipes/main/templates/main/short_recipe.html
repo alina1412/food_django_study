@@ -6,11 +6,12 @@
 
     {% for product in products %}
     <div class="col-12 product product-single">
-        <div class="row">
+        <a class="row" href="{% url 'main:details' id=product.id %}">
+           
             <div class="col-md-6 col-sm-12 flexbox">
-                <!-- <a href="{% url 'details' id=product.id %}">
-                    <button class="main-btn quick-view"><i class=""></i> смотреть {{product.id}}</button>
-                </a> -->
+               
+                   
+                
                 
                 <div class="w-75">
                     {% with img=files|get_item:product.id %}
@@ -41,7 +42,8 @@
                 </div>
 
             </div>
-        </div>
+             
+        </a>
 
     </div>
     {% endfor %}

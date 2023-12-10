@@ -8,7 +8,7 @@
                         background-image: url('{{ MEDIA_URL }}/{{prod_name.0}}'); 
                         background-repeat:no-repeat; background-position: center;">
 
-            <a href="{% url 'details' id=product.id %}">
+            <a href="{% url 'main:details' id=product.id %}">
                 <button class="main-btn quick-view"><i class=""></i> смотреть {{product.id}}</button>
             </a>
             

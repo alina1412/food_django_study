@@ -3,6 +3,9 @@ from django.urls import path, re_path
 
 from . import views
 
+app_name = "main"
+
+
 urlpatterns = [
     path("", views.index, name="main"),
     # path('product/<int:a>/details/<int:b>',views.get_demo),
@@ -13,7 +16,7 @@ urlpatterns = [
     path("about/<int:id>/", views.details, name="details"),
     path("contacts/", views.contacts, name="contacts"),
     path("sidebar/", views.sidebar, name="sidebar"),
-    path("register/", views.register, name="register"),
-    path("login/", views.login, name="login"),
+    path("register/", views.RegisterView.as_view(), name="register"),
+    path("login/", views.loginView, name="login"),
     
 ]

@@ -40,7 +40,6 @@ INSTALLED_APPS = [
 
     "bootstrap5",
     "main",
-    "recipes",
     "users",
     'debug_toolbar',
     'crispy_forms',
@@ -58,6 +57,8 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
+
+MESSAGE_STORAGE = "django.contrib.messages.storage.cookie.CookieStorage"
 
 INTERNAL_IPS = ['127.0.0.1',]
 ROOT_URLCONF = "food_recipes.urls"
