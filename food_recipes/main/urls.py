@@ -16,7 +16,7 @@ urlpatterns = [
     path("about/<int:id>/", views.details, name="details"),
     path("contacts/", views.contacts, name="contacts"),
     path("sidebar/", views.sidebar, name="sidebar"),
-    path("register/", views.RegisterView.as_view(), name="register"),
-    path("login/", views.loginView, name="login"),
+    # path("register/", views.RegisterView.as_view(), name="register"),
+    # path("login/", views.loginView, name="login"),
     
 ]

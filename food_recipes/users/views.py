@@ -6,11 +6,23 @@ from django.views.generic import DetailView, DeleteView, UpdateView
 from django.views.generic.edit import FormMixin
 from django.contrib.auth.models import User
 from django.contrib.auth import logout
-from django.urls import reverse_lazy
-from django.urls import reverse
+from django.urls import reverse_lazy, reverse
+
+from django.contrib import messages
+from django.contrib.messages import get_messages
+from django.contrib.auth import logout, authenticate, login
+
+
+from django.contrib.auth.models import User
+from django.db.models import Count, Avg, Max
+from django.views import View
+from django.views.generic import DetailView, DeleteView, UpdateView
+
+
+
 from .models import Account
 # from main.forms import ProfileForm
-from .forms import AccountForm
+from .forms import AccountForm, LoginForm, RegisterForm
 
 def index(request):
     # author = User.objects.get(id=request.user.id)
@@ -88,3 +100,60 @@ class UserUpdateView(UpdateView):
 def logout_view(request):
     logout(request)
     return redirect('main:main')
+
+
+class RegisterView(View):
+    form_class = RegisterForm
+    initial = {'key': 'value'}
+    template_name = 'users/login.html'
+
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            messages.success(request, 'Вы уже залогинились на сайте. Хотите создать еще один аккаунт?')
+        form = self.form_class(initial=self.initial)
+        return render(request, self.template_name, {'form': form, "title": "Регистрация", "btn_text": "Регистрация"})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+
+        if form.is_valid():
+            form.save()
+
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')
+            user = authenticate(username=username,password=password)
+            login(request, user)
+            messages.success(request, f'Account created for {username}')
+
+            return redirect('main:main')
+
+        return render(request, self.template_name, {'form': form, "title": "Регистрация", "btn_text": "Регистрация"})
+
+
+def loginView(request):
+    
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        # if form.is_valid():
+        username = request.POST['username']
+        password = request.POST['password']
+        # username = form.cleaned_data.get('username')
+        # password = form.cleaned_data.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('main:main')
+           
+        print(form.errors.as_data())
+        
+        context = {"title": "Войти", "btn_text": "Войти", 'form': form, 'messages':get_messages(request) }
+        return render(request, "users/login.html", context)
+    else:
+        if request.user.is_authenticated:
+            messages.add_message(request, messages.SUCCESS, 'Вы уже залогинились на сайте')
+            # messages.success(request, 'Вы уже залогинились на сайте', extra_tags='success')
+            return redirect('main:main')
+   
+    # log_dict['type'] = 'login'
+    context = {"title": "Войти", "btn_text": "Войти",  'form': LoginForm(), 'messages':get_messages(request) }
+    return render(request, "users/login.html", context, )
