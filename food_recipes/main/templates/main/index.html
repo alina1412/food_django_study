@@ -13,6 +13,7 @@
                     {% csrf_token %}
                     
                         <div>
+                            <div class="d-flex justify-content-start"><a href="{% url 'main:top' %}">Посмотреть топ юзеров</a></div>
                             <div class="d-flex justify-content-end">
                                 <input type="text" name="title" placeholder="ищу рецепт">
                                 <button type="submit" class="btn primary-btn">Поиск</button>
@@ -35,6 +36,15 @@
         {% endfor %}
         </div>
     </div>
+
+    <div clss="container p-0">
+    <div class="flex-row bg-color-light">
+        {% if search_res %}
+        <h4>Результаты поиска по запросу: {{search_res}}</h4>
+        {% endif %}
+    </div>
+    </div>
+    
 
     {% include 'main/image_rows.html' %}
 

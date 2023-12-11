@@ -8,18 +8,29 @@ from django.contrib.auth.models import User
 from django.db.models import Count, Avg, Max
 from django.views.generic import DetailView, DeleteView, UpdateView
 from django.contrib import messages
+from django.db.models.query_utils import Q
 
 from .models import Product, Recipe, description, File, Category
 from .forms import *
 
 def index(request):
     if request.method == "POST":
-        colors = request.POST.get("colors", False)
-        print(colors)
-
         title = request.POST.get("title", False)
+        if title:
+            title = title.strip()
         print(title)
+        
+        recipes, files = get_recipes_and_first_file(with_filter=title)
 
+        context = {
+            "title": "Главная страница",
+            "products": recipes,
+            "menu": get_menu(),
+            "files": files,
+            "search_res": title
+        }
+        return render(request, "main/index.html", context)
+    winners = Recipe.objects.annotate(Count('stars', distinct=True))
     # cnt = User.objects.annotate(Count('recipe', distinct=True)).aggregate(Avg('recipe__count'))
     # cnt = User.objects.annotate(Count('recipe', distinct=True)).order_by('-recipe__count').values('username').first()
     # print(cnt)
@@ -58,6 +69,7 @@ def index(request):
         "products": recipes,
         "menu": get_menu(),
         "files": files,
+        "search_res": False
     }
     return render(request, "main/index.html", context)
 
@@ -89,6 +101,12 @@ def sidebar(request):
 #         'form': form
 #     }
 #     return render(request, "main/profile.html", context)
+def users_top(request):
+    '''топ юзеров по количеству рецептов'''
+    users_top = User.objects.annotate(Count('recipe', distinct=True))
+    # cnt.first().recipe__count
+    context = {'users_top': users_top}
+    return render(request, "main/users_top.html", context)
 
 
 def contacts(request):
@@ -323,8 +341,12 @@ def get_recipes_and_files():
     return recipes, files
 
 
-def get_recipes_and_first_file():
-    recipes = Recipe.objects.select_related("author").prefetch_related("images").all()
+def get_recipes_and_first_file(with_filter=False):
+    if not with_filter:
+        recipes = Recipe.objects.select_related("author").prefetch_related("images").all()
+    else:
+        title = with_filter
+        recipes = Recipe.objects.select_related("author").prefetch_related("images").filter(Q(title__icontains=title)|Q(description__icontains=title))
     print([(r.id, r.images.first()) for r in recipes])
     files =  {int(file.id): [file.images.first().file if file.images.first() else None]  for file in recipes}
     print('gallery files', files)
