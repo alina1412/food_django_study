@@ -66,7 +66,7 @@ class Recipe(Model):  # title, author, description, date, category, files, img
     description = TextField("Описание")
     date = DateTimeField("Дата публикации", auto_now=True, auto_created=True)
     category = ManyToManyField(to=Category, blank=True)
-    # files = TextField("Картинки", null=True, blank=True)
+    
     stars = models.CharField(
         choices=stars_choices, max_length=20, default=stars_choices[0][0]
     )
@@ -92,7 +92,7 @@ def user_directory_path(instance, filename):
 class File(Model):
     recipe = ForeignKey(Recipe, on_delete=models.CASCADE, related_name="images")
     # filename =  CharField("filename", max_length=40)
-    file = models.FileField(upload_to="import", blank=True, null=True)
+    file = models.ImageField(upload_to="import", blank=True, null=True)
     
     def image_tag(self):
         return mark_safe(f'<img height=30px src="{MEDIA_URL}%s" />' % (self.file))

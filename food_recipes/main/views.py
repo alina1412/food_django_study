@@ -1,34 +1,48 @@
 import datetime
+from typing import Any
 from django.shortcuts import render, redirect
 from django.contrib.messages import get_messages
 from django.contrib.auth import logout, authenticate, login
 from django.http import HttpResponse
 from django.urls import reverse
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from django.db.models import Count, Avg, Max
-from django.views.generic import DetailView, DeleteView, UpdateView
+from django.views.generic import DetailView, DeleteView, UpdateView, CreateView
 from django.contrib import messages
+from django.conf import settings
 from django.db.models.query_utils import Q
 
 from .models import Product, Recipe, description, File, Category
 from .forms import *
 
 def index(request):
+    context = {
+        "title": "Главная страница",
+        "products": tuple(),
+        "menu": get_menu(),
+        "files": tuple(),
+        "search_res": False
+    }
     if request.method == "POST":
         title = request.POST.get("title", False)
+        my_rec = request.POST.get("my_recipes", False)
         if title:
             title = title.strip()
-        print(title)
+            recipes, files = get_recipes_and_first_file(with_filter={'title': title})
         
-        recipes, files = get_recipes_and_first_file(with_filter=title)
+        elif my_rec:
+            if request.user.id:
+                recipes, files = get_recipes_and_first_file(with_filter={'author': request.user.id})
 
-        context = {
-            "title": "Главная страница",
-            "products": recipes,
-            "menu": get_menu(),
-            "files": files,
-            "search_res": title
-        }
+        else:
+            recipes, files = get_recipes_and_first_file()
+        
+        context["products"] = recipes
+        context['files'] = files
+        context["search_res"] = title
+        context["title"] = "Главная страница" if not my_rec  else "Мои рецепты"
+      
         return render(request, "main/index.html", context)
     winners = Recipe.objects.annotate(Count('stars', distinct=True))
     # cnt = User.objects.annotate(Count('recipe', distinct=True)).aggregate(Avg('recipe__count'))
@@ -63,14 +77,9 @@ def index(request):
     # recipes, files = get_recipes_and_files()
     recipes, files = get_recipes_and_first_file()
     # print([r.stars for r in recipes])
+    context["products"] = recipes
+    context['files'] = files
 
-    context = {
-        "title": "Главная страница",
-        "products": recipes,
-        "menu": get_menu(),
-        "files": files,
-        "search_res": False
-    }
     return render(request, "main/index.html", context)
 
 
@@ -293,28 +302,28 @@ def save_new_file(request):
         new_file.save()
 
 
-def save_new_recipe(request):
-    title = request.POST.get("title")
-    user_id = request.POST.get("request.user.id")
-    description = request.POST.get("description")
-    category_id = request.POST.get("category_id")
-    filename = request.POST.get("filename")
-    # title, author, description, date, category, files
+# def save_new_recipe(request):
+#     title = request.POST.get("title")
+#     user_id = request.POST.get("request.user.id")
+#     description = request.POST.get("description")
+#     category_id = request.POST.get("category_id")
+#     filename = request.POST.get("filename")
+#     # title, author, description, date, category, files
 
-    if not 1 == 0:
-        ...
-    else:
-        author = User.objects.get(id=user_id)
-        category = Category.objects.get(id=category_id)
-        new_recipe = Recipe(
-            title=title,
-            author=author,
-            description=description,
-            date=datetime.datetime.now(),
-            category=category,
-        )
-        new_recipe.save()
-        return new_recipe["id"]
+#     if not 1 == 0:
+#         ...
+#     else:
+#         author = User.objects.get(id=user_id)
+#         category = Category.objects.get(id=category_id)
+#         new_recipe = Recipe(
+#             title=title,
+#             author=author,
+#             description=description,
+#             date=datetime.datetime.now(),
+#             category=category,
+#         )
+#         new_recipe.save()
+#         return new_recipe["id"]
 
 
 """    rec1 = Recipe(
@@ -344,10 +353,88 @@ def get_recipes_and_files():
 def get_recipes_and_first_file(with_filter=False):
     if not with_filter:
         recipes = Recipe.objects.select_related("author").prefetch_related("images").all()
+    elif with_filter.get('author'):
+        recipes = Recipe.objects.filter(author=with_filter.get('author')).select_related("author").prefetch_related("images").all()
     else:
-        title = with_filter
+        title = with_filter.get('title')
         recipes = Recipe.objects.select_related("author").prefetch_related("images").filter(Q(title__icontains=title)|Q(description__icontains=title))
     print([(r.id, r.images.first()) for r in recipes])
     files =  {int(file.id): [file.images.first().file if file.images.first() else None]  for file in recipes}
     print('gallery files', files)
     return recipes, files
+
+
+
+from django.views.generic.edit import FormView
+# from .forms import FileFieldForm
+
+
+
+
+# class FileFieldFormView(FormView):
+#     form_class = FileFieldForm
+#     template_name = "main/upload.html"  # Replace with your template.
+#     success_url = "..."  # Replace with your URL or reverse().
+    
+#     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+#         context = super().get_context_data(**kwargs)
+#         context['btn_text'] = 'Загрузить'
+#         context['title'] = 'Загрузить'
+#         return context
+
+#     def post(self, request, *args, **kwargs):
+#         form_class = self.get_form_class()
+#         form = self.get_form(form_class)
+#         if form.is_valid():
+#             return self.form_valid(form)
+#         else:
+#             return self.form_invalid(form)
+
+#     def form_valid(self, form):
+#         # for img in self.request.FILES.getlist('file'):
+#         files = form.cleaned_data["file_field"]
+#         for f in files:
+#             ...  # Do something with each file.
+#         return super().form_valid(form)
+
+# def FileFieldFormView(request):
+#     if request.method == 'POST':
+#         if not request.user.id:
+#             return HttpResponse('вы не залогинены')
+#         form = FileFieldForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             # current_user = request.user
+#             rec_id= 1
+#             recipe = Recipe.objects.filter(id=rec_id).first()
+           
+#             for img in request.FILES.getlist('file'):
+#                 File.objects.create(recipe=recipe, file=img)
+           
+#             return redirect('/')
+#     else:
+#         form = FileFieldForm()
+#     return render(request,'main/upload.html', {'form':form })
+
+# RecipeAddForm
+# if not request.user.is_authenticated:
+#     return redirect(settings.LOGIN_URL)
+
+@login_required(login_url=settings.LOGIN_URL)
+def add_recipe(request):
+    if request.method == 'POST':
+        if not request.user.id:
+            return HttpResponse('вы не залогинены')
+        form = RecipeAddForm(request.POST, request.FILES)
+        if form.is_valid():
+            current_user = request.user
+            new_recipe = form.save(commit=False)
+            new_recipe.author = current_user
+            new_recipe.save()
+            form.save_m2m()
+            for img in request.FILES.getlist('file'):
+                File.objects.create(recipe=new_recipe, file=img)
+           
+            return redirect('/')
+    else:
+        form = RecipeAddForm()
+    return render(request,'main/upload.html', {'form':form })

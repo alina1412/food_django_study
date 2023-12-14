@@ -2,6 +2,7 @@ from django import forms
 
 from django.contrib.auth.models import User
 
+from .models import File, Recipe
 
 
 class ProfileForm(forms.Form):
@@ -15,3 +16,36 @@ class ProfileForm(forms.Form):
 
 
 
+
+# from django.forms import ModelForm, Textarea, CheckboxSelectMultiple, Select
+# from .models import *
+
+class MultipleFileInput(forms.ClearableFileInput):
+    allow_multiple_selected = True
+
+class MultipleFileField(forms.FileField):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault("widget", MultipleFileInput())
+        super().__init__(*args, **kwargs)
+
+    def clean(self, data, initial=None):
+        single_file_clean = super().clean
+        if isinstance(data, (list, tuple)):
+            result = [single_file_clean(d, initial) for d in data]
+        else:
+            result = single_file_clean(data, initial)
+        return result
+
+# class FileFieldForm(forms.ModelForm):
+#     file = MultipleFileField()
+#     class Meta:
+#         model = File
+
+#         fields = ['file']
+
+class RecipeAddForm(forms.ModelForm):
+    file = MultipleFileField()
+
+    class Meta:
+        model = Recipe
+        fields = ['title','description','category']
