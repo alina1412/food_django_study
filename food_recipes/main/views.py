@@ -20,7 +20,7 @@ def index(request):
     context = {
         "title": "Главная страница",
         "products": tuple(),
-        "menu": get_menu(),
+        # "menu": get_menu(),
         "files": tuple(),
         "search_res": False
     }
