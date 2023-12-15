@@ -52,6 +52,10 @@ class UserDetailView(DetailView):
     template_name = 'users/account.html'
     context_object_name = 'profile'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # context['username'] = Account.objects.filter
+        return context
 
 class UserAccountView(UpdateView):
     '''users/user/1'''

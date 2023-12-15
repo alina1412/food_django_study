@@ -15,6 +15,8 @@ from django.db.models.query_utils import Q
 
 from .models import Product, Recipe, description, File, Category
 from .forms import *
+from users.models import Account
+
 
 def index(request):
     context = {
@@ -89,17 +91,6 @@ def sidebar(request):
     )
 
 
-# def profile(request):
-#     user = User.objects.get(id=request.user.id)
-#     ava = ""
-#     form = ProfileForm()
-#     context = {
-#         "title": "Профиль",
-#         "profile": user,
-#         "ava": ava,
-#         'form': form
-#     }
-#     return render(request, "main/profile.html", context)
 def users_top(request):
     '''топ юзеров по количеству рецептов'''
     users_top = User.objects.annotate(Count('recipe', distinct=True))
@@ -245,6 +236,7 @@ def gallery(request):
 
 def details(request, id):
     rec1 = Recipe.objects.filter(id=id).select_related('author').first()
+    account = Account.objects.get(user=rec1.author)
     # .values_list('title', 'author', 'date', 'id', 'description')
     # files = rec1.file_set.all()
     files = File.objects.filter(recipe=id)
@@ -267,6 +259,7 @@ def details(request, id):
         "title": "",
         "recipe": rec1,
         "files": files,
+        'account': account
     }
     return render(request, "main/recipe.html", context)
 

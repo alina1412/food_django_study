@@ -7,7 +7,7 @@ from .models import Recipe, Category, File
 
 
 class RecipeAdmin(ModelAdmin):
-    list_display = ['title', 'author', 'description', 'date']
+    list_display = ['pk', 'title', 'author', 'description', 'date']
     list_filter = ['title', 'author', 'description', 'date', 'category']
     search_fields = ['title__icontains']
 
