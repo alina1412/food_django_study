@@ -83,19 +83,9 @@ def index(request):
     return render(request, "main/index.html", context)
 
 
-def get_menu():
-    title = ("Главная", "Галерея")  # 'Мой профиль', 'Регистрация', 'Вход в аккаунт'
-    logo = (
-        "fa fa-regular fa-flag",
-        "fa fa-regular fa-calendar",
-    )  # 'fa fa-regular fa-address-book', 'fa fa-regular fa-user-circle-o', 'fa fa-regular fa-arrow-circle-right'
-    menu = zip(title, logo)
-    return menu
-
-
 def sidebar(request):
     return render(
-        request, "main/sidebar.html", {"nums": range(0, 6), "menu": get_menu()}
+        request, "main/sidebar.html"
     )
 
 
