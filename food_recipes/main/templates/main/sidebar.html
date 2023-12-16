@@ -61,6 +61,7 @@
                                        
                                         {% if user.is_authenticated %}
                                         <li><a href="#" onClick="myRecipes();"><i class="fa fa-regular fa-arrow-circle-right"></i> Мои рецепты</a></li>
+                                        <li><a href="{% url 'main:add_rec' %}"><i class="fa fa-regular fa-arrow-circle-right"></i> Добавить рецепт</a></li>
                                         <li><a href="{% url 'users:account' pk=user|get_account_id %}"><i class="fa fa-regular fa-address-book"></i> Мой профиль</a></li>
                                         {% endif %}
 

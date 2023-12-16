@@ -77,15 +77,6 @@ def contacts(request):
     return render(request, "main/contacts.html", context)
 
 
-def get_login_dict():
-    return {
-        "username": {"title": "Имя", "type": "text"},
-        # "email": {"title": "email", "type": "text"},
-        "password1": {"title": "Пароль", "type": "password"},
-        "password2": {"title": "Подтвердите пароль", "type": "password"},
-    }
-
-
 
 def foodlist(request, cat_id):
     """по категориям"""
@@ -107,25 +98,8 @@ def foodlist(request, cat_id):
 
 
 def gallery(request):
-
-    # recipes = Recipe.objects.all()
-    '''SELECT rec_id FROM "main_recipe"'''
-    
-    """sql = '''SELECT recipe_id as id, main_file.file as img, main_recipe.title, main_recipe.stars 
-            FROM main_recipe
-            left join main_file on main_file.recipe_id = main_recipe.id
-            WHERE main_file.recipe_id IN (SELECT id FROM main_recipe)
-            group by recipe_id
-            ;'''
-    recipes = Recipe.objects.raw(sql)
-    print([(f.id, f.img) for f in recipes])"""
     recipes, files = get_recipes_and_first_file()
 
-    # recs_id_list = [int(rec.id) for rec in recipes]
-    # print(recs_id_list)
-    # recs = File.objects.filter(rec_id__in=recs_id_list).values("id", "file")
-    # files = {int(file["id"]): file["file"] for file in recipes}
-    # return render(request, "main/index.html")
     context = {
         "title": "Галерея",
         "products": recipes,
@@ -138,22 +112,8 @@ def details(request, id):
     rec1 = Recipe.objects.filter(id=id).select_related('author').first()
     account = Account.objects.get(user=rec1.author)
     # .values_list('title', 'author', 'date', 'id', 'description')
-    # files = rec1.file_set.all()
     files = File.objects.filter(recipe=id)
-    """SELECT * FROM "main_file" 
-    INNER JOIN "main_recipe" ON ("main_file"."recipe_id" = "main_recipe"."id") 
-    INNER JOIN "auth_user" ON ("main_recipe"."author_id" = "auth_user"."id") 
-    WHERE "main_file"."recipe_id" = '1'"""
-
-    # sql = '''SELECT * --rec_id_id as id, main_recipe.title, main_recipe.stars 
-    #         FROM main_recipe
-    #         left join main_file on main_file.rec_id_id = main_recipe.id
-    #         WHERE main_recipe.id = 1
-           
-    #         ;'''
-    # rec1 = Recipe.objects.raw(sql) # , params=id
     print("details files", files)
-    # print(rec1)
 
     context = {
         "title": "",
@@ -247,60 +207,6 @@ def get_recipes_and_first_file(with_filter=False):
     return recipes, files
 
 
-
-from django.views.generic.edit import FormView
-# from .forms import FileFieldForm
-
-
-
-
-# class FileFieldFormView(FormView):
-#     form_class = FileFieldForm
-#     template_name = "main/upload.html"  # Replace with your template.
-#     success_url = "..."  # Replace with your URL or reverse().
-    
-#     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
-#         context = super().get_context_data(**kwargs)
-#         context['btn_text'] = 'Загрузить'
-#         context['title'] = 'Загрузить'
-#         return context
-
-#     def post(self, request, *args, **kwargs):
-#         form_class = self.get_form_class()
-#         form = self.get_form(form_class)
-#         if form.is_valid():
-#             return self.form_valid(form)
-#         else:
-#             return self.form_invalid(form)
-
-#     def form_valid(self, form):
-#         # for img in self.request.FILES.getlist('file'):
-#         files = form.cleaned_data["file_field"]
-#         for f in files:
-#             ...  # Do something with each file.
-#         return super().form_valid(form)
-
-# def FileFieldFormView(request):
-#     if request.method == 'POST':
-#         if not request.user.id:
-#             return HttpResponse('вы не залогинены')
-#         form = FileFieldForm(request.POST, request.FILES)
-#         if form.is_valid():
-#             # current_user = request.user
-#             rec_id= 1
-#             recipe = Recipe.objects.filter(id=rec_id).first()
-           
-#             for img in request.FILES.getlist('file'):
-#                 File.objects.create(recipe=recipe, file=img)
-           
-#             return redirect('/')
-#     else:
-#         form = FileFieldForm()
-#     return render(request,'main/upload.html', {'form':form })
-
-# RecipeAddForm
-# if not request.user.is_authenticated:
-#     return redirect(settings.LOGIN_URL)
 
 @login_required(login_url=settings.LOGIN_URL)
 def add_recipe(request):
