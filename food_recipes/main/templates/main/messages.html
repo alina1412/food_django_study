@@ -1,0 +1,16 @@
+{% for message in messages %}
+{% if message.tags == 'success' %}
+<!-- bootstrap alert -->
+<!-- <strong>{{ message }}</strong> -->
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>{{ message }}</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" data-dismiss="alert" aria-label="Close"></button>
+</div>
+{% else %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <strong><b>{{ message }}</b></strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" data-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+
+{% endfor %}

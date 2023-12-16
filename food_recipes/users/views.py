@@ -55,15 +55,22 @@ class UserAccountView(LoginRequiredMixin, UpdateView):
         self.object = self.get_object()
         form = self.get_form()
         if form.is_valid():
-            # form.instance.created_by = self.request.user
+            # if self.request.user == thisArticle.author:
+            instance = form.save(commit=False)
+            if instance.user != self.request.user:
+                return self.form_invalid(form)
             return super().form_valid(form)
-            # return self.form_valid(form)
+            
         else:
             return self.form_invalid(form)
 
     def get_success_url(self):
         return reverse('users:account', kwargs={'pk': self.object.pk})
-
+    
+    def form_invalid(self, form):
+        'form is invalid'
+        messages.add_message(self.request, messages.WARNING, "Вы пытаетесь выполнить неверное действие")
+        return redirect('main:main')
 
 
 def logout_view(request):

@@ -23,18 +23,8 @@
                 </form>
             </div>
         </div>
-        <div class="flex-row bg-color-light">
-        {% for message in messages %}
-        {% if message.tags == 'success' %}
-        <!-- bootstrap alert -->
-        <!-- <strong>{{ message }}</strong> -->
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <strong>{{ message }}</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" data-dismiss="alert" aria-label="Close"></button>
-        </div>
-        {% endif %}
-        {% endfor %}
-        </div>
+
+      
     </div>
 
     <div clss="container p-0">
