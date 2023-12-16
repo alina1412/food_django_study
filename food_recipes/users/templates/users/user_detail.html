@@ -8,16 +8,19 @@
 {% block body %}
 
 <body>
+    <div class="flex-row align-content-center justify-content-center mt-4">
 
-    <img src="{{ MEDIA_URL }}/{{ object.account_image}}" width=70px height=auto alt="avatar">
+        <div class="col-lg-6 align-content-center justify-content-center text-center">
+            <img src="{{ MEDIA_URL }}/{{ object.account_image}}" width=70px height=auto alt="avatar">
 
-    <h1>{{ object.nickname }}</h1>
-    <p>{{ object.birthdate }}</p>
-    <p>{{ object.gender }}</p>
-    <p>{{ object.birthdate }}</p>
-    <p>{{ object.age }}</p>
-    <p>{{ object.info }}</p>
-    <!-- <p>{{ object.account_image }}</p> -->
-
+            <h1>{{ object.nickname }}</h1>
+            <p>{{ object.birthdate }}</p>
+            <p>{{ object.gender }}</p>
+            <p>{{ object.birthdate }}</p>
+            <p>{{ object.age }}</p>
+            <p>{{ object.info }}</p>
+            <!-- <p>{{ object.account_image }}</p> -->
+        </div>
+    </div>
 </body>
 {% endblock %}

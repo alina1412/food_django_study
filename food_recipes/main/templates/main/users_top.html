@@ -13,9 +13,11 @@
             <div clss="row d-inline-flex align-content-center justify-content-center ">
                 <ul>
                     <li>
-                        <div class="col-1 d-inline-flex">{{user.account.nickname}}</div>
+                        
+                        <div class="col-1 d-inline-flex"><a href="{% url 'users:user' pk=user.id %}">{{user.account.nickname}}</a></div>
                         <div class="col-1 d-inline-flex">({{user.username}})</div>
                         <div class="col- d-inline-flex">- {{user.recipe__count}} рецепт(ов) опубликовано</div>
+                       
                     </li>
                 </ul>
 
