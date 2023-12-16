@@ -24,7 +24,7 @@ class RecipeAdmin(ModelAdmin):
 
          
 class CategoryAdmin(ModelAdmin):
-    list_display = ['food_type']
+    list_display = ['pk', 'food_type']
 
     class Meta:
         verbose_name = 'Category'

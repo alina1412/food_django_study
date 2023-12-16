@@ -22,7 +22,6 @@ def index(request):
     context = {
         "title": "Главная страница",
         "products": tuple(),
-        # "menu": get_menu(),
         "files": tuple(),
         "search_res": False
     }
@@ -47,38 +46,9 @@ def index(request):
       
         return render(request, "main/index.html", context)
     winners = Recipe.objects.annotate(Count('stars', distinct=True))
-    # cnt = User.objects.annotate(Count('recipe', distinct=True)).aggregate(Avg('recipe__count'))
-    # cnt = User.objects.annotate(Count('recipe', distinct=True)).order_by('-recipe__count').values('username').first()
-    # print(cnt)
-    # search = User.objects.annotate(Count('recipe', distinct=True))
-    # cnt = search.aggregate(Max('recipe__count'))
 
-    # max_article_count_user2 = search.filter(recipe__count__exact=cnt['recipe__count__max'])
-    # print(max_article_count_user2)
-
-    """recepies = User.objects.raw('''select 1 as id, main_recipe.title from auth_user 
-                                left join main_recipe on main_recipe.author_id = auth_user.id
-                                where auth_user.id = %s''', params='1')
-    print([x.title for x in recepies])"""
-
-    # recipes = Recipe.objects.all()
-    # recs_id_list = [int(rec.id) for rec in recipes]
-    # print(recs_id_list)
-    # recs = File.objects.filter(recipe__in=recs_id_list).values("id", "file")
-    # files = {int(file["id"]): file["file"] for file in recs}
-    # sql = '''SELECT recipe_id as id, main_file.file as img, main_recipe.title, main_recipe.stars 
-    #         FROM main_recipe
-    #         inner join main_file on main_file.recipe_id = main_recipe.id
-    #         WHERE main_recipe.id IN (SELECT id FROM main_recipe)
-    #         group by  main_recipe.id
-    #         ;'''
-    # recipes = Recipe.objects.raw(sql)
-    # print([r for r in recipes])
-    # files =  {int(file.id): [file.img]  for file in recipes}
-
-    # recipes, files = get_recipes_and_files()
     recipes, files = get_recipes_and_first_file()
-    # print([r.stars for r in recipes])
+
     context["products"] = recipes
     context['files'] = files
 
@@ -93,7 +63,8 @@ def sidebar(request):
 
 def users_top(request):
     '''топ юзеров по количеству рецептов'''
-    users_top = User.objects.annotate(Count('recipe', distinct=True))
+    users_top = User.objects.annotate(Count('recipe', distinct=True)).select_related('account').order_by('-recipe__count')
+    # .values('account__nickname, recipe__count')
     # cnt.first().recipe__count
     context = {'users_top': users_top}
     return render(request, "main/users_top.html", context)
@@ -116,81 +87,10 @@ def get_login_dict():
 
 
 
-
-
-# def registerView(request):
-#     from django.contrib.auth import authenticate
-#     from django.contrib import messages
-#     from django.contrib.messages import get_messages
-#     if request.method == 'POST':
-#         form = RegisterForm(request.POST)
-#         if form.is_valid():
-#             user = form.save()
-#             username = form.cleaned_data.get('username')
-#             password = form.cleaned_data.get('password1')
-#             # authenticate(username=username,password=password)
-#             login(request, user)
-#             return redirect('main:main')
-#         else:
-#             print(form.errors)
-           
-#             context = {"title": "Регистрация", "btn_text": "Регистрация",  'form': form, 'messages':get_messages(request) }
-#             return render(request, "main/login.html", context)
-#     else:
-#         if request.user.is_authenticated:
-#             messages.add_message(request, messages.SUCCESS, 'Вы уже залогинились на сайте')
-#             # messages.success(request, 'Вы уже залогинились на сайте', extra_tags='success')
-
-#     context = {"title": "Регистрация", "btn_text": "Регистрация", 'form':RegisterForm(), 'messages':get_messages(request) }
-#     return render(request, "main/login.html", context)
-
-
-# from django.shortcuts import render, redirect 
-# from django.contrib import messages
-# from django.contrib.auth.views import LoginView
-
- 
-# class CustomLoginView(LoginView):
-#     form_class = LoginForm
-#     redirect_authenticated_user = True
-#     initial = {'key': 'value'}
-#     template_name = 'main/login.html'
-#     context = {"title": "Войти", "btn_text": "Войти"}
-  
-#     def get_success_url(self):
-#         return reverse_lazy('main:main') 
-    
-#     def form_invalid(self, form):
-#         messages.error(self.request,'Invalid username or password')
-#         return self.render_to_response(self.get_context_data(form=form))
-#     # def get(self, request, *args, **kwargs):
-#     #     if request.user.is_authenticated:
-#     #         messages.success(request, 'Вы уже залогинились на сайте.')
-#     #         return redirect('main:main')
-#     #     form = self.form_class(initial=self.initial)
-#     #     self.context['form'] = form
-#     #     return render(request, self.template_name, self.context)
-        
-#     # def post(self, request, *args, **kwargs):
-#         form = self.form_class(request.POST)
-
-#         if form.is_valid():
-#             username = form.cleaned_data.get('username')
-#             password = form.cleaned_data.get('password')        
-#             user = authenticate(username=username,password=password)
-#             login(request, user)
-#             return redirect('main:main')
-        
-#         self.context['form'] = form #'messages':get_messages(request)
-#         return render(request, self.template_name, self.context )
-
-
-
 def foodlist(request, cat_id):
     """по категориям"""
-    # cat_id = "1"
-    print("categ", cat_id)
     recipes = Recipe.objects.filter(category__id=cat_id).all()
+    category = Category.objects.filter(id=cat_id).first()
     # print([(rec.id, rec.description) for rec in recipes])
     recs_id_list = [rec.id for rec in recipes]
     print(recs_id_list)
@@ -199,7 +99,7 @@ def foodlist(request, cat_id):
     print('files',files)
     context = {
         "title": "Категория",
-        'cat_id': cat_id,
+        'food_type': category.food_type,
         "products": recipes,
         "files": files,
     }

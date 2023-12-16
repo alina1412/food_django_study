@@ -30,7 +30,7 @@
 
 
                                 <ul class="list-links">
-                                    {% with 'Салаты Закуски Выпечка' as items %}
+                                    {% with 'Салаты Торты Выпечка' as items %}
                                     {% for text in items.split %}
                                         <li><a href="{% url 'main:foodlist' cat_id=forloop.counter  %}">{{text}}</a></li>
                                     {% endfor %}
