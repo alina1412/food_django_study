@@ -145,44 +145,6 @@ def save_new_file(request):
         new_file.save()
 
 
-# def save_new_recipe(request):
-#     title = request.POST.get("title")
-#     user_id = request.POST.get("request.user.id")
-#     description = request.POST.get("description")
-#     category_id = request.POST.get("category_id")
-#     filename = request.POST.get("filename")
-#     # title, author, description, date, category, files
-
-#     if not 1 == 0:
-#         ...
-#     else:
-#         author = User.objects.get(id=user_id)
-#         category = Category.objects.get(id=category_id)
-#         new_recipe = Recipe(
-#             title=title,
-#             author=author,
-#             description=description,
-#             date=datetime.datetime.now(),
-#             category=category,
-#         )
-#         new_recipe.save()
-#         return new_recipe["id"]
-
-
-"""    rec1 = Recipe(
-        title="Мой салатик",
-        author=User.objects.get(id=request.user.id),
-        description=description,
-        date=datetime.datetime.now(),
-        # category=category.set()
-    )
-    rec1.save()
-    rec1.category.add('1')
-    rec1.save()"""
-
-"""print(request.user.id)
-author = User.objects.get(id=request.user.id)
-print(author, 'author')"""
 
 def get_recipes_and_files():
     recipes = Recipe.objects.select_related("author").prefetch_related("images").all()

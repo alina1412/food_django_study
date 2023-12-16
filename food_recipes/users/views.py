@@ -1,17 +1,17 @@
 from typing import Any
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect
-
+from django.contrib.auth.decorators import login_required
 from django.views.generic import DetailView, DeleteView, UpdateView
 from django.views.generic.edit import FormMixin
 from django.contrib.auth.models import User
 from django.contrib.auth import logout
 from django.urls import reverse_lazy, reverse
-
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.messages import get_messages
 from django.contrib.auth import logout, authenticate, login
-
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django.contrib.auth.models import User
 from django.db.models import Count, Avg, Max
@@ -24,40 +24,20 @@ from .models import Account
 # from main.forms import ProfileForm
 from .forms import AccountForm, LoginForm, RegisterForm
 
-def index(request):
-    # author = User.objects.get(id=request.user.id)
 
-    a1 = Account.objects.all().first()
-    # files
-    print(a1.user.username, a1.birthdate, a1.nickname, a1.gender, [tag.title for tag in a1.tags.all()], '----')
-
-    # acc2 = Account.objects.filter(user_id='1').first()
-
-    # print(acc2.nickname, '----')
-
-    acc = Account.objects.get(user=1)
-    print(acc.tags.all())
-    # acc3 = Account.objects.get(user=acc2.user)
-    # print(acc3.email, '----')
-
-
-    # all_ = Recipe.objects.all()
-    return render(
-        request, "users/account.html"
-    )
-
-
-class UserDetailView(DetailView):
+class AccountDetailView(DetailView):
     model = Account
-    template_name = 'users/account.html'
+    template_name = 'users/user_detail.html'
     context_object_name = 'profile'
+    pk_url_kwarg = "pk"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # context['username'] = Account.objects.filter
         return context
 
-class UserAccountView(UpdateView):
+
+class UserAccountView(LoginRequiredMixin, UpdateView):
     '''users/user/1'''
     model = Account
     # fields = ['nickname','gender', 'birthdate','age', 'info', 'account_image']
@@ -83,19 +63,6 @@ class UserAccountView(UpdateView):
 
     def get_success_url(self):
         return reverse('users:account', kwargs={'pk': self.object.pk})
-
-
-# class UserUpdateView(UpdateView):
-#     model = Account
-#     template_name = 'users/account.html'
-#     fields = ['nickname','birthdate','gender','tags', 'account_image']
-
-#     def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
-#         print(request.FILES)
-#         return super().post(request, *args, **kwargs)
-
-
-# success_url = reverse_lazy('news_index')
 
 
 

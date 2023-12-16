@@ -1,0 +1,23 @@
+{% extends 'main/base.html' %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}<title>Account</title>{% endblock %}
+
+{% block body %}
+
+<body>
+
+    <img src="{{ MEDIA_URL }}/{{ object.account_image}}" width=70px height=auto alt="avatar">
+
+    <h1>{{ object.nickname }}</h1>
+    <p>{{ object.birthdate }}</p>
+    <p>{{ object.gender }}</p>
+    <p>{{ object.birthdate }}</p>
+    <p>{{ object.age }}</p>
+    <p>{{ object.info }}</p>
+    <!-- <p>{{ object.account_image }}</p> -->
+
+</body>
+{% endblock %}
