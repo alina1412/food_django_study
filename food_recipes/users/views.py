@@ -50,6 +50,13 @@ class UserAccountView(LoginRequiredMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         # context['form'] = AccountForm()
         return context
+    
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.request.user.id != self.object.pk:
+            messages.add_message(self.request, messages.WARNING, "Вы пытаетесь выполнить неверное действие")
+            return redirect('users:account', self.request.user.id)
+        return super(UserAccountView, self).get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -59,6 +66,8 @@ class UserAccountView(LoginRequiredMixin, UpdateView):
             instance = form.save(commit=False)
             if instance.user != self.request.user:
                 return self.form_invalid(form)
+            # for img in request.FILES.getlist('account_image'):
+            #     print(img)
             return super().form_valid(form)
             
         else:
