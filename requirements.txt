@@ -5,7 +5,13 @@ Django==4.2.6
 django-bootstrap-v5==1.0.11
 django-crispy-forms==2.1
 django-debug-toolbar==4.2.0
+environ==1.0
+gitdb==4.0.11
+GitPython==3.1.40
 Pillow==10.1.0
+psycopg==3.1.16
+python-dotenv==1.0.0
+smmap==5.0.1
 soupsieve==2.5
 sqlparse==0.4.4
 typing_extensions==4.8.0

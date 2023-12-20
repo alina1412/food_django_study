@@ -1,5 +1,13 @@
 # food_django_study
 
+Установка
+-создать .env
+-python manage.py makemigrations
+-python manage.py migrate
+-python manage.py loaddata database.json (Если postgres или в settings установить sqlite)
+
+
+
 Дз1
 ветка main на проверку
 
@@ -20,3 +28,5 @@
 5) users_top использует User.objects.annotate
 6) Ссылки на изображения в модели File
 7) реализованы регистрация и авторизация пользователей.
+
+
