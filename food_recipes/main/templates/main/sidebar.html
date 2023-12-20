@@ -47,9 +47,9 @@
 
 
 
-                    <li>
+                    <!-- <li>
                         <a href="{% url 'main:contacts' %}">Контакты</a>
-                    </li> 
+                    </li>  -->
 
                     <li class="header-account dropdown default-dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
@@ -64,7 +64,7 @@
                                         {% if user.is_authenticated %}
                                         <li><a href="#" onClick="myRecipes();"><i class="fa fa-regular fa-arrow-circle-right"></i> Мои рецепты</a></li>
                                         <li><a href="{% url 'main:add_rec' %}"><i class="fa fa-regular fa-arrow-circle-right"></i> Добавить рецепт</a></li>
-                                        <li><a href="{% url 'users:account' pk=user|get_account_id %}"><i class="fa fa-regular fa-address-book"></i> Мой профиль</a></li>
+                                        <li><a href="{% url 'users:account' pk=user.id %}"><i class="fa fa-regular fa-address-book"></i> Мой профиль</a></li>
                                         <li><a href="{% url 'users:logout' %}"><i class="fa fa-regular fa-arrow-circle-right"></i> Выход</a></li>
                                         {% else %}
                                         <li><a href="{% url 'users:login' %}"><i class="fa fa-regular fa-arrow-circle-right"></i> Вход в аккаунт</a></li>

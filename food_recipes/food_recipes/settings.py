@@ -80,6 +80,9 @@ TEMPLATES = [
     },
 ]
 
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.core.context_processors.request',
+)
 
 # STATIC_ROOT = BASE_DIR / 'static/'
 STATIC_URL = "static/"

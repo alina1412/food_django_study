@@ -14,7 +14,13 @@
         <div>
 
             <h3>{{recipe.title}}</h3>
-
+            
+            {% if recipe.author.id == request.user.id %} 
+            <div>
+                <a href="{% url 'main:rec_update' pk=recipe.id %}"><i class="fa fa-regular fa-pencil-square-o"></i> Редактировать </a>
+            </div>
+            {% endif %}
+            
 
             <p>
             {% if recipe.stars != 'None' %}
@@ -29,7 +35,7 @@
 
             <p>{{account.nickname}} {{recipe.author.id}}</p>
             <p>{{recipe.date}}</p>
-            <div class="pb-3">{{recipe.description}}</div>
+            <div class="pb-3">{{recipe.description|linebreaks}}</div>
         </div>
         <div class="row">
 

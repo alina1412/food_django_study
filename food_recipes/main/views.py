@@ -1,5 +1,6 @@
 import datetime
 from typing import Any
+from django.db import models
 from django.shortcuts import render, redirect
 from django.contrib.messages import get_messages
 from django.contrib.auth import logout, authenticate, login
@@ -12,6 +13,7 @@ from django.views.generic import DetailView, DeleteView, UpdateView, CreateView
 from django.contrib import messages
 from django.conf import settings
 from django.db.models.query_utils import Q
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Product, Recipe, description, File, Category
 from .forms import *
@@ -189,3 +191,86 @@ def add_recipe(request):
     else:
         form = RecipeAddForm()
     return render(request,'main/upload.html', {'form':form })
+
+
+class RecipeUpdateView(LoginRequiredMixin, UpdateView):
+    '''update'''
+    model = Recipe
+    fields = ['title','description','category']
+    # fields = '__all__'
+    template_name = 'main/upload.html'
+    context_object_name = 'Recipe'
+    # form_class = RecipeAddForm
+    pk_url_kwarg = 'pk'
+
+    def get_context_data(self, **kwargs):
+        context = super(RecipeUpdateView, self).get_context_data(**kwargs)
+        current_object = self.object
+        images = File.objects.filter(recipe=current_object)
+        context['image_form'] = ImagesFormSet(instance=current_object)
+        return context
+    
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        author = User.objects.filter(id=self.request.user.id).first()
+        recipe = Recipe.objects.filter(Q(author=author) & Q(id=self.object.pk))
+        
+        if not recipe.first(): # or self.request.user.id != recipe.author.id:
+            messages.add_message(self.request, messages.WARNING, "Вы пытаетесь выполнить неверное действие")
+            return redirect('main:main')
+        return super(RecipeUpdateView, self).get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        if form.is_valid():
+     
+            instance = form.save(commit=False)
+            if instance.author != self.request.user:
+                return self.form_invalid(form)
+            # for img in request.FILES.getlist('account_image'):
+            #     print(img)
+            # form.save_m2m()
+            rec = Recipe.objects.filter(id=self.object.pk).first()
+            
+            deleted_ids = []
+            # for key in request.POST.keys():
+            #     if key.startswith('images-'):
+            current_object = Recipe.objects.get(id=request.POST['images-0-recipe'])
+
+            for i in range(int(request.POST['images-TOTAL_FORMS'])): #удаление всех по галочкам
+                field_delete =f'images-{i}-DELETE'
+                field_image_id = f'images-{i}-id'
+                if field_delete in request.POST and request.POST[field_delete] =='on':
+                    image = File.objects.get(id=request.POST[field_image_id])
+                    image.delete()
+                    deleted_ids.append(field_image_id)
+                    #тут же удалить картинку из request.FILES
+
+            #Замена картинки
+            for i in range(int(request.POST['images-TOTAL_FORMS'])):  # удаление всех по галочкам
+                field_replace = f'images-{i}-file' #должен быть в request.FILES
+                field_image_id = f'images-{i}-id'  #этот файл мы заменим
+                if field_replace in request.FILES and request.POST[field_image_id] != '' and field_image_id not in deleted_ids:
+                    image = File.objects.get(id=request.POST[field_image_id]) #
+                    image.delete() #удаляем старый файл
+                    for img in request.FILES.getlist(field_replace): #новый добавили
+                        File.objects.create(recipe=current_object, file=img)
+                    del request.FILES[field_replace] #удаляем использованный файл
+
+            if request.FILES:
+                for input_name in request.FILES:
+                    for img in request.FILES.getlist(input_name):
+                        File.objects.create(recipe=rec, file=img)
+            return super().form_valid(form)
+            
+        else:
+            return self.form_invalid(form)
+
+    def get_success_url(self):
+        return reverse('main:details', args=[self.object.pk])
+    
+    def form_invalid(self, form):
+        'form is invalid'
+        messages.add_message(self.request, messages.WARNING, "Вы пытаетесь выполнить неверное действие")
+        return redirect('main:main')
