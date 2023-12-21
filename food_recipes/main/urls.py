@@ -18,6 +18,7 @@ urlpatterns = [
     path("userstop/", views.users_top, name="top"),
     path("add/", views.add_recipe, name="add_rec"), #as_view()
     path("update/<int:pk>/", views.RecipeUpdateView.as_view(), name="rec_update"),
+    path("delete/<int:pk>/", views.RecipeDeleteView.as_view(), name="rec_delete"),
     # path("login/", views.loginView, name="login"),
     
 ]

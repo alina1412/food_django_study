@@ -10,10 +10,13 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count, Avg, Max
 from django.views.generic import DetailView, DeleteView, UpdateView, CreateView
+from django.views import View
 from django.contrib import messages
 from django.conf import settings
 from django.db.models.query_utils import Q
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
+from  django.shortcuts import get_object_or_404
 
 from .models import Product, Recipe, description, File, Category
 from .forms import *
@@ -112,6 +115,8 @@ def gallery(request):
 
 def details(request, id):
     rec1 = Recipe.objects.filter(id=id).select_related('author').first()
+    if not rec1:
+        return not_found_view(request=request, exception='')
     account = Account.objects.get(user=rec1.author)
     # .values_list('title', 'author', 'date', 'id', 'description')
     files = File.objects.filter(recipe=id)
@@ -184,8 +189,11 @@ def add_recipe(request):
             new_recipe.author = current_user
             new_recipe.save()
             form.save_m2m()
-            for img in request.FILES.getlist('file'):
+            all_files = request.FILES.getlist('file')
+            for img in all_files:
                 File.objects.create(recipe=new_recipe, file=img)
+            # if not all_files:
+            #     File.objects.create(recipe=new_recipe, file='horizont.jpg')
            
             return redirect('/')
     else:
@@ -274,3 +282,28 @@ class RecipeUpdateView(LoginRequiredMixin, UpdateView):
         'form is invalid'
         messages.add_message(self.request, messages.WARNING, "Вы пытаетесь выполнить неверное действие")
         return redirect('main:main')
+
+
+class RecipeDeleteView(LoginRequiredMixin, View):
+    '''DeleteView'''
+    model = Recipe
+    context_object_name = 'Recipe'
+    pk_url_kwarg = 'pk'
+    # success_url = reverse_lazy('main:main')
+
+    def get_object(self):
+        print('get_object')
+        return get_object_or_404(Recipe, pk=self.kwargs.get('pk'))
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        author = User.objects.filter(id=self.request.user.id).first()
+        recipe = Recipe.objects.filter(Q(author=author) & Q(id=self.object.pk))
+        
+        if not recipe.first(): # or self.request.user.id != recipe.author.id:
+            messages.add_message(self.request, messages.WARNING, "Вы пытаетесь выполнить неверное действие")
+            return redirect('main:main')
+        messages.add_message(self.request, messages.WARNING, f"Рецепт '{recipe.first().title}' удален")
+        recipe.first().delete()
+        return HttpResponse('success')
+

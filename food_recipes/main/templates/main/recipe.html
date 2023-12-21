@@ -19,6 +19,9 @@
             <div>
                 <a href="{% url 'main:rec_update' pk=recipe.id %}"><i class="fa fa-regular fa-pencil-square-o"></i> Редактировать </a>
             </div>
+            <div>
+                <a href="#" onClick="ConfirmDialog(this);" data-rec_id="{{recipe.id}}"><i class="fa fa-regular fa-bin"></i> Удалить рецепт </a>
+            </div>
             {% endif %}
             
 
