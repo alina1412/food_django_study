@@ -3,6 +3,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
 
+from main.models import Recipe
+
 
 class Tag(models.Model):
     title = models.CharField(max_length=80)
@@ -32,6 +34,7 @@ class Account(models.Model):
                                       upload_to='account_images')
     #pip install pillow в терминале если нет библиотеки
     tags = models.ManyToManyField(to=Tag, blank=True)
+    likes_recipes = models.ManyToManyField(Recipe, through="VotesConnection")
     
     def __str__(self):
         return f"{self.user.username}'s account"
@@ -43,3 +46,8 @@ class Account(models.Model):
         # ordering = ['itle','status']
         verbose_name= 'Аккаунт (Account)'
         verbose_name_plural='Аккаунты'
+
+
+class VotesConnection(models.Model):
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)

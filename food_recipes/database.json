@@ -585,6 +585,123 @@
   }
 },
 {
+  "model": "admin.logentry",
+  "pk": 46,
+  "fields": {
+    "action_time": "2023-12-22T04:13:13.267Z",
+    "user": 20,
+    "content_type": 4,
+    "object_id": "4",
+    "object_repr": "test",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 47,
+  "fields": {
+    "action_time": "2023-12-22T04:13:13.287Z",
+    "user": 20,
+    "content_type": 4,
+    "object_id": "3",
+    "object_repr": "user2",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 48,
+  "fields": {
+    "action_time": "2023-12-22T04:13:13.303Z",
+    "user": 20,
+    "content_type": 4,
+    "object_id": "7",
+    "object_repr": "user3",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 49,
+  "fields": {
+    "action_time": "2023-12-22T04:13:13.318Z",
+    "user": 20,
+    "content_type": 4,
+    "object_id": "14",
+    "object_repr": "user4",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 50,
+  "fields": {
+    "action_time": "2023-12-22T04:14:41.172Z",
+    "user": 20,
+    "content_type": 4,
+    "object_id": "21",
+    "object_repr": "anonymous",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 51,
+  "fields": {
+    "action_time": "2023-12-22T04:26:21.284Z",
+    "user": 20,
+    "content_type": 13,
+    "object_id": "21",
+    "object_repr": "anonymous's account",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 52,
+  "fields": {
+    "action_time": "2023-12-22T04:26:53.198Z",
+    "user": 20,
+    "content_type": 4,
+    "object_id": "21",
+    "object_repr": "anonymous",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 53,
+  "fields": {
+    "action_time": "2023-12-22T04:26:53.216Z",
+    "user": 20,
+    "content_type": 4,
+    "object_id": "4",
+    "object_repr": "test",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 54,
+  "fields": {
+    "action_time": "2023-12-22T04:26:53.230Z",
+    "user": 20,
+    "content_type": 4,
+    "object_id": "14",
+    "object_repr": "user4",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
   "model": "auth.permission",
   "pk": 1,
   "fields": {
@@ -1053,11 +1170,47 @@
   }
 },
 {
+  "model": "auth.permission",
+  "pk": 53,
+  "fields": {
+    "name": "Can add votes connection",
+    "content_type": 14,
+    "codename": "add_votesconnection"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 54,
+  "fields": {
+    "name": "Can change votes connection",
+    "content_type": 14,
+    "codename": "change_votesconnection"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 55,
+  "fields": {
+    "name": "Can delete votes connection",
+    "content_type": 14,
+    "codename": "delete_votesconnection"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 56,
+  "fields": {
+    "name": "Can view votes connection",
+    "content_type": 14,
+    "codename": "view_votesconnection"
+  }
+},
+{
   "model": "auth.user",
   "pk": 1,
   "fields": {
     "password": "pbkdf2_sha256$600000$TgZXLN3AGmlndzB310byG0$CcCD2RDSRwa90z8vuLtuzXBOjZYhGx9otR3IpTU7AMI=",
-    "last_login": "2023-12-15T11:14:41.813Z",
+    "last_login": "2023-12-21T11:08:11.069Z",
     "is_superuser": true,
     "username": "alina",
     "first_name": "",
@@ -1108,28 +1261,10 @@
 },
 {
   "model": "auth.user",
-  "pk": 4,
-  "fields": {
-    "password": "pbkdf2_sha256$600000$igrTQIY073MvXQAJ2giSfo$TZkFXFSRMZBmc2fVcJCwvKOOH2If9IJiW7ZoTFdkvQo=",
-    "last_login": null,
-    "is_superuser": false,
-    "username": "test",
-    "first_name": "",
-    "last_name": "",
-    "email": "",
-    "is_staff": false,
-    "is_active": true,
-    "date_joined": "2023-12-09T09:16:36.001Z",
-    "groups": [],
-    "user_permissions": []
-  }
-},
-{
-  "model": "auth.user",
   "pk": 7,
   "fields": {
     "password": "pbkdf2_sha256$600000$DxjpaG87tQabN0mZshcxfi$fvgWIe2R9ds9L85MkRtQZh4z+MwwHWAomCYevXoJeWo=",
-    "last_login": null,
+    "last_login": "2023-12-21T15:56:49.876Z",
     "is_superuser": false,
     "username": "user3",
     "first_name": "",
@@ -1138,24 +1273,6 @@
     "is_staff": false,
     "is_active": true,
     "date_joined": "2023-12-09T09:25:07.566Z",
-    "groups": [],
-    "user_permissions": []
-  }
-},
-{
-  "model": "auth.user",
-  "pk": 14,
-  "fields": {
-    "password": "pbkdf2_sha256$600000$96OgFxHRTu7MHdx8e8Ovyx$W2VHjUpKtR8eK5miGcx4tRgd/iElxpcv7Az+SC7FV5Q=",
-    "last_login": null,
-    "is_superuser": false,
-    "username": "user4",
-    "first_name": "",
-    "last_name": "",
-    "email": "",
-    "is_staff": false,
-    "is_active": true,
-    "date_joined": "2023-12-10T13:51:56.160Z",
     "groups": [],
     "user_permissions": []
   }
@@ -1174,6 +1291,24 @@
     "is_staff": false,
     "is_active": true,
     "date_joined": "2023-12-10T15:15:19.594Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 20,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$vQT0i3ZsuQWRYBJwsT7qmc$KhgWjUUjrOlHVc/ELnSrwEAXMCJqW2VZ7kupzs/B9ig=",
+    "last_login": "2023-12-22T04:27:33.429Z",
+    "is_superuser": true,
+    "username": "admin2",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2023-12-22T04:11:47.178Z",
     "groups": [],
     "user_permissions": []
   }
@@ -1283,6 +1418,14 @@
   }
 },
 {
+  "model": "contenttypes.contenttype",
+  "pk": 14,
+  "fields": {
+    "app_label": "users",
+    "model": "votesconnection"
+  }
+},
+{
   "model": "sessions.session",
   "pk": "4hqf06a82olwv7k3ersvtp34sszxbcno",
   "fields": {
@@ -1339,11 +1482,11 @@
   "model": "main.recipe",
   "pk": 1,
   "fields": {
-    "date": "2023-12-16T03:49:40.840Z",
+    "votes": 5,
+    "date": "2023-12-21T15:56:56.613Z",
     "title": "Салатик весенний",
     "author": 2,
     "description": "салатный микс\r\n\t1 упаковка\r\nяйца куриные\r\n\t2 шт.\r\nогурцы\r\n\t1 шт.\r\nлук-порей\r\n\t30 г\r\nгорошек зеленый\r\n\t60 г\r\nкартофель\r\n\t100 г\r\nоливковое масло\r\n\t2 ст. л.\r\nсоль\r\n\tпо вкусу\r\nтимьян свежий\r\n\t3 веточки",
-    "stars": "None",
     "category": [
       1
     ]
@@ -1351,30 +1494,28 @@
 },
 {
   "model": "main.recipe",
-  "pk": 2,
+  "pk": 3,
   "fields": {
-    "date": "2023-12-16T03:49:33.850Z",
-    "title": "Запеканка с грибами",
-    "author": 1,
-    "description": "разрыхлитель\r\n\t1 ч. л.\r\nсоль\r\n\t1 щепотка\r\nсахар\r\n\t120 г\r\nмука\r\n\t100 г\r\nсливочное масло\r\n\t2 ст. л.\r\nяйца куриные\r\n\t3 шт.\r\nяичные желтки\r\n\t3 шт.\r\nмолоко 3,6%\r\n\t60 мл",
-    "stars": "2",
+    "votes": 3,
+    "date": "2023-12-21T16:00:52.181Z",
+    "title": "Торт вкусный необыкновенный",
+    "author": 2,
+    "description": "молоко 3,6%\r\n\t400 мл\r\nяичные желтки\r\n\t4 шт.\r\nсахар\r\n\t6 ст. л.\r\nсахар ванильный\r\n\t20 г\r\nкукурузный крахмал\r\n\t1 ст. л.\r\nмука\r\n\t2 ст. л.\r\nсливочное масло\r\n\t80 г",
     "category": [
-      3
+      2
     ]
   }
 },
 {
   "model": "main.recipe",
-  "pk": 3,
+  "pk": 20,
   "fields": {
-    "date": "2023-12-16T03:49:25.033Z",
-    "title": "Торт вкусный необыкновенный",
-    "author": 2,
-    "description": "молоко 3,6%\r\n\t400 мл\r\nяичные желтки\r\n\t4 шт.\r\nсахар\r\n\t6 ст. л.\r\nсахар ванильный\r\n\t20 г\r\nкукурузный крахмал\r\n\t1 ст. л.\r\nмука\r\n\t2 ст. л.\r\nсливочное масло\r\n\t80 г",
-    "stars": "1",
-    "category": [
-      2
-    ]
+    "votes": 5,
+    "date": "2023-12-22T04:01:45.984Z",
+    "title": "rv",
+    "author": 1,
+    "description": "rv",
+    "category": []
   }
 },
 {
@@ -1383,14 +1524,6 @@
   "fields": {
     "recipe": 3,
     "file": "import/cake_tart_pastries_small_0.jpg"
-  }
-},
-{
-  "model": "main.file",
-  "pk": 2,
-  "fields": {
-    "recipe": 2,
-    "file": "import/cake_plum_cake_streusel.jpg"
   }
 },
 {
@@ -1437,6 +1570,19 @@
 },
 {
   "model": "users.account",
+  "pk": 7,
+  "fields": {
+    "nickname": "user3",
+    "birthdate": null,
+    "gender": "",
+    "age": null,
+    "info": null,
+    "account_image": "default.jpg",
+    "tags": []
+  }
+},
+{
+  "model": "users.account",
   "pk": 19,
   "fields": {
     "nickname": "test2",
@@ -1446,6 +1592,75 @@
     "info": null,
     "account_image": "default.jpg",
     "tags": []
+  }
+},
+{
+  "model": "users.account",
+  "pk": 20,
+  "fields": {
+    "nickname": "admin2",
+    "birthdate": null,
+    "gender": "",
+    "age": null,
+    "info": null,
+    "account_image": "default.jpg",
+    "tags": []
+  }
+},
+{
+  "model": "users.votesconnection",
+  "pk": 1,
+  "fields": {
+    "recipe": 1,
+    "user": 1
+  }
+},
+{
+  "model": "users.votesconnection",
+  "pk": 2,
+  "fields": {
+    "recipe": 20,
+    "user": 1
+  }
+},
+{
+  "model": "users.votesconnection",
+  "pk": 3,
+  "fields": {
+    "recipe": 3,
+    "user": 1
+  }
+},
+{
+  "model": "users.votesconnection",
+  "pk": 4,
+  "fields": {
+    "recipe": 3,
+    "user": 1
+  }
+},
+{
+  "model": "users.votesconnection",
+  "pk": 5,
+  "fields": {
+    "recipe": 1,
+    "user": 7
+  }
+},
+{
+  "model": "users.votesconnection",
+  "pk": 6,
+  "fields": {
+    "recipe": 3,
+    "user": 7
+  }
+},
+{
+  "model": "users.votesconnection",
+  "pk": 7,
+  "fields": {
+    "recipe": 20,
+    "user": 7
   }
 }
 ]

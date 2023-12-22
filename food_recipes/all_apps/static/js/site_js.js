@@ -31,7 +31,41 @@ let myRecipes = function () {
     });
 }
 
+let starRecipe = function (recipeId) {
+    let url = "/stared/" + recipeId;
+    // window.open("/delete/" + recipeId, "_self");
+    $.ajax({
+        url: url,
+        type: 'get',
+        data: {
+            csrftoken: Cookies.get("csrftoken"),
+        },
+        headers: {
+            "X-Requested-With": "XMLHttpRequest",
+            "X-CSRFToken": Cookies.get("csrftoken"),
+        },
+        xhrFields: {
+            withCredentials: true
+        },
+        
+    }).done(function(data){
+        console.log(data)
+        if (data == 'success') {
+            alert('ваш голос будет учтен');
+            $('.main-btn').addClass('liked-btn');
+        }
+        else {
+            alert('вы уже голосовали');
+        }
+        // window.open("/", "_self");
+        // win.document.write(data);
+    }).
+    fail(function(data){
+        console.log('fail');
+        console.log(data);
+    });
 
+}
 
 
 function ConfirmDialog(recLink) {

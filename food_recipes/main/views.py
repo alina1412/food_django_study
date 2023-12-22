@@ -20,7 +20,7 @@ from  django.shortcuts import get_object_or_404
 
 from .models import Product, Recipe, description, File, Category
 from .forms import *
-from users.models import Account
+from users.models import Account, VotesConnection
 
 
 def index(request):
@@ -50,7 +50,7 @@ def index(request):
         context["title"] = "Главная страница" if not my_rec  else "Мои рецепты"
       
         return render(request, "main/index.html", context)
-    winners = Recipe.objects.annotate(Count('stars', distinct=True))
+    winners = Recipe.objects.annotate(Count('votes', distinct=True))
 
     recipes, files = get_recipes_and_first_file()
 
@@ -93,24 +93,63 @@ def foodlist(request, cat_id):
     recs = File.objects.filter(recipe__in=recs_id_list).values("recipe", "file")
     files = {int(file["recipe"]): file["file"] for file in recs}
     print('files',files)
+    liked_recipes_dict = find_what_liked(request)
+
     context = {
         "title": "Категория",
         'food_type': category.food_type,
         "products": recipes,
         "files": files,
+        "liked": liked_recipes_dict
     }
     return render(request, "main/foodlist.html", context)
 
 
 def gallery(request):
     recipes, files = get_recipes_and_first_file()
+    liked_recipes_dict = find_what_liked(request)
 
     context = {
         "title": "Галерея",
         "products": recipes,
         "files": files,
+        "liked": liked_recipes_dict
     }
     return render(request, "main/gallery.html", context)
+
+
+def find_what_liked(request):
+    if not request.user or not request.user.id:
+        ...# user='anonymous'
+        return {}
+    else:
+        user = Account.objects.get(user=request.user.id)
+        
+        liked_recipes_dict = {}
+        # VotesConnection(recipe=rec1, user=user
+        for rec in user.likes_recipes.all():
+            liked_recipes_dict[rec.id] = 1
+        return liked_recipes_dict
+
+
+def stared(request, id):
+    rec1 = Recipe.objects.filter(id=id).first()
+    if not rec1:
+        return not_found_view(request=request, exception='')
+    if not request.user or not request.user.id:
+        ...# user='anonymous'
+    else:
+        user = Account.objects.get(user=request.user.id)
+        liked = VotesConnection.objects.filter(
+                recipe=rec1, user=user).first()
+        if not liked:
+            VotesConnection(recipe=rec1, user=user).save()
+
+            rec1.votes += 1
+            rec1.save()
+        else:
+            return HttpResponse('fail')
+    return HttpResponse('success')
 
 
 def details(request, id):

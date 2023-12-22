@@ -51,14 +51,6 @@ class Category(Model):
 
 
 class Recipe(Model):  # title, author, description, date, category, files, img
-    stars_choices = (
-        ("None", "Not answered"),
-        ("1", "1"),
-        ("2", "2"),
-        ("3", "3"),
-        ("4", "4"),
-        ("5", "5"),
-    )
     title = TextField("Название", max_length=250)
     author = ForeignKey(
         User, on_delete=models.CASCADE
@@ -66,10 +58,7 @@ class Recipe(Model):  # title, author, description, date, category, files, img
     description = TextField("Описание")
     date = DateTimeField("Дата публикации", auto_now=True, auto_created=True)
     category = ManyToManyField(to=Category, blank=True)
-    
-    stars = models.CharField(
-        choices=stars_choices, max_length=20, default=stars_choices[0][0]
-    )
+    votes = models.IntegerField('Голоса', blank=True, null=True, auto_created=True, default=0)
 
     def get_fields(self):
         return [

@@ -6,7 +6,16 @@ from django.db.models.fields.files import ImageFieldFile, FileField
 @register.filter
 def get_item(dictionary, key):
     if isinstance(dictionary, dict): 
-        res = dictionary.get(key)
+        res = dictionary.get(key, None)
+    else:
+        res = None
+    return res
+
+
+@register.filter
+def get_img(dictionary, key):
+    if isinstance(dictionary, dict): 
+        res = dictionary.get(key, (None,))
     else:
         res = [None]
     if not res[0]:

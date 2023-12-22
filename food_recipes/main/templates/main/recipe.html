@@ -24,16 +24,13 @@
             </div>
             {% endif %}
             
-
-            <p>
-            {% if recipe.stars != 'None' %}
-            {% with n=recipe.stars|to_int %}
-            {% for c in 0|range:n %} 
-            <i class="fa fa-star"></i>
-            {% endfor %}
-            {% endwith %}   
-            {% endif %}                      
-            </p>
+                <p>
+                {% if recipe.votes != 0 %}
+                <i class="fa fa-star"> {{recipe.votes}}</i>
+                {% else %} 
+                <i class="fa fa-star-o empty"></i>
+                {% endif %}                      
+                </p>
 
 
             <p>{{account.nickname}} {{recipe.author.id}}</p>
