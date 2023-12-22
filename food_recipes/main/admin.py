@@ -10,6 +10,8 @@ class RecipeAdmin(ModelAdmin):
     list_display = ['pk', 'title', 'author', 'description', 'date']
     list_filter = ['title', 'author', 'description', 'date', 'category']
     search_fields = ['title__icontains']
+   
+    readonly_fields=('votes', 'author')
 
     def __str__(self) -> str:
         return f'{self.title} {str(self.date[:16])}'

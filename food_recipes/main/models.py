@@ -53,11 +53,11 @@ class Category(Model):
 class Recipe(Model):  # title, author, description, date, category, files, img
     title = TextField("Название", max_length=250)
     author = ForeignKey(
-        User, on_delete=models.CASCADE
+        User, on_delete=models.CASCADE, verbose_name='Автор'
     )  # удалит рецепт при удалении юзера
     description = TextField("Описание")
     date = DateTimeField("Дата публикации", auto_now=True, auto_created=True)
-    category = ManyToManyField(to=Category, blank=True)
+    category = ManyToManyField(to=Category, blank=True, verbose_name="Категория")
     votes = models.IntegerField('Голоса', blank=True, null=True, auto_created=True, default=0)
 
     def get_fields(self):
