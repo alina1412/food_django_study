@@ -160,12 +160,14 @@ def details(request, id):
     # .values_list('title', 'author', 'date', 'id', 'description')
     files = File.objects.filter(recipe=id)
     print("details files", files)
+    liked_recipes_dict = find_what_liked(request)
 
     context = {
         "title": "",
         "recipe": rec1,
         "files": files,
-        'account': account
+        'account': account,
+        "liked": liked_recipes_dict
     }
     return render(request, "main/recipe.html", context)
 

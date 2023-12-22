@@ -702,6 +702,19 @@
   }
 },
 {
+  "model": "admin.logentry",
+  "pk": 55,
+  "fields": {
+    "action_time": "2023-12-22T05:02:36.577Z",
+    "user": 20,
+    "content_type": 4,
+    "object_id": "3",
+    "object_repr": "user2",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
   "model": "auth.permission",
   "pk": 1,
   "fields": {
@@ -1243,24 +1256,6 @@
 },
 {
   "model": "auth.user",
-  "pk": 3,
-  "fields": {
-    "password": "pbkdf2_sha256$600000$jrHYo2dptGonDWYZiW5Woq$LQBWb6tOjhYQm3vIZ1fnAOgorb01Jmg/We4hdCoRw3c=",
-    "last_login": "2023-12-08T13:41:04.549Z",
-    "is_superuser": true,
-    "username": "user2",
-    "first_name": "",
-    "last_name": "",
-    "email": "",
-    "is_staff": true,
-    "is_active": true,
-    "date_joined": "2023-12-08T13:40:47.528Z",
-    "groups": [],
-    "user_permissions": []
-  }
-},
-{
-  "model": "auth.user",
   "pk": 7,
   "fields": {
     "password": "pbkdf2_sha256$600000$DxjpaG87tQabN0mZshcxfi$fvgWIe2R9ds9L85MkRtQZh4z+MwwHWAomCYevXoJeWo=",
@@ -1300,7 +1295,7 @@
   "pk": 20,
   "fields": {
     "password": "pbkdf2_sha256$600000$vQT0i3ZsuQWRYBJwsT7qmc$KhgWjUUjrOlHVc/ELnSrwEAXMCJqW2VZ7kupzs/B9ig=",
-    "last_login": "2023-12-22T04:27:33.429Z",
+    "last_login": "2023-12-22T05:00:23.920Z",
     "is_superuser": true,
     "username": "admin2",
     "first_name": "",
@@ -1443,6 +1438,14 @@
 },
 {
   "model": "sessions.session",
+  "pk": "iuxc52jn85p89lf4yd6801ax4rk8xxxg",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAURP-FtSHlVcCle7-BcC8XqRpISrsy_ruSdKGZ3Zwz82Ih7lsJe6c1LImdmZzY6beEiA-qg6R7rLfGsdVtXYAPhR-082tL9Lwc7t9Bib2MtbITCi9gBsoKtbTakHeYsxIo0euUvZDO4TdgPMxE2qDQCgVGbxN7fwAQeTh3:1rGXe4:rGxjUMSmlJM88iDB8_AkBRM0OWB4DMFzc2JopbGPUZY",
+    "expire_date": "2024-01-05T05:00:24.508Z"
+  }
+},
+{
+  "model": "sessions.session",
   "pk": "s19g34bi76nwrjh8kbuti6847vpk0p02",
   "fields": {
     "session_data": ".eJxVjE0OwiAYBe_C2hCgUMCle89Avh8qVQNJaVfGu2uTLnT7Zua9RIJtLWnreUkzi7PQ4vS7IdAj1x3wHeqtSWp1XWaUuyIP2uW1cX5eDvfvoEAv39r7ScFgNRCOWukICgJo49GHqGiKDo2DMOSIwbAJ7Fy2lMNIli3jgOL9Adb3N_s:1rE69R:-OATGW0h2_Jcs4TLEyUhBg_hW5Ns-BOQsRQHwilSBPI",
@@ -1510,12 +1513,26 @@
   "model": "main.recipe",
   "pk": 20,
   "fields": {
-    "votes": 5,
-    "date": "2023-12-22T04:01:45.984Z",
+    "votes": 6,
+    "date": "2023-12-22T05:01:02.670Z",
     "title": "rv",
     "author": 1,
     "description": "rv",
     "category": []
+  }
+},
+{
+  "model": "main.recipe",
+  "pk": 23,
+  "fields": {
+    "votes": 0,
+    "date": "2023-12-22T05:08:52.586Z",
+    "title": "ewc",
+    "author": 20,
+    "description": "ewc",
+    "category": [
+      3
+    ]
   }
 },
 {
@@ -1532,6 +1549,14 @@
   "fields": {
     "recipe": 1,
     "file": "import/salad_mixed_salad_cucumber.jpg"
+  }
+},
+{
+  "model": "main.file",
+  "pk": 10,
+  "fields": {
+    "recipe": 23,
+    "file": "import/cake_plum_cake_streusel_EoQM087.jpg"
   }
 },
 {
@@ -1661,6 +1686,14 @@
   "fields": {
     "recipe": 20,
     "user": 7
+  }
+},
+{
+  "model": "users.votesconnection",
+  "pk": 8,
+  "fields": {
+    "recipe": 20,
+    "user": 20
   }
 }
 ]

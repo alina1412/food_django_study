@@ -33,7 +33,9 @@
                 </p>
 
 
-            <p>{{account.nickname}} {{recipe.author.id}}</p>
+            <p><div class="col-auto d-inline-flex"><a href="{% url 'users:user' pk=recipe.author.id %}">{{recipe.author.account.nickname}}</a></div>
+             {{recipe.author.id}}
+            </p>
             <p>{{recipe.date}}</p>
             <div class="pb-3">{{recipe.description|linebreaks}}</div>
         </div>
