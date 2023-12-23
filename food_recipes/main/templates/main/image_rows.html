@@ -3,30 +3,30 @@
 
 <div class="row d-flex align-content-center justify-content-center flex-wrap">
 
-    {% for product in products %}
+    {% for recipe in recipes %}
     <div class="col-md-3 product product-single">
-        {% with prod_name=files|get_img:product.id %}
+        {% with prod_name=files|get_img:recipe.id %}
         <div class="product-thumb" style="height: 200px;   
-                        background-image: url('{{ MEDIA_URL }}/{{prod_name.0}}'); 
+                        background-image: url('{{ MEDIA_URL }}/{{prod_name}}'); 
                         background-repeat:no-repeat; background-position: center;">
 
-            <a href="{% url 'main:details' id=product.id %}">
-                <button class="main-btn quick-view"><i class=""></i> смотреть {{product.id}}</button>
+            <a href="{% url 'main:details' id=recipe.id %}">
+                <button class="main-btn quick-view"><i class=""></i> смотреть {{recipe.id}}</button>
             </a>
             
         </div>
         {% endwith %}
 
-        {% with liked_it=liked|get_item:product.id %}
+        {% with liked_it=liked|get_item:recipe.id %}
         <div class="product-body position-relative ">
 
             <div class="product-rating">
                 <p>
-                {% if product.votes != 0 %}
+                {% if recipe.votes != 0 %}
                     {% if liked_it %}
                     liked_it
                     {% endif %} 
-                <i class="fa fa-star"> {{product.votes}}</i>
+                <i class="fa fa-star"> {{recipe.votes}}</i>
 
                 {% else %} 
                 <i class="fa fa-star-o empty"></i>
@@ -34,21 +34,21 @@
                 </p>
             </div>
             <div class="text-wrap text-break">
-                <h3 class="product-price">{{product.title}}</h3>
+                <h3 class="product-price">{{recipe.title}}</h3>
             </div>
 
             <div class="product-btns">
                 <div class="w-100">
                 {% if user.is_authenticated %}
-                <button class="main-btn icon-btn {% if liked_it %} liked-btn {% endif %}" {% if liked_it %}  {% else %} onClick="starRecipe({{product.id}});"{% endif %} ><i class="fa fa-heart"></i></button>
+                <button class="main-btn icon-btn {% if liked_it %} liked-btn {% endif %}" {% if liked_it %}  {% else %} onClick="starRecipe({{recipe.id}});"{% endif %} ><i class="fa fa-heart"></i></button>
                 <!-- <button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button> -->
                 {% endif %}
-                автор: {{product.author.account.nickname}}</div>
+                автор: {{recipe.author.account.nickname}}</div>
             </div>
         </div>
         {% endwith %}   
     </div>
     {% endfor %}
 
-
+    {% include 'main/paginations.html' %}
 </div>

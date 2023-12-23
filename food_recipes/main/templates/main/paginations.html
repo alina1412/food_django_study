@@ -1,0 +1,22 @@
+ <!--    ниже пагинатор -->
+ {% if total > 1 %}
+ <div class="row">
+     <nav aria-label="Page navigation example">
+       <ul class="pagination justify-content-end">
+           {% if recipes.has_previous %}
+             <li class="page-item"><a class="page-link" href="?page={{ recipes.previous_page_number }}">Предыдущая</a></li>
+           {% endif %}
+           {% for p in recipes.paginator.page_range %}
+             {% if recipes.number == p %}
+                 <li class="page-item"><p class="page-link"> {{ p }}</p></li>
+             {% else %}
+                 <li class="page-item"><a class="page-link" href="?page={{ p }}"> {{ p }}</a></li>
+             {% endif %}
+           {% endfor %}
+           {% if recipes.has_next %}
+             <li class="page-item"><a class="page-link" href="?page={{ recipes.next_page_number }}">Следующая</a></li>
+           {% endif %}
+       </ul>
+     </nav>
+ </div>
+ {% endif %}

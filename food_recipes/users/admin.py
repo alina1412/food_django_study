@@ -35,6 +35,16 @@ class TagAdmin(ModelAdmin):
 admin.site.register(Account, AccountAdmin)
 # admin.site.register(Tag, TagAdmin)
 # admin.site.register(File, FileAdmin)
+from django.contrib.auth.models import Group
+def make_editor(modeladmin, request, queryset):
+    group = Group.objects.get(name='Editors')
+    ungroup = Group.objects.get(name='Normal')
+    for user in queryset:
+        user.groups.add(group)
+        user.groups.remove(ungroup)
+
+make_editor.short_description = "Утвердить редактора"
+
 
 from typing import Set
 
@@ -49,6 +59,7 @@ class CustomUserAdmin(UserAdmin):
     list_display = ['id', 'is_superuser',	'username',	'first_name',	'last_name',	'email',
                     	'is_staff',	'is_active',	'last_login',	'date_joined']
     list_display_links = ['id']
+    actions = [make_editor]
 
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
@@ -85,3 +96,5 @@ class CustomUserAdmin(UserAdmin):
         # ordering = ['itle','status']
         verbose_name= 'Пользователь (User)'
         verbose_name_plural='Пользователи (Users)'
+
+

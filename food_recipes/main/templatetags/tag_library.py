@@ -14,12 +14,13 @@ def get_item(dictionary, key):
 
 @register.filter
 def get_img(dictionary, key):
+    res = ''
     if isinstance(dictionary, dict): 
         res = dictionary.get(key, (None,))
-    else:
-        res = [None]
-    if not res[0]:
-        res = [ImageFieldFile(instance=None, field=FileField(), name='import/horizont.jpg')]
+        if not res[0]:
+            res = ImageFieldFile(instance=None, field=FileField(), name='import/horizont.jpg')
+        else:
+            res = res[0]
     return res
 
 

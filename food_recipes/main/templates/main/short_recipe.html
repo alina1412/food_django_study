@@ -4,17 +4,17 @@
 
 <div class="row d-flex align-content-center justify-content-center flex-wrap">
 
-    {% for product in products %}
+    {% for recipe in recipes %}
     <div class="col-12 product product-single">
         
         <div class="row w-100">
-            <a  class="col-md-6 col-sm-12 flexbox" href="{% url 'main:details' id=product.id %}">
+            <a  class="col-md-6 col-sm-12 flexbox" href="{% url 'main:details' id=recipe.id %}">
              
 
                
                 <div class="w-75">
-                    {% with img=files|get_img:product.id %}
-                    <img src="{{ MEDIA_URL }}/{{img}}" alt="image">
+                    {% with img=files|get_img:recipe.id %}
+                    <img src="{{ MEDIA_URL }}/{{img}}" height="200px" alt="image">
                     {% endwith %}
                 </div>
              
@@ -25,11 +25,11 @@
 
                     <div class="product-rating">
                         <p>
-                            {% if product.votes != 0 %}
+                            {% if recipe.votes != 0 %}
                                 {% if liked_it %}
                                 liked_it
                                 {% endif %} 
-                            <i class="fa fa-star"> {{product.votes}}</i>
+                            <i class="fa fa-star"> {{recipe.votes}}</i>
             
                             {% else %} 
                             <i class="fa fa-star-o empty"></i>
@@ -37,8 +37,8 @@
                             </p>
                     </div>
                     <div class="text-wrap text-break w-100">
-                        <a href="{% url 'main:details' id=product.id %}"><h3 class="product-price">{{product.title}}</h3></a>
-                        <div class="w-100">{{product.description}}</div>
+                        <a href="{% url 'main:details' id=recipe.id %}"><h3 class="product-price">{{recipe.title}}</h3></a>
+                        <div class="w-100">{{recipe.description}}</div>
                     </div>
 
                  
@@ -51,5 +51,6 @@
     </div>
     {% endfor %}
 
+    {% include 'main/paginations.html' %}
 
 </div>

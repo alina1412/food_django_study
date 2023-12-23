@@ -2,6 +2,7 @@ import datetime
 from typing import Any
 from django.db import models
 from django.shortcuts import render, redirect
+from django.core.paginator import Paginator
 from django.contrib.messages import get_messages
 from django.contrib.auth import logout, authenticate, login
 from django.http import HttpResponse
@@ -16,9 +17,9 @@ from django.conf import settings
 from django.db.models.query_utils import Q
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from  django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404
 
-from .models import Product, Recipe, description, File, Category
+from .models import Recipe, File, Category
 from .forms import *
 from users.models import Account, VotesConnection
 
@@ -26,36 +27,42 @@ from users.models import Account, VotesConnection
 def index(request):
     context = {
         "title": "Главная страница",
-        "products": tuple(),
+        "recipes": tuple(),
         "files": tuple(),
-        "search_res": False
+        "search_res": False,
+        'total': 0
     }
+    page_number = request.GET.get('page')
+
     if request.method == "POST":
+        page_number = 0
         title = request.POST.get("title", False)
         my_rec = request.POST.get("my_recipes", False)
         if title:
             title = title.strip()
-            recipes, files = get_recipes_and_first_file(with_filter={'title': title})
+            recipes_page, files, total = get_recipes_and_first_file(with_filter={'title': title}, page_number=page_number)
         
         elif my_rec:
             if request.user.id:
-                recipes, files = get_recipes_and_first_file(with_filter={'author': request.user.id})
+                recipes_page, files, total = get_recipes_and_first_file(with_filter={'author': request.user.id}, page_number=page_number)
 
         else:
-            recipes, files = get_recipes_and_first_file()
+            recipes_page, files, total = get_recipes_and_first_file()
         
-        context["products"] = recipes
+        context["recipes"] = recipes_page
         context['files'] = files
         context["search_res"] = title
         context["title"] = "Главная страница" if not my_rec  else "Мои рецепты"
+        context['total'] = total
       
         return render(request, "main/index.html", context)
     winners = Recipe.objects.annotate(Count('votes', distinct=True))
 
-    recipes, files = get_recipes_and_first_file()
+    recipes_page, files, total = get_recipes_and_first_file(False, page_number)
 
-    context["products"] = recipes
+    context["recipes"] = recipes_page
     context['files'] = files
+    context['total'] = total
 
     return render(request, "main/index.html", context)
 
@@ -87,33 +94,44 @@ def foodlist(request, cat_id):
     """по категориям"""
     recipes = Recipe.objects.filter(category__id=cat_id).all()
     category = Category.objects.filter(id=cat_id).first()
+
+    total = len(recipes)
+    page_number = request.GET.get('page')
+
+    page_paginator = Paginator(recipes, per_page=4)
+    recipes_page = page_paginator.get_page(page_number)
+
     # print([(rec.id, rec.description) for rec in recipes])
-    recs_id_list = [rec.id for rec in recipes]
+    recs_id_list = [rec.id for rec in recipes_page]
     print(recs_id_list)
     recs = File.objects.filter(recipe__in=recs_id_list).values("recipe", "file")
-    files = {int(file["recipe"]): file["file"] for file in recs}
+    files = {int(file["recipe"]): (file["file"],) for file in recs}
     print('files',files)
     liked_recipes_dict = find_what_liked(request)
 
     context = {
         "title": "Категория",
         'food_type': category.food_type,
-        "products": recipes,
+        "recipes": recipes_page,
         "files": files,
-        "liked": liked_recipes_dict
+        "liked": liked_recipes_dict,
+        'total': total
     }
     return render(request, "main/foodlist.html", context)
 
 
 def gallery(request):
-    recipes, files = get_recipes_and_first_file()
+    page_number = request.GET.get('page')
+
+    recipes_page, files, total = get_recipes_and_first_file(False, page_number)
     liked_recipes_dict = find_what_liked(request)
 
     context = {
         "title": "Галерея",
-        "products": recipes,
+        "recipes": recipes_page,
         "files": files,
-        "liked": liked_recipes_dict
+        "liked": liked_recipes_dict,
+        'total': total
     }
     return render(request, "main/gallery.html", context)
 
@@ -203,7 +221,7 @@ def get_recipes_and_files():
     return recipes, files
 
 
-def get_recipes_and_first_file(with_filter=False):
+def get_recipes_and_first_file(with_filter=False, page_number=0):
     if not with_filter:
         recipes = Recipe.objects.select_related("author").prefetch_related("images").all()
     elif with_filter.get('author'):
@@ -211,10 +229,16 @@ def get_recipes_and_first_file(with_filter=False):
     else:
         title = with_filter.get('title')
         recipes = Recipe.objects.select_related("author").prefetch_related("images").filter(Q(title__icontains=title)|Q(description__icontains=title))
-    print([(r.id, r.images.first()) for r in recipes])
-    files =  {int(file.id): [file.images.first().file if file.images.first() else None]  for file in recipes}
-    print('gallery files', files)
-    return recipes, files
+    
+    # print([(r.id, r.images.first()) for r in recipes])
+    total = len(recipes)
+    page_paginator = Paginator(recipes,per_page=8)
+    recipes_page_obj = page_paginator.get_page(page_number)
+
+    files =  {int(file.id): [file.images.first().file if file.images.first() else None]  for file in recipes_page_obj}
+    print('gallery files', files)    
+
+    return recipes_page_obj, files, total
 
 
 
