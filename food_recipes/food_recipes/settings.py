@@ -18,10 +18,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 import os
 from dotenv import load_dotenv
 
-load_dotenv()
-
-SECRET_KEY = os.getenv('SECRET_KEY')
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -29,9 +25,16 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+SECRET_KEY = os.getenv('SECRET_KEY')
+PROD = os.getenv('PROD', 0)
+if not PROD:
+    load_dotenv()
+     
 
 ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1']
 
+if PROD:
+    ALLOWED_HOSTS.append('alina1412.pythonanywhere.com')
 
 # Application definition
 
@@ -87,10 +90,16 @@ TEMPLATES = [
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
+    'django.core.context_processors.static',
 )
 
 # STATIC_ROOT = BASE_DIR / 'static/'
-STATIC_URL = "static/"
+if not DEBUG:
+    STATIC_ROOT = '/home/alina1412/food_django_study/food_recipes/static'
+
+
+STATIC_URL = "/static/"
+
 STATICFILES_DIRS = ((BASE_DIR / 'static'),
                     (BASE_DIR / 'all_apps/static'), 
                     # (BASE_DIR / 'all_apps/static/css/fontawesome'), 
@@ -101,7 +110,6 @@ STATICFILES_DIRS = ((BASE_DIR / 'static'),
                     # (BASE_DIR / 'all_apps/static/js'),
                     )
 
-import os
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 
@@ -128,16 +136,33 @@ DB_PASSWORD = os.getenv('DB_PASSWORD')
 DB_HOST = os.getenv('DB_HOST')
 DB_PORT = os.getenv('DB_PORT')
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': DB_NAME,
-        'USER': DB_USER,
-        'PASSWORD': DB_PASSWORD,
-        'HOST': DB_HOST,
-        'PORT': DB_PORT
+if PROD:
+    # mysql DB
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': DB_NAME,
+            'USER': DB_USER,
+            'PASSWORD': DB_PASSWORD,
+            'HOST': DB_HOST,
+            'PORT': DB_PORT,
+            'OPTIONS': {
+                'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+            }
+        }
     }
-}
+else:
+    # postgres DB
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': DB_NAME,
+            'USER': DB_USER,
+            'PASSWORD': DB_PASSWORD,
+            'HOST': DB_HOST,
+            'PORT': DB_PORT
+        }
+    }
 
 # DATABASES = {
 #     "default": {

@@ -111,7 +111,7 @@ def foodlist(request, cat_id):
 
     context = {
         "title": "Категория",
-        'food_type': category.food_type,
+        'food_type': category.food_type if category else None,
         "recipes": recipes_page,
         "files": files,
         "liked": liked_recipes_dict,
