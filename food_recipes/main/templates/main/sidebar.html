@@ -1,5 +1,6 @@
 {% load static %}
 {% load tag_library %}
+{% load users_tags %}
 
 <div id="navigation">
     <!-- container -->
@@ -45,7 +46,17 @@
                         </div>
                     </li>
 
-
+                    {# if request.user and request.user|has_group:"Editors" #}
+                    <!-- <li>
+                        <a href="/admin/"><i class="fa fa-pen-nib menu-icon"></i>Админка</a>
+                    </li>  -->
+                    {# endif #}
+                    
+                    {% if request.user and request.user.is_staff %}
+                    <li>
+                        <a href="/admin/"><i class="fa fa-pen-nib menu-icon"></i>Админка</a>
+                    </li> 
+                    {% endif %}         
 
                     <!-- <li>
                         <a href="{% url 'main:contacts' %}">Контакты</a>
@@ -53,7 +64,7 @@
 
                     <li class="header-account dropdown default-dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
-                            аккаунт </i>
+                            аккаунт 
                         </a>
                         <div class="custom-menu">
                             <div class="row">

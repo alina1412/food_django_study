@@ -42,9 +42,12 @@ class RegisterForm(UserCreationForm):
 
 class AccountForm(forms.ModelForm):
     # account_image = forms.
+    gender_choices = (('м','муж'),
+                     ('ж','жен'),
+                     ('N/A','не указано'))
     nickname = forms.CharField(label="Имя", max_length=40, strip=True)
-    gender = forms.CharField(label="Пол", max_length=10, required=False)
-    birthdate = forms.DateField(label='Дата рождения', required=False)
+    gender = forms.ChoiceField(label="Пол", choices=gender_choices, required=False)
+    birthdate = forms.DateField(label='Дата рождения', widget=forms.SelectDateWidget(), required=False)
     age = forms.DecimalField(label="Возраст", min_value=1, max_value=200, 
                              max_digits=3, required=False)
     info = forms.CharField(label="Информация", 

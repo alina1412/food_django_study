@@ -845,6 +845,19 @@
   }
 },
 {
+  "model": "admin.logentry",
+  "pk": 66,
+  "fields": {
+    "action_time": "2023-12-26T05:42:35.368Z",
+    "user": 1,
+    "content_type": 4,
+    "object_id": "23",
+    "object_repr": "norm",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Staff status\"]}}]"
+  }
+},
+{
   "model": "auth.permission",
   "pk": 1,
   "fields": {
@@ -1393,7 +1406,7 @@
   "pk": 1,
   "fields": {
     "password": "pbkdf2_sha256$600000$TgZXLN3AGmlndzB310byG0$CcCD2RDSRwa90z8vuLtuzXBOjZYhGx9otR3IpTU7AMI=",
-    "last_login": "2023-12-21T11:08:11Z",
+    "last_login": "2023-12-26T05:40:59.875Z",
     "is_superuser": true,
     "username": "alina",
     "first_name": "",
@@ -1453,7 +1466,7 @@
   "pk": 19,
   "fields": {
     "password": "pbkdf2_sha256$600000$jm44qD71GlmFGwjahBou6D$P+woub6ZKJvY0NJ9TOqTS825kvdZuGI/xVLZhGrm0Go=",
-    "last_login": "2023-12-10T15:48:59Z",
+    "last_login": "2023-12-26T06:18:22.653Z",
     "is_superuser": false,
     "username": "test2",
     "first_name": "",
@@ -1473,7 +1486,7 @@
   "pk": 20,
   "fields": {
     "password": "pbkdf2_sha256$600000$vQT0i3ZsuQWRYBJwsT7qmc$KhgWjUUjrOlHVc/ELnSrwEAXMCJqW2VZ7kupzs/B9ig=",
-    "last_login": "2023-12-22T08:54:29Z",
+    "last_login": "2023-12-26T05:36:36.251Z",
     "is_superuser": false,
     "username": "admin2",
     "first_name": "",
@@ -1502,6 +1515,46 @@
     "is_staff": false,
     "is_active": true,
     "date_joined": "2023-12-22T08:29:54.173Z",
+    "groups": [
+      2
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 23,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$IDVe9maJgDz3pHwshPBV4l$Dz20jJiZXZXlMQG1uhyx/sIreYFW2ZgedpS6mWaN0FE=",
+    "last_login": "2023-12-26T05:43:03.322Z",
+    "is_superuser": false,
+    "username": "norm",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2023-12-26T05:39:13Z",
+    "groups": [
+      2
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 24,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$mfGEJhdxlOyUJPVR7QWnj3$jnnLiS0dpXVTi4BnVvkGJNvE1Z70WtLL+YhwqgqUTIM=",
+    "last_login": "2023-12-26T06:17:05.171Z",
+    "is_superuser": false,
+    "username": "user4",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2023-12-26T06:17:02.202Z",
     "groups": [
       2
     ],
@@ -1646,6 +1699,14 @@
 },
 {
   "model": "sessions.session",
+  "pk": "fs0g477m10lb6264lpvi450bkn3qlcts",
+  "fields": {
+    "session_data": ".eJxVjEEOwiAQRe_C2hBgKgwu3fcMzcCAVA0kpV0Z765NutDtf-_9l5hoW8u09bRMM4uL0F6cfsdA8ZHqTvhO9dZkbHVd5iB3RR60y7Fxel4P9--gUC_fOmVtAqPXFhCtdg6NAzbqPASIISKqlIFRwZCZEbPSEMklMlo5ttaL9wfyVDeH:1rI0li:bvp14frD242GEapnkNoV8RfVsnFFFhIhza2_NwEhRQA",
+    "expire_date": "2024-01-09T06:18:22.728Z"
+  }
+},
+{
+  "model": "sessions.session",
   "pk": "s19g34bi76nwrjh8kbuti6847vpk0p02",
   "fields": {
     "session_data": ".eJxVjE0OwiAYBe_C2hCgUMCle89Avh8qVQNJaVfGu2uTLnT7Zua9RIJtLWnreUkzi7PQ4vS7IdAj1x3wHeqtSWp1XWaUuyIP2uW1cX5eDvfvoEAv39r7ScFgNRCOWukICgJo49GHqGiKDo2DMOSIwbAJ7Fy2lMNIli3jgOL9Adb3N_s:1rE69R:-OATGW0h2_Jcs4TLEyUhBg_hW5Ns-BOQsRQHwilSBPI",
@@ -1736,6 +1797,90 @@
   }
 },
 {
+  "model": "main.recipe",
+  "pk": 24,
+  "fields": {
+    "votes": 0,
+    "date": "2023-12-26T05:50:05.551Z",
+    "title": "rgaw",
+    "author": 19,
+    "description": "wgw",
+    "category": [
+      2
+    ]
+  }
+},
+{
+  "model": "main.recipe",
+  "pk": 25,
+  "fields": {
+    "votes": 0,
+    "date": "2023-12-26T06:24:44.525Z",
+    "title": "Летний бриз",
+    "author": 19,
+    "description": "Ингредиенты:\r\n- Свежие огурцы - 2 шт.\r\n- Помидоры - 2 шт.\r\n- Фета (греческий сыр) - 150 г\r\n- Красный лук - 1 шт.\r\n- Оливки (по желанию) - 50 г\r\n- Свежая зелень (кинза, укроп или петрушка) - по вкусу\r\n- Для заправки: оливковое масло, сок половинки лимона, соль, перец\r\n\r\nПриготовление:\r\n1. Нарежь огурцы и помидоры кубиками, а также красный лук тонкими полукольцами.\r\n2. Сложи огурцы, помидоры и красный лук в большую миску.\r\n3. Добавь нарезанный сыр фета и оливки (если используешь).\r\n4. Тщательно перемешай все ингредиенты.\r\n5. Приготовь заправку, смешав оливковое масло, сок лимона, соль и свежемолотый перец.\r\n6. Полей салат соусом, посыпь свежей зеленью. Готово!\r\n\r\nЭтот салат отлично подходит для легкого летнего обеда или в качестве гарнира к основному блюду. Приятного аппетита!",
+    "category": [
+      1
+    ]
+  }
+},
+{
+  "model": "main.recipe",
+  "pk": 26,
+  "fields": {
+    "votes": 0,
+    "date": "2023-12-26T06:27:25.882Z",
+    "title": "Медитерранейский овощной салат",
+    "author": 19,
+    "description": "Ингредиенты:\r\n- Огурцы - 2 шт.\r\n- Помидоры - 3 шт.\r\n- Лук - 1 шт.\r\n- Зеленый перец - 1 шт.\r\n- Маслины (желательно без косточек) - 50 г\r\n- Сыр фета - 150 г\r\n- Для заправки: оливковое масло, красный винный уксус, соль, свежемолотый черный перец, сушеный орегано\r\n\r\nПриготовление:\r\n1. Нарежь огурцы, помидоры, лук и зеленый перец небольшими кусочками. \r\n2. Добавь маслины и нарезанный сыр фета.\r\n3. Теперь приготовь заправку: смешай оливковое масло с красным винным уксусом, посоли и поперчи по вкусу, добавь немного сушеного орегано.\r\n4. Сбрызни заправкой салат и аккуратно перемешай.\r\n5. Подавай его, чтобы получить истинное удовольствие от сочных вкусов и ароматов.\r\n\r\nЭтот салат буквально пропитан атмосферой средиземноморской кухни!",
+    "category": [
+      1
+    ]
+  }
+},
+{
+  "model": "main.recipe",
+  "pk": 27,
+  "fields": {
+    "votes": 0,
+    "date": "2023-12-26T06:30:59.793Z",
+    "title": "Шоколадный экстаз",
+    "author": 19,
+    "description": "Ингредиенты:\r\n- Шоколад (горький или молочный) - 200 г\r\n- Сливочное масло - 150 г\r\n- Яйца - 4 шт.\r\n- Сахар - 150 г\r\n- Мука - 50 г\r\n- Пудра какао - 2 ст. ложки\r\n- Ванильный экстракт - 1 ч. ложка\r\n- Щепотка соли\r\n- Для украшения: шоколадная глазурь, орехи, свежие фрукты\r\n\r\nПриготовление:\r\n1. Растопи шоколад вместе с маслом на водяной бане, аккуратно перемешивая.\r\n2. В отдельной миске взбей яйца с сахаром до образования воздушной массы.\r\n3. Добавь взбитые яйца в шоколадно-масляную смесь, постепенно добавляя муку, какао, ванильный экстракт и щепотку соли.\r\n4. Перелей получившееся тесто в противень или форму для запекания. Выпекай в разогретой до 180°C духовке примерно 25-30 минут.\r\n5. После остывания укрась пирожное шоколадной глазурью, орехами или свежими фруктами.\r\n\r\nГотово! Получается невероятно нежное и ароматное пирожное с насыщенным шоколадным вкусом. Наслаждайся \"Шоколадным экстазом\" в компании близких и друзей!",
+    "category": [
+      2
+    ]
+  }
+},
+{
+  "model": "main.recipe",
+  "pk": 28,
+  "fields": {
+    "votes": 0,
+    "date": "2023-12-26T06:35:57.350Z",
+    "title": "Яблочный пирог",
+    "author": 19,
+    "description": "Ингредиенты:\r\n- Яблоки - 4 шт.\r\n- Мука - 200 г\r\n- Сахар - 150 г\r\n- Яйца - 2 шт.\r\n- Разрыхлитель теста - 1 ч. ложка\r\n- Ванильный сахар - 1 ч. ложка\r\n- Сливочное масло - 100 г\r\n- Цедра лимона - от 1 лимона\r\n- Пудра сахар для посыпки (по желанию)\r\n\r\nПриготовление:\r\n1. Очисти яблоки, нарежь их тонкими ломтями.\r\n2. Смешай муку с разрыхлителем и ванильным сахаром.\r\n3. В другой миске взбей яйца с сахаром до образования воздушной массы.\r\n4. Добавь взбитые яйца в муку, а затем масло и цедру лимона. \r\n5. Выложи тесто в форму для выпечки, уложи сверху нарезанные яблоки.\r\n6. Выпекай в разогретой до 180°C духовке примерно 40-45 минут.\r\n7. После остывания посыпь пирог пудрой сахара.",
+    "category": [
+      3
+    ]
+  }
+},
+{
+  "model": "main.recipe",
+  "pk": 29,
+  "fields": {
+    "votes": 0,
+    "date": "2023-12-26T06:36:49.863Z",
+    "title": "Ванильные булочки",
+    "author": 19,
+    "description": "Ингредиенты:\r\n- Молоко - 300 мл\r\n- Мука - 500 г\r\n- Сахар - 100 г\r\n- Дрожжи - 7 г (сухие) или 20 г (свежие)\r\n- Сливочное масло - 100 г\r\n- Ванильный сахар - 2 ч. ложки\r\n- Яйца - 2 шт.\r\n- Соль - 1 ч. ложка\r\n- Разрыхлитель теста - 1 ч. ложка\r\n\r\nПриготовление:\r\n1. Раствори дрожжи в немного теплого молока и дай активироваться.\r\n2. Смешай муку с сахаром, добавь разрыхлитель теста и соль.\r\n3. В отдельной миске взбей яйца с ванильным сахаром, оставшимся молоком и растопленным маслом.\r\n4. Смешай обе смеси и замеси мягкое эластичное тесто.\r\n5. Оставь тесто под покрывалом на подрастание примерно 1-1.5 часа.\r\n6. Сформируй булочки, выложи их на противень, оставь под покрывалом еще на 20-30 минут.\r\n7. Выпекай в разогретой до 180°C духовке примерно 20-25 минут.\r\n\r\nВот тебе два восхитительных рецепта для любителей домашней выпечки! Наслаждайся процессом приготовления и, конечно, угощай близких приятными ароматами и вкусами.",
+    "category": [
+      3
+    ]
+  }
+},
+{
   "model": "main.file",
   "pk": 1,
   "fields": {
@@ -1757,6 +1902,46 @@
   "fields": {
     "recipe": 23,
     "file": "import/cake_plum_cake_streusel_EoQM087.jpg"
+  }
+},
+{
+  "model": "main.file",
+  "pk": 11,
+  "fields": {
+    "recipe": 25,
+    "file": "import/salad_mixed_salad_cucumber_tXilUXK.jpg"
+  }
+},
+{
+  "model": "main.file",
+  "pk": 12,
+  "fields": {
+    "recipe": 26,
+    "file": "import/jambalaya__dboy1U9.jpg"
+  }
+},
+{
+  "model": "main.file",
+  "pk": 13,
+  "fields": {
+    "recipe": 27,
+    "file": "import/cake_tart_pastries_small_0_JGswamI.jpg"
+  }
+},
+{
+  "model": "main.file",
+  "pk": 14,
+  "fields": {
+    "recipe": 28,
+    "file": "import/cake_baking__n04rLEO.jpg"
+  }
+},
+{
+  "model": "main.file",
+  "pk": 15,
+  "fields": {
+    "recipe": 29,
+    "file": "import/cake_plum_cake_streusel_Dn8lV8s.jpg"
   }
 },
 {
@@ -1810,12 +1995,12 @@
   "model": "users.account",
   "pk": 19,
   "fields": {
-    "nickname": "test2",
-    "birthdate": null,
-    "gender": "",
-    "age": null,
-    "info": null,
-    "account_image": "default.jpg",
+    "nickname": "поваренок",
+    "birthdate": "2025-02-15",
+    "gender": "ж",
+    "age": "20",
+    "info": "люблю  готовить",
+    "account_image": "account_images/cake_plum_cake_streusel.jpg",
     "tags": []
   }
 },
@@ -1842,6 +2027,32 @@
     "age": null,
     "info": null,
     "account_image": "default.jpg",
+    "tags": []
+  }
+},
+{
+  "model": "users.account",
+  "pk": 23,
+  "fields": {
+    "nickname": "norm",
+    "birthdate": null,
+    "gender": "",
+    "age": null,
+    "info": null,
+    "account_image": "default.jpg",
+    "tags": []
+  }
+},
+{
+  "model": "users.account",
+  "pk": 24,
+  "fields": {
+    "nickname": "user4",
+    "birthdate": null,
+    "gender": "м",
+    "age": null,
+    "info": "",
+    "account_image": "account_images/cake_baking_.jpg",
     "tags": []
   }
 },

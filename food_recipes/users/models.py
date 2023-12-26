@@ -20,9 +20,9 @@ class Tag(models.Model):
 
 
 class Account(models.Model):
-    gender_choices= (('M','Male'),
-                     ('F','Female'),
-                     ('N/A','Not answered'))
+    gender_choices= (('м','муж'),
+                     ('ж','жен'),
+                     ('N/A','не указано'))
     user = models.OneToOneField(User,on_delete=models.CASCADE,
                                 primary_key=True)
     nickname = models.CharField(max_length=100)
