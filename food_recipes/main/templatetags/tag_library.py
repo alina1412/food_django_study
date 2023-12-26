@@ -1,8 +1,28 @@
 from django.template.defaulttags import register
-...
+from django.db.models.fields.files import ImageFieldFile, FileField
+
+
+
 @register.filter
 def get_item(dictionary, key):
-    return dictionary.get(key)
+    if isinstance(dictionary, dict): 
+        res = dictionary.get(key, None)
+    else:
+        res = None
+    return res
+
+
+@register.filter
+def get_img(dictionary, key):
+    res = ''
+    if isinstance(dictionary, dict): 
+        res = dictionary.get(key, (None,))
+        if not res[0]:
+            res = ImageFieldFile(instance=None, field=FileField(), name='import/horizont.jpg')
+        else:
+            res = res[0]
+    return res
+
 
 from django import template
 

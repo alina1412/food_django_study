@@ -14,22 +14,30 @@
         <div>
 
             <h3>{{recipe.title}}</h3>
+            
+            {% if recipe.author.id == request.user.id %} 
+            <div>
+                <a href="{% url 'main:rec_update' pk=recipe.id %}"><i class="fa fa-regular fa-pencil-square-o"></i> Редактировать </a>
+            </div>
+            <div>
+                <a href="#" onClick="ConfirmDialog(this);" data-rec_id="{{recipe.id}}"><i class="fa fa-regular fa-bin"></i> Удалить рецепт </a>
+            </div>
+            {% endif %}
+            
+                <p>
+                {% if recipe.votes != 0 %}
+                <i class="fa fa-star"> {{recipe.votes}}</i>
+                {% else %} 
+                <i class="fa fa-star-o empty"></i>
+                {% endif %}                      
+                </p>
 
 
-            <p>
-            {% if recipe.stars != 'None' %}
-            {% with n=recipe.stars|to_int %}
-            {% for c in 0|range:n %} 
-            <i class="fa fa-star"></i>
-            {% endfor %}
-            {% endwith %}   
-            {% endif %}                      
+            <p><div class="col-auto d-inline-flex"><a href="{% url 'users:user' pk=recipe.author.id %}">{{recipe.author.account.nickname}}</a></div>
+             {{recipe.author.id}}
             </p>
-
-
-            <p>{{account.nickname}} {{recipe.author.id}}</p>
             <p>{{recipe.date}}</p>
-            <div class="pb-3">{{recipe.description}}</div>
+            <div class="pb-3">{{recipe.description|linebreaks}}</div>
         </div>
         <div class="row">
 

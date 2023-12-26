@@ -1,23 +1,22 @@
 from typing import Any
-from django.http import HttpRequest, HttpResponse
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-from django.views.generic import DetailView, DeleteView, UpdateView
-from django.views.generic.edit import FormMixin
-from django.contrib.auth.models import User
-from django.contrib.auth import logout
-from django.urls import reverse_lazy, reverse
+
+from django.db.models import Count, Avg, Max
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.messages import get_messages
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User, Group
 
-from django.contrib.auth.models import User
-from django.db.models import Count, Avg, Max
+from django.http import HttpRequest, HttpResponse
+from django.shortcuts import render, redirect
+
 from django.views import View
 from django.views.generic import DetailView, DeleteView, UpdateView
+from django.views.generic.edit import FormMixin
 
+from django.urls import reverse_lazy, reverse
 
 
 from .models import Account
@@ -50,6 +49,13 @@ class UserAccountView(LoginRequiredMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         # context['form'] = AccountForm()
         return context
+    
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.request.user.id != self.object.pk:
+            messages.add_message(self.request, messages.WARNING, "Вы пытаетесь выполнить неверное действие")
+            return redirect('users:account', self.request.user.id)
+        return super(UserAccountView, self).get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -59,6 +65,8 @@ class UserAccountView(LoginRequiredMixin, UpdateView):
             instance = form.save(commit=False)
             if instance.user != self.request.user:
                 return self.form_invalid(form)
+            # for img in request.FILES.getlist('account_image'):
+            #     print(img)
             return super().form_valid(form)
             
         else:
@@ -93,7 +101,9 @@ class RegisterView(View):
         form = self.form_class(request.POST)
 
         if form.is_valid():
-            form.save()
+            user = form.save()
+            group = Group.objects.get(name='Normal')
+            user.groups.add(group)
 
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password1')

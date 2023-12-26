@@ -2,7 +2,7 @@
 {% load static %}
 {% load crispy_forms_tags %}
 
-{% block title %}<title>{{title}}</title>{% endblock %}
+{% block title %}<title>рецепт</title>{% endblock %}
 
 {% block body %}
 
@@ -11,7 +11,7 @@
     <div class="container">
 
         <div class="mt-4">
-            <h2 class="mb-4">{{title}}</h2>
+            <h2 class="mb-4">рецепт</h2>
 
                 <div class="row">
                     
@@ -42,20 +42,27 @@
 
                             <ul class="list-info">
 
-                                
+                        
                             
                                 <div class="row d-flex align-content-center justify-content-center flex-wrap">
                                     <div class="col-md-5 col-sm-12">
                                         {{ form|crispy }}
-                                        {{ image_form|crispy }}
-                                        
+                                
+                                {% if 1 == 0 %}
+                                {#for img in image_form #}
+                                <p style="color: gray">{{ img|crispy }}</p>
+                                {# endfor #} 
+                                {% endif %}
+
+                                {{ image_form|crispy }}
+                               
                                 </div>
                                 </div>
 
                                   
                                      
                             </ul>
-                            <button type="submit" class="btn primary-btn">Добавить</button>
+                            <button type="submit" class="btn primary-btn">Готово!</button>
                         </form>
                     </div>
                     <div class="col-2">

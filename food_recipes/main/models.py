@@ -51,25 +51,14 @@ class Category(Model):
 
 
 class Recipe(Model):  # title, author, description, date, category, files, img
-    stars_choices = (
-        ("None", "Not answered"),
-        ("1", "1"),
-        ("2", "2"),
-        ("3", "3"),
-        ("4", "4"),
-        ("5", "5"),
-    )
     title = TextField("Название", max_length=250)
     author = ForeignKey(
-        User, on_delete=models.CASCADE
+        User, on_delete=models.CASCADE, verbose_name='Автор'
     )  # удалит рецепт при удалении юзера
     description = TextField("Описание")
     date = DateTimeField("Дата публикации", auto_now=True, auto_created=True)
-    category = ManyToManyField(to=Category, blank=True)
-    
-    stars = models.CharField(
-        choices=stars_choices, max_length=20, default=stars_choices[0][0]
-    )
+    category = ManyToManyField(to=Category, blank=True, verbose_name="Категория")
+    votes = models.IntegerField('Голоса', blank=True, null=True, auto_created=True, default=0)
 
     def get_fields(self):
         return [
@@ -95,7 +84,7 @@ class File(Model):
     file = models.ImageField(upload_to="import", blank=True, null=True)
     
     def image_tag(self):
-        return mark_safe(f'<img height=30px src="{MEDIA_URL}%s" />' % (self.file))
+        return mark_safe('<img height=30px src="{}" />'.format(self.file.url))
     
     image_tag.short_description = 'Image'
     image_tag.allow_tags = True

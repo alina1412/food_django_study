@@ -29,7 +29,7 @@
                             <h3>{{profile.nickname}} ({{profile.user.username}})</h3>
                             <br>
                             </div>
-                            <form method="post" class="">
+                            <form method="post" class="" enctype='multipart/form-data'>
                                 {% csrf_token %}
                                 {# profile.birthdate #}
                                 {#profile.gender#}
@@ -57,6 +57,7 @@
                                             </div>
                                  {% endif %}
                                 {% endfor %}  
+                                {{ image_form|crispy }}
                                 <button type="submit" class="btn primary-btn">Сохранить</button>
                             </form>
                         </div>
