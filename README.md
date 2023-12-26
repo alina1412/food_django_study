@@ -1,15 +1,19 @@
 # food_django_study
+deploy: https://alina1412.pythonanywhere.com/
+
 
 Установка
--создать .env
--python manage.py makemigrations
--python manage.py migrate
--python manage.py loaddata database.json (Если postgres или в settings установить sqlite)
+- создать .env (при необходимости, поменять коннекшн к базе)
+- python manage.py makemigrations
+- python manage.py migrate
+- python manage.py loaddata database.json (Если postgres или в settings установить sqlite, в деплое -mysql )
+- при необходимости создать суперюзера
 
+Пользователи:
+- Админкой могут пользоваться юзеры, если staff_status=True: если группа юзера Normal - только просмотр, если юзер-редактор - с редакторскими правами.
 
 
 Дз1
-ветка main на проверку
 
 1) index Шаблон для главной страницы
 2) recipe Шаблон для отдельной страницы новости (нужно нажать на квадратную картинку в галерее)
