@@ -223,12 +223,12 @@ def get_recipes_and_files():
 
 def get_recipes_and_first_file(with_filter=False, page_number=0):
     if not with_filter:
-        recipes = Recipe.objects.select_related("author").prefetch_related("images").all()
+        recipes = Recipe.objects.select_related("author").prefetch_related("images").order_by('-date').all()
     elif with_filter.get('author'):
-        recipes = Recipe.objects.filter(author=with_filter.get('author')).select_related("author").prefetch_related("images").all()
+        recipes = Recipe.objects.filter(author=with_filter.get('author')).select_related("author").prefetch_related("images").order_by('-date').all()
     else:
         title = with_filter.get('title')
-        recipes = Recipe.objects.select_related("author").prefetch_related("images").filter(Q(title__icontains=title)|Q(description__icontains=title))
+        recipes = Recipe.objects.select_related("author").prefetch_related("images").filter(Q(title__icontains=title)|Q(description__icontains=title)).order_by('-date')
     
     # print([(r.id, r.images.first()) for r in recipes])
     total = len(recipes)

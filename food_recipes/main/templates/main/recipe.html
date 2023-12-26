@@ -20,7 +20,7 @@
                 <a href="{% url 'main:rec_update' pk=recipe.id %}"><i class="fa fa-regular fa-pencil-square-o"></i> Редактировать </a>
             </div>
             <div>
-                <a href="#" onClick="ConfirmDialog(this);" data-rec_id="{{recipe.id}}"><i class="fa fa-regular fa-bin"></i> Удалить рецепт </a>
+                <a href="#" onClick="ConfirmDialog(this);" data-rec_id="{{recipe.id}}"><i class="fa fa-regular fa-trash"></i> Удалить рецепт </a>
             </div>
             {% endif %}
             
@@ -34,7 +34,7 @@
 
 
             <p><div class="col-auto d-inline-flex"><a href="{% url 'users:user' pk=recipe.author.id %}">{{recipe.author.account.nickname}}</a></div>
-             {{recipe.author.id}}
+            
             </p>
             <p>{{recipe.date}}</p>
             <div class="pb-3">{{recipe.description|linebreaks}}</div>

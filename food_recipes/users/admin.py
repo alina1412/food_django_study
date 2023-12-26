@@ -42,6 +42,8 @@ def make_editor(modeladmin, request, queryset):
     for user in queryset:
         user.groups.add(group)
         user.groups.remove(ungroup)
+        user.is_staff = True
+        user.save()
 
 make_editor.short_description = "Утвердить редактора"
 
