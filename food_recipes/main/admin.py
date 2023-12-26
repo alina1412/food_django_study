@@ -7,12 +7,15 @@ from .models import Recipe, Category, File
 
 
 class RecipeAdmin(ModelAdmin):
-    list_display = ['pk', 'title', 'author', 'description', 'date']
-    list_filter = ['title', 'author', 'description', 'date', 'category']
+    list_display = ['pk', 'title', 'author', 'show_description', 'date']
+    list_filter = ['title', 'author', 'date', 'category', 'votes']
     search_fields = ['title__icontains']
    
     readonly_fields=('votes', 'author')
 
+    def show_description(self, obj):
+        return obj.description[:40] + '...'
+    
     def __str__(self) -> str:
         return f'{self.title} {str(self.date[:16])}'
     

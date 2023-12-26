@@ -84,7 +84,7 @@ class File(Model):
     file = models.ImageField(upload_to="import", blank=True, null=True)
     
     def image_tag(self):
-        return mark_safe(f'<img height=30px src="{MEDIA_URL}%s" />' % (self.file))
+        return mark_safe('<img height=30px src="{}" />'.format(self.file.url))
     
     image_tag.short_description = 'Image'
     image_tag.allow_tags = True
