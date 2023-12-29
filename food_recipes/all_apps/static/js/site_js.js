@@ -54,15 +54,18 @@ let starRecipe = function (recipeId) {
             alert('ваш голос будет учтен');
             $('.main-btn').addClass('liked-btn');
         }
-        else {
+        else if (data == 'voted') {
             alert('вы уже голосовали');
+        }
+        else if (data == 'fail')  {
+            alert('что-то пошло не так')
         }
         // window.open("/", "_self");
         // win.document.write(data);
     }).
     fail(function(data){
         console.log('fail');
-        console.log(data);
+        alert('что-то пошло не так')
     });
 
 }

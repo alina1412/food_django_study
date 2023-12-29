@@ -30,7 +30,8 @@ def index(request):
         "recipes": tuple(),
         "files": tuple(),
         "search_res": False,
-        'total': 0
+        'total': 0,
+        "liked": find_what_liked(request)
     }
     page_number = request.GET.get('page')
 
@@ -63,7 +64,6 @@ def index(request):
     context["recipes"] = recipes_page
     context['files'] = files
     context['total'] = total
-
     return render(request, "main/index.html", context)
 
 
@@ -106,7 +106,7 @@ def foodlist(request, cat_id):
     print(recs_id_list)
     recs = File.objects.filter(recipe__in=recs_id_list).values("recipe", "file")
     files = {int(file["recipe"]): (file["file"],) for file in recs}
-    print('files',files)
+    # print('files',files)
     liked_recipes_dict = find_what_liked(request)
 
     context = {
@@ -151,11 +151,17 @@ def find_what_liked(request):
 
 
 def stared(request, id):
+    try:
+        id = int(id)
+    except Exception:
+        return not_found_view(request=request, exception='')
     rec1 = Recipe.objects.filter(id=id).first()
     if not rec1:
+        print('-----not found recipe-', id)
         return not_found_view(request=request, exception='')
     if not request.user or not request.user.id:
         ...# user='anonymous'
+        return HttpResponse('fail')
     else:
         user = Account.objects.get(user=request.user.id)
         liked = VotesConnection.objects.filter(
@@ -166,7 +172,7 @@ def stared(request, id):
             rec1.votes += 1
             rec1.save()
         else:
-            return HttpResponse('fail')
+            return HttpResponse('voted')
     return HttpResponse('success')
 
 
@@ -236,7 +242,7 @@ def get_recipes_and_first_file(with_filter=False, page_number=0):
     recipes_page_obj = page_paginator.get_page(page_number)
 
     files =  {int(file.id): [file.images.first().file if file.images.first() else None]  for file in recipes_page_obj}
-    print('gallery files', files)    
+    # print('gallery files', files)    
 
     return recipes_page_obj, files, total
 
