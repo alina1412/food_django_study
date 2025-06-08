@@ -34,3 +34,4 @@ deploy: https://alina1412.pythonanywhere.com/
 7) реализованы регистрация и авторизация пользователей.
 
 
+made on python3.10
