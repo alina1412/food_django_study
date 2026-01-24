@@ -1,5 +1,5 @@
-import datetime
-from typing import Any
+import logging
+
 from django.db import models
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
@@ -9,7 +9,7 @@ from django.http import HttpResponse
 from django.urls import reverse
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from django.db.models import Count, Avg, Max
+from django.db.models import Count
 from django.views.generic import DetailView, DeleteView, UpdateView, CreateView
 from django.views import View
 from django.contrib import messages
@@ -39,6 +39,7 @@ def index(request):
         page_number = 0
         title = request.POST.get("title", False)
         my_rec = request.POST.get("my_recipes", False)
+        recipes_page = files = total = None
         if title:
             title = title.strip()
             recipes_page, files, total = get_recipes_and_first_file(
@@ -107,14 +108,11 @@ def foodlist(request, cat_id):
     page_paginator = Paginator(recipes, per_page=4)
     recipes_page = page_paginator.get_page(page_number)
 
-    # print([(rec.id, rec.description) for rec in recipes])
     recs_id_list = [rec.id for rec in recipes_page]
-    print(recs_id_list)
     recs = File.objects.filter(recipe__in=recs_id_list).values(
         "recipe", "file"
     )
     files = {int(file["recipe"]): (file["file"],) for file in recs}
-    # print('files',files)
     liked_recipes_dict = find_what_liked(request)
 
     context = {
@@ -165,7 +163,7 @@ def stared(request, id):
         return not_found_view(request=request, exception="")
     rec1 = Recipe.objects.filter(id=id).first()
     if not rec1:
-        print("-----not found recipe-", id)
+        logging.info("not found recipe- %s", id)
         return not_found_view(request=request, exception="")
     if not request.user or not request.user.id:
         ...  # user='anonymous'
@@ -190,7 +188,7 @@ def details(request, id):
     account = Account.objects.get(user=rec1.author)
     # .values_list('title', 'author', 'date', 'id', 'description')
     files = File.objects.filter(recipe=id)
-    print("details files", files)
+    logging.info("details files %s", files)
     liked_recipes_dict = find_what_liked(request)
 
     context = {
@@ -230,12 +228,13 @@ def get_recipes_and_files():
         .prefetch_related("images")
         .all()
     )
-    print([(r.id, r.images.all()) for r in recipes])
+    logging.info(
+        "recipes with images: %s", [(r.id, r.images.all()) for r in recipes]
+    )
     files = {
         int(file.id): [ff.file for ff in file.images.all()] for file in recipes
     }
-    # print('gallery files', [list([ff.file for ff in v]) for f,  v in files.items()])
-    print("gallery files", files)
+    logging.info("gallery files %s", files)
     return recipes, files
 
 
@@ -266,7 +265,6 @@ def get_recipes_and_first_file(with_filter=False, page_number=0):
             .order_by("-date")
         )
 
-    # print([(r.id, r.images.first()) for r in recipes])
     total = len(recipes)
     page_paginator = Paginator(recipes, per_page=8)
     recipes_page_obj = page_paginator.get_page(page_number)
@@ -277,7 +275,6 @@ def get_recipes_and_first_file(with_filter=False, page_number=0):
         ]
         for file in recipes_page_obj
     }
-    # print('gallery files', files)
 
     return recipes_page_obj, files, total
 
@@ -297,8 +294,6 @@ def add_recipe(request):
             all_files = request.FILES.getlist("file")
             for img in all_files:
                 File.objects.create(recipe=new_recipe, file=img)
-            # if not all_files:
-            #     File.objects.create(recipe=new_recipe, file='horizont.jpg')
 
             return redirect("/")
     else:
@@ -345,14 +340,11 @@ class RecipeUpdateView(LoginRequiredMixin, UpdateView):
             instance = form.save(commit=False)
             if instance.author != self.request.user:
                 return self.form_invalid(form)
-            # for img in request.FILES.getlist('account_image'):
-            #     print(img)
-            # form.save_m2m()
+
             rec = Recipe.objects.filter(id=self.object.pk).first()
 
             deleted_ids = []
-            # for key in request.POST.keys():
-            #     if key.startswith('images-'):
+
             current_object = Recipe.objects.get(
                 id=request.POST["images-0-recipe"]
             )
@@ -427,7 +419,6 @@ class RecipeDeleteView(LoginRequiredMixin, View):
     # success_url = reverse_lazy('main:main')
 
     def get_object(self):
-        print("get_object")
         return get_object_or_404(Recipe, pk=self.kwargs.get("pk"))
 
     def get(self, request, *args, **kwargs):

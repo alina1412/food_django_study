@@ -1,12 +1,10 @@
 from django.db import models
 
-# from django.utils.html import escape
 from django.utils.html import mark_safe
 
 from django.db.models import (
     Model,
     ForeignKey,
-    CharField,
     TextField,
     DateTimeField,
     ManyToManyField,
@@ -15,7 +13,6 @@ from django.contrib.auth.models import User
 
 import pathlib
 
-from food_recipes.settings import MEDIA_URL
 
 FOLDER = pathlib.Path(__file__).parent.resolve()
 
@@ -26,18 +23,6 @@ class Product:
         self.title = title
         self.img = img
         self.detail = detail
-
-
-# class Recipe:
-#     def __init__(self, id_, title, author, description, date, category, files, img):
-#         self.id = id_
-#         self.title = title
-#         self.author = author
-#         self.description = description
-#         self.date = date
-#         self.category = category
-#         self.files = files
-#         self.img = img
 
 
 class Category(Model):
@@ -51,7 +36,7 @@ class Category(Model):
         verbose_name_plural = "Категории"
 
 
-class Recipe(Model):  # title, author, description, date, category, files, img
+class Recipe(Model):
     title = TextField("Название", max_length=250)
     author = ForeignKey(
         User, on_delete=models.CASCADE, verbose_name="Автор"
@@ -75,7 +60,6 @@ class Recipe(Model):  # title, author, description, date, category, files, img
         return self.title
 
     class Meta:
-        # ordering = ['itle','status']
         verbose_name = "Рецепт (Recipe)"
         verbose_name_plural = "Рецепты"
 
@@ -102,14 +86,5 @@ class File(Model):
         return str(self.recipe.id)
 
     class Meta:
-        # ordering = ['itle','status']
         verbose_name = "Файл (File)"
         verbose_name_plural = "Файлы"
-
-
-description = """
-    Музыка: Людвиг ван Бетховен, Александр Вертинский, Пьер Дегейтер, Павел Зубаков, Василий Липатов, 
-    Карл Орф, Григорий Пономаренко, Сергей Рахманинов, Георгий Свиридов, Камилл Сен-Санс, Александр Флярковский, 
-    Арам Хачатурян, Петр Чайковский, Альфред Шнитке, Фридерик Шопен, Винсент Юманс, 
-    русские народные песни и танцы Стихи: Сергей Есенин, Александр Пушкин, Сергей Бехтеев, Александр Блок, Зинаида Гиппиус 
-"""

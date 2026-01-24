@@ -6,6 +6,9 @@ deploy: https://alina1412.pythonanywhere.com/
 - создать .env (при необходимости, поменять коннекшн к базе)
 - python manage.py makemigrations
 - python manage.py migrate
+
+- cd /food_django_study/food_recipes && python manage.py makemigrations users
+
 - python manage.py loaddata database.json (Если postgres или в settings установить sqlite, в деплое -mysql )
 - при необходимости создать суперюзера
 
