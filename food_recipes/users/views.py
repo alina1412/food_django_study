@@ -20,14 +20,15 @@ from django.urls import reverse_lazy, reverse
 
 
 from .models import Account
+
 # from main.forms import ProfileForm
 from .forms import AccountForm, LoginForm, RegisterForm
 
 
 class AccountDetailView(DetailView):
     model = Account
-    template_name = 'users/user_detail.html'
-    context_object_name = 'profile'
+    template_name = "users/user_detail.html"
+    context_object_name = "profile"
     pk_url_kwarg = "pk"
 
     def get_context_data(self, **kwargs):
@@ -37,24 +38,29 @@ class AccountDetailView(DetailView):
 
 
 class UserAccountView(LoginRequiredMixin, UpdateView):
-    '''users/user/1'''
+    """users/user/1"""
+
     model = Account
     # fields = ['nickname','gender', 'birthdate','age', 'info', 'account_image']
     # fields = '__all__'
-    template_name = 'users/account.html'
-    context_object_name = 'profile'
+    template_name = "users/account.html"
+    context_object_name = "profile"
     form_class = AccountForm
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # context['form'] = AccountForm()
         return context
-    
+
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
         if self.request.user.id != self.object.pk:
-            messages.add_message(self.request, messages.WARNING, "Вы пытаетесь выполнить неверное действие")
-            return redirect('users:account', self.request.user.id)
+            messages.add_message(
+                self.request,
+                messages.WARNING,
+                "Вы пытаетесь выполнить неверное действие",
+            )
+            return redirect("users:account", self.request.user.id)
         return super(UserAccountView, self).get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
@@ -68,65 +74,79 @@ class UserAccountView(LoginRequiredMixin, UpdateView):
             # for img in request.FILES.getlist('account_image'):
             #     print(img)
             return super().form_valid(form)
-            
+
         else:
             return self.form_invalid(form)
 
     def get_success_url(self):
-        return reverse('users:account', kwargs={'pk': self.object.pk})
-    
+        return reverse("users:account", kwargs={"pk": self.object.pk})
+
     def form_invalid(self, form):
-        'form is invalid'
-        messages.add_message(self.request, messages.WARNING, "Вы пытаетесь выполнить неверное действие")
-        return redirect('main:main')
+        "form is invalid"
+        messages.add_message(
+            self.request,
+            messages.WARNING,
+            "Вы пытаетесь выполнить неверное действие",
+        )
+        return redirect("main:main")
 
 
 def logout_view(request):
     logout(request)
-    return redirect('main:main')
+    return redirect("main:main")
 
 
 class RegisterView(View):
     form_class = RegisterForm
-    initial = {'key': 'value'}
-    template_name = 'users/login.html'
+    initial = {"key": "value"}
+    template_name = "users/login.html"
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            messages.success(request, 'Вы уже залогинились на сайте. Хотите создать еще один аккаунт?')
+            messages.success(
+                request,
+                "Вы уже залогинились на сайте. Хотите создать еще один аккаунт?",
+            )
         form = self.form_class(initial=self.initial)
-        return render(request, self.template_name, {'form': form, "title": "Регистрация", "btn_text": "Регистрация"})
+        return render(
+            request,
+            self.template_name,
+            {"form": form, "title": "Регистрация", "btn_text": "Регистрация"},
+        )
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
 
         if form.is_valid():
             user = form.save()
-            group = Group.objects.get(name='Normal')
+            group = Group.objects.get(name="Normal")
             user.groups.add(group)
 
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password1')
-            user = authenticate(username=username,password=password)
+            username = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password1")
+            user = authenticate(username=username, password=password)
             login(request, user)
 
             new_ = Account(user=user, nickname=username)
             new_.save()
 
-            messages.success(request, f'Account created for {username}')
+            messages.success(request, f"Account created for {username}")
 
-            return redirect('main:main')
+            return redirect("main:main")
 
-        return render(request, self.template_name, {'form': form, "title": "Регистрация", "btn_text": "Регистрация"})
+        return render(
+            request,
+            self.template_name,
+            {"form": form, "title": "Регистрация", "btn_text": "Регистрация"},
+        )
 
 
 def loginView(request):
-    
-    if request.method == 'POST':
+    if request.method == "POST":
         form = LoginForm(request.POST)
         # if form.is_valid():
-        username = request.POST['username']
-        password = request.POST['password']
+        username = request.POST["username"]
+        password = request.POST["password"]
         # username = form.cleaned_data.get('username')
         # password = form.cleaned_data.get('password')
         user = authenticate(request, username=username, password=password)
@@ -138,18 +158,34 @@ def loginView(request):
                 new_ = Account(user=user, nickname=username)
                 new_.save()
 
-            return redirect('main:main')
-           
+            return redirect("main:main")
+
         print(form.errors.as_data())
-        
-        context = {"title": "Войти", "btn_text": "Войти", 'form': form, 'messages':get_messages(request) }
+
+        context = {
+            "title": "Войти",
+            "btn_text": "Войти",
+            "form": form,
+            "messages": get_messages(request),
+        }
         return render(request, "users/login.html", context)
     else:
         if request.user.is_authenticated:
-            messages.add_message(request, messages.SUCCESS, 'Вы уже залогинились на сайте')
+            messages.add_message(
+                request, messages.SUCCESS, "Вы уже залогинились на сайте"
+            )
             # messages.success(request, 'Вы уже залогинились на сайте', extra_tags='success')
-            return redirect('main:main')
-   
+            return redirect("main:main")
+
     # log_dict['type'] = 'login'
-    context = {"title": "Войти", "btn_text": "Войти",  'form': LoginForm(), 'messages':get_messages(request) }
-    return render(request, "users/login.html", context, )
+    context = {
+        "title": "Войти",
+        "btn_text": "Войти",
+        "form": LoginForm(),
+        "messages": get_messages(request),
+    }
+    return render(
+        request,
+        "users/login.html",
+        context,
+    )

@@ -5,27 +5,27 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.staticfiles.views import serve
 
-handler404 = 'main.views.not_found_view'
+handler404 = "main.views.not_found_view"
 
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     # path("recipes/", include('recipes.urls')),
-    path("users/", include('users.urls')),
-    path("", include('main.urls')),
-    
+    path("users/", include("users.urls")),
+    path("", include("main.urls")),
     # path("home/", include('home.urls')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += static(settings.STATIC_URL, view=serve)
 
 
 if settings.DEBUG:
     import debug_toolbar
-    urlpatterns=[
-        path('__debug/__', include(debug_toolbar.urls)),
-    ]+ urlpatterns
-    
-    urlpatterns+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+    urlpatterns = [
+        path("__debug/__", include(debug_toolbar.urls)),
+    ] + urlpatterns
+
+    urlpatterns + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 admin.site.site_header = "Панель администрирования сайта"
 admin.site.site_title = "Admin game"

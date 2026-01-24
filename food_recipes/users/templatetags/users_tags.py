@@ -1,6 +1,7 @@
 from django import template
 from django.template.defaultfilters import stringfilter
 from django.contrib.auth.models import User, Group
+
 register = template.Library()
 
 

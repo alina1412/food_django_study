@@ -25,16 +25,16 @@ from dotenv import load_dotenv
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-SECRET_KEY = os.getenv('SECRET_KEY')
-PROD = os.getenv('PROD', 0)
+SECRET_KEY = os.getenv("SECRET_KEY")
+PROD = os.getenv("PROD", 0)
 if not PROD:
     load_dotenv()
-     
 
-ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1']
+
+ALLOWED_HOSTS = ["0.0.0.0", "localhost", "127.0.0.1"]
 
 if PROD:
-    ALLOWED_HOSTS.append('alina1412.pythonanywhere.com')
+    ALLOWED_HOSTS.append("alina1412.pythonanywhere.com")
 
 # Application definition
 
@@ -45,14 +45,13 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-
+    #   added
     "bootstrap5",
     "main",
     "users",
-    'debug_toolbar',
-    'crispy_forms',
-    'crispy_bootstrap5',
-
+    "debug_toolbar",
+    "crispy_forms",
+    "crispy_bootstrap5",
 ]
 
 MIDDLEWARE = [
@@ -63,18 +62,20 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 MESSAGE_STORAGE = "django.contrib.messages.storage.cookie.CookieStorage"
 
-INTERNAL_IPS = ['127.0.0.1',]
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
 ROOT_URLCONF = "food_recipes.urls"
 
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / 'all_apps/templates'],
+        "DIRS": [BASE_DIR / "all_apps/templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -82,46 +83,47 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                'django.template.context_processors.media',
+                "django.template.context_processors.media",
             ],
         },
     },
 ]
 
 TEMPLATE_CONTEXT_PROCESSORS = (
-    'django.core.context_processors.request',
-    'django.core.context_processors.static',
+    "django.core.context_processors.request",
+    "django.core.context_processors.static",
 )
 
 # STATIC_ROOT = BASE_DIR / 'static/'
 if not DEBUG:
-    STATIC_ROOT = '/home/alina1412/food_django_study/food_recipes/static'
+    STATIC_ROOT = "/home/alina1412/food_django_study/food_recipes/static"
 
 
 STATIC_URL = "/static/"
 
-STATICFILES_DIRS = ((BASE_DIR / 'static'),
-                    (BASE_DIR / 'all_apps/static'), 
-                    # (BASE_DIR / 'all_apps/static/css/fontawesome'), 
-                    # (BASE_DIR / 'all_apps/static/css'), 
-                    # (BASE_DIR / 'all_apps/static/fonts'),
-                    # (BASE_DIR / 'all_apps/static/images'),
-                    # (BASE_DIR / 'all_apps/static/img'),
-                    # (BASE_DIR / 'all_apps/static/js'),
-                    )
+STATICFILES_DIRS = (
+    (BASE_DIR / "static"),
+    (BASE_DIR / "all_apps/static"),
+    # (BASE_DIR / 'all_apps/static/css/fontawesome'),
+    # (BASE_DIR / 'all_apps/static/css'),
+    # (BASE_DIR / 'all_apps/static/fonts'),
+    # (BASE_DIR / 'all_apps/static/images'),
+    # (BASE_DIR / 'all_apps/static/img'),
+    # (BASE_DIR / 'all_apps/static/js'),
+)
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 FILE_UPLOAD_HANDLERS = [
-     "django.core.files.uploadhandler.MemoryFileUploadHandler",
+    "django.core.files.uploadhandler.MemoryFileUploadHandler",
     "django.core.files.uploadhandler.TemporaryFileUploadHandler",
 ]
 
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
 
-LOGIN_URL = '/users/login'
+LOGIN_URL = "/users/login"
 
 WSGI_APPLICATION = "food_recipes.wsgi.application"
 
@@ -130,37 +132,35 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-DB_NAME = os.getenv('DB_NAME')
-DB_USER = os.getenv('DB_USER')
-DB_PASSWORD = os.getenv('DB_PASSWORD')
-DB_HOST = os.getenv('DB_HOST')
-DB_PORT = os.getenv('DB_PORT')
+DB_NAME = os.getenv("DB_NAME")
+DB_USER = os.getenv("DB_USER")
+DB_PASSWORD = os.getenv("DB_PASSWORD")
+DB_HOST = os.getenv("DB_HOST")
+DB_PORT = os.getenv("DB_PORT")
 
 if PROD:
     # mysql DB
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': DB_NAME,
-            'USER': DB_USER,
-            'PASSWORD': DB_PASSWORD,
-            'HOST': DB_HOST,
-            'PORT': DB_PORT,
-            'OPTIONS': {
-                'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
-            }
+        "default": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": DB_NAME,
+            "USER": DB_USER,
+            "PASSWORD": DB_PASSWORD,
+            "HOST": DB_HOST,
+            "PORT": DB_PORT,
+            "OPTIONS": {"init_command": "SET sql_mode='STRICT_TRANS_TABLES'"},
         }
     }
 else:
     # postgres DB
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': DB_NAME,
-            'USER': DB_USER,
-            'PASSWORD': DB_PASSWORD,
-            'HOST': DB_HOST,
-            'PORT': DB_PORT
+        "default": {
+            "ENGINE": "django.db.backends.postgresql_psycopg2",
+            "NAME": DB_NAME,
+            "USER": DB_USER,
+            "PASSWORD": DB_PASSWORD,
+            "HOST": DB_HOST,
+            "PORT": DB_PORT,
         }
     }
 
@@ -205,7 +205,6 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
-
 
 
 # Default primary key field type

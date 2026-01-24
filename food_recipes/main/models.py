@@ -1,4 +1,5 @@
 from django.db import models
+
 # from django.utils.html import escape
 from django.utils.html import mark_safe
 
@@ -53,24 +54,30 @@ class Category(Model):
 class Recipe(Model):  # title, author, description, date, category, files, img
     title = TextField("Название", max_length=250)
     author = ForeignKey(
-        User, on_delete=models.CASCADE, verbose_name='Автор'
+        User, on_delete=models.CASCADE, verbose_name="Автор"
     )  # удалит рецепт при удалении юзера
     description = TextField("Описание")
     date = DateTimeField("Дата публикации", auto_now=True, auto_created=True)
-    category = ManyToManyField(to=Category, blank=True, verbose_name="Категория")
-    votes = models.IntegerField('Голоса', blank=True, null=True, auto_created=True, default=0)
+    category = ManyToManyField(
+        to=Category, blank=True, verbose_name="Категория"
+    )
+    votes = models.IntegerField(
+        "Голоса", blank=True, null=True, auto_created=True, default=0
+    )
 
     def get_fields(self):
         return [
-            (field.name, getattr(self, field.name)) for field in Recipe._meta.fields
+            (field.name, getattr(self, field.name))
+            for field in Recipe._meta.fields
         ]
 
     def __str__(self):
         return self.title
+
     class Meta:
         # ordering = ['itle','status']
-        verbose_name= 'Рецепт (Recipe)'
-        verbose_name_plural='Рецепты'
+        verbose_name = "Рецепт (Recipe)"
+        verbose_name_plural = "Рецепты"
 
 
 def user_directory_path(instance, filename):
@@ -79,22 +86,25 @@ def user_directory_path(instance, filename):
 
 
 class File(Model):
-    recipe = ForeignKey(Recipe, on_delete=models.CASCADE, related_name="images")
+    recipe = ForeignKey(
+        Recipe, on_delete=models.CASCADE, related_name="images"
+    )
     # filename =  CharField("filename", max_length=40)
     file = models.ImageField(upload_to="import", blank=True, null=True)
-    
+
     def image_tag(self):
         return mark_safe('<img height=30px src="{}" />'.format(self.file.url))
-    
-    image_tag.short_description = 'Image'
+
+    image_tag.short_description = "Image"
     image_tag.allow_tags = True
 
     def __str__(self):
         return str(self.recipe.id)
+
     class Meta:
         # ordering = ['itle','status']
-        verbose_name= 'Файл (File)'
-        verbose_name_plural='Файлы'
+        verbose_name = "Файл (File)"
+        verbose_name_plural = "Файлы"
 
 
 description = """
