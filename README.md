@@ -1,15 +1,25 @@
 # food_django_study
-deploy: https://alina1412.pythonanywhere.com/
+Учебный проект (2023)
 
+<img width="1584" height="811" alt="image" src="https://github.com/user-attachments/assets/7da570e5-966f-4a73-984b-f79eca0d4271" />
+<img width="1721" height="909" alt="image" src="https://github.com/user-attachments/assets/f8dc4401-6e52-4300-ac4e-3d2fe87cd633" />
 
-Установка
+# Технологии
+- django 4.2
+- js, css - шаблон
+- bootstrap5
+- html
+- python 3.10
+
+# Установка
 - создать .env (при необходимости, поменять коннекшн к базе)
 - python manage.py makemigrations
 - python manage.py migrate
 
 - cd /food_django_study/food_recipes && python manage.py makemigrations users
 
-- python manage.py loaddata database.json (Если postgres или в settings установить sqlite, в деплое -mysql )
+- Пример тестовых данных для базы:
+`python manage.py loaddata database.json (Если postgres или в settings установить sqlite, в деплое -mysql )`
 - при необходимости создать суперюзера
 
 Пользователи:
@@ -37,4 +47,3 @@ deploy: https://alina1412.pythonanywhere.com/
 7) реализованы регистрация и авторизация пользователей.
 
 
-made on python3.10
