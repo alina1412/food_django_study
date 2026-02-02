@@ -1,7 +1,7 @@
 import os
 import pytest
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "food_recipes.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 
 import django
 from django.conf import settings
