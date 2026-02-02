@@ -1,27 +1,22 @@
 import logging
 
-from django.db import models
-from django.shortcuts import render, redirect
-from django.core.paginator import Paginator
-from django.contrib.messages import get_messages
-from django.contrib.auth import logout, authenticate, login
-from django.http import HttpResponse
-from django.urls import reverse
-from django.contrib.auth.models import User
-from django.contrib.auth.decorators import login_required
-from django.db.models import Count
-from django.views.generic import DetailView, DeleteView, UpdateView, CreateView
-from django.views import View
-from django.contrib import messages
 from django.conf import settings
-from django.db.models.query_utils import Q
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse_lazy
-from django.shortcuts import get_object_or_404
-
-from .models import Recipe, File, Category
-from .forms import *
+from django.contrib.auth.models import User
+from django.core.paginator import Paginator
+from django.db.models import Count
+from django.db.models.query_utils import Q
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
+from django.views import View
+from django.views.generic import UpdateView
 from users.models import Account, VotesConnection
+
+from .forms import *
+from .models import Category, File, Recipe
 
 
 def index(request):

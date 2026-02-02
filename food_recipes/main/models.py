@@ -1,18 +1,15 @@
-from django.db import models
-
-from django.utils.html import mark_safe
-
-from django.db.models import (
-    Model,
-    ForeignKey,
-    TextField,
-    DateTimeField,
-    ManyToManyField,
-)
-from django.contrib.auth.models import User
-
 import pathlib
 
+from django.contrib.auth.models import User
+from django.db import models
+from django.db.models import (
+    DateTimeField,
+    ForeignKey,
+    ManyToManyField,
+    Model,
+    TextField,
+)
+from django.utils.html import mark_safe
 
 FOLDER = pathlib.Path(__file__).parent.resolve()
 

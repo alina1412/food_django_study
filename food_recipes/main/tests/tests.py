@@ -1,9 +1,10 @@
-from django.test import TestCase, Client
-from django.contrib.auth.models import User
-from django.urls import reverse
-from main.models import Recipe, Category
-from users.models import Account
 import pytest
+from django.contrib.auth.models import User
+from django.test import Client, TestCase
+from django.urls import reverse
+from users.models import Account
+
+from main.models import Category, Recipe
 
 
 @pytest.mark.django_db

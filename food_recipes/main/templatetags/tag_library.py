@@ -1,5 +1,5 @@
+from django.db.models.fields.files import FileField, ImageFieldFile
 from django.template.defaulttags import register
-from django.db.models.fields.files import ImageFieldFile, FileField
 
 
 @register.filter
@@ -40,8 +40,9 @@ def filter_range(start, end):
     return range(start, end)
 
 
-from main.models import User
 from users.models import Account
+
+from main.models import User
 
 
 @register.filter(name="get_account_id")

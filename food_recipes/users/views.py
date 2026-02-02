@@ -1,28 +1,15 @@
-from typing import Any
-
-from django.db.models import Count, Avg, Max
-from django.conf import settings
 from django.contrib import messages
-from django.contrib.messages import get_messages
-from django.contrib.auth import logout, authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User, Group
-
-from django.http import HttpRequest, HttpResponse
-from django.shortcuts import render, redirect
-
+from django.contrib.auth.models import Group
+from django.contrib.messages import get_messages
+from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.views import View
-from django.views.generic import DetailView, DeleteView, UpdateView
-from django.views.generic.edit import FormMixin
+from django.views.generic import DetailView, UpdateView
 
-from django.urls import reverse_lazy, reverse
-
-
-from .models import Account
-
-# from main.forms import ProfileForm
 from .forms import AccountForm, LoginForm, RegisterForm
+from .models import Account
 
 
 class AccountDetailView(DetailView):

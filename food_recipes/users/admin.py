@@ -1,9 +1,10 @@
+from typing import Set
+
 from django.contrib import admin
-
-# Register your models here.
 from django.contrib.admin import ModelAdmin
+from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import Group, User
 from django.urls import reverse
-
 
 from .models import Account, Tag
 
@@ -32,9 +33,6 @@ class TagAdmin(ModelAdmin):
 
 
 admin.site.register(Account, AccountAdmin)
-# admin.site.register(Tag, TagAdmin)
-# admin.site.register(File, FileAdmin)
-from django.contrib.auth.models import Group
 
 
 def make_editor(modeladmin, request, queryset):
@@ -48,13 +46,6 @@ def make_editor(modeladmin, request, queryset):
 
 
 make_editor.short_description = "Утвердить редактора"
-
-
-from typing import Set
-
-from django.contrib import admin
-from django.contrib.auth.models import User
-from django.contrib.auth.admin import UserAdmin
 
 
 admin.site.unregister(User)
@@ -105,6 +96,5 @@ class CustomUserAdmin(UserAdmin):
         return form
 
     class Meta:
-        # ordering = ['itle','status']
         verbose_name = "Пользователь (User)"
         verbose_name_plural = "Пользователи (Users)"

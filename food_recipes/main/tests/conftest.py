@@ -1,11 +1,11 @@
 import os
+
 import pytest
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 
 import django
 from django.conf import settings
-
 
 settings.SECRET_KEY = "test-secret-key"
 
